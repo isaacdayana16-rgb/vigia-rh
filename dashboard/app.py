@@ -48,4 +48,4 @@ with col2:
 
 st.divider()
 st.subheader("Explicabilidad del modelo (SHAP)")
-st.image("../output/shap_resumen.png", caption="Variables que más influyen en la rotación, según SHAP")
+st.image(os.path.join(BASE_DIR, "..", "output", "shap_resumen.png"), caption="Variables que más influyen en la rotación, según SHAP")
