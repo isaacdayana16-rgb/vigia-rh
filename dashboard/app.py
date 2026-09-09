@@ -8,7 +8,9 @@ st.title("🔎 Vigía RH — Analítica Predictiva de Rotación")
 st.markdown("Sistema de análisis de riesgo de rotación de personal")
 
 # Cargar datos
-df = pd.read_csv("../data/WA_Fn-UseC_-HR-Employee-Attrition.csv")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_PATH = os.path.join(BASE_DIR, "..", "data", "WA_Fn-UseC_-HR-Employee-Attrition.csv")
+df = pd.read_csv(DATA_PATH)
 
 # Métricas generales arriba
 col1, col2, col3 = st.columns(3)
