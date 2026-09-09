@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-
+import os
 st.set_page_config(page_title="Vigía RH", layout="wide")
 
 st.title("🔎 Vigía RH — Analítica Predictiva de Rotación")
