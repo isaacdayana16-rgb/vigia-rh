@@ -1,9 +1,3 @@
-<<<<<<< HEAD
 streamlit
 pandas
 plotly
-=======
-streamlit
-pandas
-plotly
->>>>>>> 77ed62d88fc9fb0418e5de342f56bc4086335fbd
