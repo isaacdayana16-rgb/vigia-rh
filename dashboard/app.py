@@ -1,16 +1,20 @@
 import streamlit as st
-import pandas as pd
 import plotly.express as px
-import os
+import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from src.datos import cargar_datos, validar_columnas
 st.set_page_config(page_title="Vigía RH", layout="wide")
 
 st.title("🔎 Vigía RH — Analítica Predictiva de Rotación")
 st.markdown("Sistema de análisis de riesgo de rotación de personal")
 
-# Cargar datos
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_PATH = os.path.join(BASE_DIR, "..", "data", "WA_Fn-UseC_-HR-Employee-Attrition.csv")
-df = pd.read_csv(DATA_PATH)
+# Cargar datos (ruta centralizada + validación de esquema)
+df = cargar_datos()
 
 # Métricas generales arriba
 col1, col2, col3 = st.columns(3)
@@ -48,4 +52,4 @@ with col2:
 
 st.divider()
 st.subheader("Explicabilidad del modelo (SHAP)")
-st.image(os.path.join(BASE_DIR, "..", "output", "shap_resumen.png"), caption="Variables que más influyen en la rotación, según SHAP")
+st.image("output/shap_resumen.png", caption="Variables que más influyen en la rotación, según SHAP")
