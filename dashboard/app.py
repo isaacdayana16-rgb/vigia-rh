@@ -74,4 +74,5 @@ st.warning("⚠️ *Aviso ético:* Este índice compuesto es una métrica explor
 
 st.divider()
 st.subheader("Explicabilidad del modelo (SHAP)")
-st.image("output/shap_resumen.png", caption="Variables que más influyen en la rotación, según SHAP")
+shap_path = PROJECT_ROOT / "output" / "shap_resumen.png"
+st.image(str(shap_path), caption="Variables que más influyen en la rotación, según SHAP")
