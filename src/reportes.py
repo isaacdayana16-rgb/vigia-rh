@@ -44,8 +44,9 @@ pdf.cell(0, 8, f"Tasa de rotacion: {tasa_rotacion:.1f}%", new_x="LMARGIN", new_y
 pdf.ln(6)
 
 pdf.set_font("Helvetica", "B", 13)
-pdf.cell(0, 10, "Indice compuesto inspirado conceptualmente en el modelo JD-R", new_x="LMARGIN", new_y="NEXT")
+pdf.cell(0, 10, "Indice compuesto JD-R (exploratorio)", new_x="LMARGIN", new_y="NEXT")
 pdf.set_font("Helvetica", "", 11)
+pdf.cell(0, 7, "Inspirado conceptualmente en el modelo Job Demands-Resources (JD-R)", new_x="LMARGIN", new_y="NEXT")
 pdf.cell(0, 8, f"Promedio en empleados que se quedaron: {indice_jdr_por_grupo['No']:.2f}", new_x="LMARGIN", new_y="NEXT")
 pdf.cell(0, 8, f"Promedio en empleados que renunciaron: {indice_jdr_por_grupo['Yes']:.2f}", new_x="LMARGIN", new_y="NEXT")
 pdf.set_font("Helvetica", "I", 9)
