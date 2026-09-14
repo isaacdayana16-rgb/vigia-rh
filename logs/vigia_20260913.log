@@ -1,0 +1,122 @@
+2026-09-13 02:32:41 - vigia_rh - INFO - info:56 - Iniciando dashboard Vigía RH
+2026-09-13 02:32:43 - vigia_rh - INFO - info:56 - Datos default cargados: 1470 registros
+2026-09-13 02:32:43 - vigia_rh - INFO - info:56 - Índice JD-R calculado exitosamente
+2026-09-13 02:32:43 - vigia_rh - INFO - info:56 - Sin filtro de departamento
+2026-09-13 02:32:45 - vigia_rh - INFO - info:56 - Dashboard renderizado exitosamente
+2026-09-13 02:33:05 - vigia_rh - INFO - info:56 - Iniciando dashboard Vigía RH
+2026-09-13 02:33:05 - vigia_rh - INFO - info:56 - Archivo cargado: dataset_reto_extremo_vigia_rh.xlsx, formato detectado: excel
+2026-09-13 02:33:05 - vigia_rh - INFO - info:56 - Archivo temporal creado: C:\Users\User\AppData\Local\Temp\tmpheujsf4u.xlsx
+2026-09-13 02:33:05 - vigia_rh - INFO - info:56 - Validación de tamaño exitosa
+2026-09-13 02:33:10 - vigia_rh - INFO - info:56 - Excel leído exitosamente
+2026-09-13 02:33:10 - vigia_rh - ERROR - error:64 - Error inesperado en componente_carga_archivo: 'utf-8' codec can't decode byte 0x9c in position 54: invalid start byte
+Traceback (most recent call last):
+  File "C:\Users\User\vigia-rh\src\dashboard\ui_components.py", line 147, in componente_carga_archivo
+    df = cargar_datos(ruta=ruta_temp, aplicar_mapeo=False)
+  File "C:\Users\User\vigia-rh\src\datos.py", line 116, in cargar_datos
+    df = pd.read_csv(ruta_archivo)
+  File "C:\Users\User\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\pandas\io\parsers\readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "C:\Users\User\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\pandas\io\parsers\readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "C:\Users\User\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\pandas\io\parsers\readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\pandas\io\parsers\readers.py", line 1898, in _make_engine
+    return mapping[engine](f, **self.options)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\pandas\io\parsers\c_parser_wrapper.py", line 93, in __init__
+    self._reader = parsers.TextReader(src, **kwds)
+                   ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "pandas/_libs/parsers.pyx", line 574, in pandas._libs.parsers.TextReader.__cinit__
+  File "pandas/_libs/parsers.pyx", line 663, in pandas._libs.parsers.TextReader._get_header
+  File "pandas/_libs/parsers.pyx", line 874, in pandas._libs.parsers.TextReader._tokenize_rows
+  File "pandas/_libs/parsers.pyx", line 891, in pandas._libs.parsers.TextReader._check_tokenize_status
+  File "pandas/_libs/parsers.pyx", line 2053, in pandas._libs.parsers.raise_parser_error
+  File "<frozen codecs>", line 325, in decode
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0x9c in position 54: invalid start byte
+2026-09-13 02:33:10 - vigia_rh - INFO - info:56 - Archivo temporal eliminado: C:\Users\User\AppData\Local\Temp\tmpheujsf4u.xlsx
+2026-09-13 02:33:10 - vigia_rh - INFO - info:56 - Datos default cargados: 1470 registros
+2026-09-13 02:33:10 - vigia_rh - INFO - info:56 - Índice JD-R calculado exitosamente
+2026-09-13 02:33:10 - vigia_rh - INFO - info:56 - Sin filtro de departamento
+2026-09-13 02:33:11 - vigia_rh - INFO - info:56 - Dashboard renderizado exitosamente
+2026-09-13 02:44:21 - vigia_rh - INFO - info:56 - Iniciando dashboard Vigía RH
+2026-09-13 02:44:22 - vigia_rh - INFO - info:56 - Datos default cargados: 1470 registros
+2026-09-13 02:44:22 - vigia_rh - INFO - info:56 - Índice JD-R calculado exitosamente
+2026-09-13 02:44:22 - vigia_rh - INFO - info:56 - Sin filtro de departamento
+2026-09-13 02:44:24 - vigia_rh - INFO - info:56 - Dashboard renderizado exitosamente
+2026-09-13 02:44:28 - vigia_rh - INFO - info:56 - Iniciando dashboard Vigía RH
+2026-09-13 02:44:28 - vigia_rh - INFO - info:56 - Archivo cargado: dataset_reto_extremo_vigia_rh.xlsx, formato detectado: excel
+2026-09-13 02:44:28 - vigia_rh - INFO - info:56 - Archivo temporal creado: C:\Users\User\AppData\Local\Temp\tmpkv9d456q.xlsx
+2026-09-13 02:44:28 - vigia_rh - INFO - info:56 - Validación de tamaño exitosa
+2026-09-13 02:44:30 - vigia_rh - INFO - info:56 - Excel leído exitosamente
+2026-09-13 02:44:31 - vigia_rh - ERROR - error:64 - Error inesperado en componente_carga_archivo: El archivo no tiene las columnas necesarias: ['Attrition', 'OverTime', 'JobSatisfaction', 'MonthlyIncome', 'Department', 'DistanceFromHome', 'WorkLifeBalance', 'RelationshipSatisfaction']. El pipeline espera estos nombres exactos (esquema IBM HR Analytics): ['Attrition', 'OverTime', 'JobSatisfaction', 'MonthlyIncome', 'Department', 'DistanceFromHome', 'WorkLifeBalance', 'RelationshipSatisfaction'].
+Traceback (most recent call last):
+  File "C:\Users\User\vigia-rh\src\dashboard\ui_components.py", line 147, in componente_carga_archivo
+    df = cargar_datos(ruta=ruta_temp, aplicar_mapeo=False)
+  File "C:\Users\User\vigia-rh\src\datos.py", line 132, in cargar_datos
+    validar_columnas(df)
+    ~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\User\vigia-rh\src\datos.py", line 87, in validar_columnas
+    raise ValueError(
+    ...<3 lines>...
+    )
+ValueError: El archivo no tiene las columnas necesarias: ['Attrition', 'OverTime', 'JobSatisfaction', 'MonthlyIncome', 'Department', 'DistanceFromHome', 'WorkLifeBalance', 'RelationshipSatisfaction']. El pipeline espera estos nombres exactos (esquema IBM HR Analytics): ['Attrition', 'OverTime', 'JobSatisfaction', 'MonthlyIncome', 'Department', 'DistanceFromHome', 'WorkLifeBalance', 'RelationshipSatisfaction'].
+2026-09-13 02:44:31 - vigia_rh - INFO - info:56 - Archivo temporal eliminado: C:\Users\User\AppData\Local\Temp\tmpkv9d456q.xlsx
+2026-09-13 02:44:31 - vigia_rh - INFO - info:56 - Datos default cargados: 1470 registros
+2026-09-13 02:44:31 - vigia_rh - INFO - info:56 - Índice JD-R calculado exitosamente
+2026-09-13 02:44:31 - vigia_rh - INFO - info:56 - Sin filtro de departamento
+2026-09-13 02:44:31 - vigia_rh - INFO - info:56 - Dashboard renderizado exitosamente
+2026-09-13 02:48:47 - vigia_rh - INFO - info:56 - Iniciando dashboard Vigía RH
+2026-09-13 02:48:48 - vigia_rh - INFO - info:56 - Datos default cargados: 1470 registros
+2026-09-13 02:48:48 - vigia_rh - INFO - info:56 - Índice JD-R calculado exitosamente
+2026-09-13 02:48:48 - vigia_rh - INFO - info:56 - Sin filtro de departamento
+2026-09-13 02:48:50 - vigia_rh - INFO - info:56 - Dashboard renderizado exitosamente
+2026-09-13 02:48:54 - vigia_rh - INFO - info:56 - Iniciando dashboard Vigía RH
+2026-09-13 02:48:54 - vigia_rh - INFO - info:56 - Archivo cargado: dataset_reto_extremo_vigia_rh.xlsx, formato detectado: excel
+2026-09-13 02:48:54 - vigia_rh - INFO - info:56 - Archivo temporal creado: C:\Users\User\AppData\Local\Temp\tmpaq3aez4o.xlsx
+2026-09-13 02:48:54 - vigia_rh - INFO - info:56 - Validación de tamaño exitosa
+2026-09-13 02:48:57 - vigia_rh - INFO - info:56 - Excel leído exitosamente
+2026-09-13 02:48:58 - vigia_rh - ERROR - error:64 - Error inesperado en componente_carga_archivo: El archivo no tiene las columnas necesarias: ['Attrition', 'OverTime', 'JobSatisfaction', 'MonthlyIncome', 'Department', 'DistanceFromHome', 'WorkLifeBalance', 'RelationshipSatisfaction']. El pipeline espera estos nombres exactos (esquema IBM HR Analytics): ['Attrition', 'OverTime', 'JobSatisfaction', 'MonthlyIncome', 'Department', 'DistanceFromHome', 'WorkLifeBalance', 'RelationshipSatisfaction'].
+Traceback (most recent call last):
+  File "C:\Users\User\vigia-rh\src\dashboard\ui_components.py", line 150, in componente_carga_archivo
+    df = cargar_datos(ruta=ruta_temp, aplicar_mapeo=False)
+  File "C:\Users\User\vigia-rh\src\datos.py", line 132, in cargar_datos
+    validar_columnas(df)
+    ~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\User\vigia-rh\src\datos.py", line 87, in validar_columnas
+    raise ValueError(
+    ...<3 lines>...
+    )
+ValueError: El archivo no tiene las columnas necesarias: ['Attrition', 'OverTime', 'JobSatisfaction', 'MonthlyIncome', 'Department', 'DistanceFromHome', 'WorkLifeBalance', 'RelationshipSatisfaction']. El pipeline espera estos nombres exactos (esquema IBM HR Analytics): ['Attrition', 'OverTime', 'JobSatisfaction', 'MonthlyIncome', 'Department', 'DistanceFromHome', 'WorkLifeBalance', 'RelationshipSatisfaction'].
+2026-09-13 02:48:58 - vigia_rh - INFO - info:56 - Archivo temporal eliminado: C:\Users\User\AppData\Local\Temp\tmpaq3aez4o.xlsx
+2026-09-13 02:48:58 - vigia_rh - INFO - info:56 - Datos default cargados: 1470 registros
+2026-09-13 02:48:58 - vigia_rh - INFO - info:56 - Índice JD-R calculado exitosamente
+2026-09-13 02:48:58 - vigia_rh - INFO - info:56 - Sin filtro de departamento
+2026-09-13 02:48:59 - vigia_rh - INFO - info:56 - Dashboard renderizado exitosamente
+2026-09-13 03:35:24 - vigia_rh - INFO - info:56 - Iniciando dashboard Vigía RH
+2026-09-13 03:35:26 - vigia_rh - INFO - info:56 - Datos default cargados: 1470 registros
+2026-09-13 03:35:26 - vigia_rh - INFO - info:56 - Índice JD-R calculado exitosamente
+2026-09-13 03:35:26 - vigia_rh - INFO - info:56 - Sin filtro de departamento
+2026-09-13 03:35:28 - vigia_rh - INFO - info:56 - Dashboard renderizado exitosamente
+2026-09-13 03:35:33 - vigia_rh - INFO - info:56 - Iniciando dashboard Vigía RH
+2026-09-13 03:35:33 - vigia_rh - INFO - info:56 - Archivo cargado: dataset_reto_extremo_vigia_rh.xlsx, formato detectado: excel
+2026-09-13 03:35:33 - vigia_rh - INFO - info:56 - Archivo temporal creado: C:\Users\User\AppData\Local\Temp\tmp38ok4ito.xlsx
+2026-09-13 03:35:33 - vigia_rh - INFO - info:56 - Validación de tamaño exitosa
+2026-09-13 03:35:36 - vigia_rh - INFO - info:56 - Excel leído exitosamente
+2026-09-13 03:35:38 - vigia_rh - ERROR - error:64 - Error inesperado en componente_carga_archivo: El archivo no tiene las columnas necesarias: ['Attrition', 'OverTime', 'JobSatisfaction', 'MonthlyIncome', 'Department', 'DistanceFromHome', 'WorkLifeBalance', 'RelationshipSatisfaction']. El pipeline espera estos nombres exactos (esquema IBM HR Analytics): ['Attrition', 'OverTime', 'JobSatisfaction', 'MonthlyIncome', 'Department', 'DistanceFromHome', 'WorkLifeBalance', 'RelationshipSatisfaction'].
+Traceback (most recent call last):
+  File "C:\Users\User\vigia-rh\src\dashboard\ui_components.py", line 147, in componente_carga_archivo
+    df = cargar_datos(ruta=ruta_temp, aplicar_mapeo=False)
+  File "C:\Users\User\vigia-rh\src\datos.py", line 135, in cargar_datos
+    validar_columnas(df)
+    ~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\User\vigia-rh\src\datos.py", line 90, in validar_columnas
+    raise ValueError(
+    ...<3 lines>...
+    )
+ValueError: El archivo no tiene las columnas necesarias: ['Attrition', 'OverTime', 'JobSatisfaction', 'MonthlyIncome', 'Department', 'DistanceFromHome', 'WorkLifeBalance', 'RelationshipSatisfaction']. El pipeline espera estos nombres exactos (esquema IBM HR Analytics): ['Attrition', 'OverTime', 'JobSatisfaction', 'MonthlyIncome', 'Department', 'DistanceFromHome', 'WorkLifeBalance', 'RelationshipSatisfaction'].
+2026-09-13 03:35:38 - vigia_rh - INFO - info:56 - Archivo temporal eliminado: C:\Users\User\AppData\Local\Temp\tmp38ok4ito.xlsx
+2026-09-13 03:35:38 - vigia_rh - INFO - info:56 - Datos default cargados: 1470 registros
+2026-09-13 03:35:38 - vigia_rh - INFO - info:56 - Índice JD-R calculado exitosamente
+2026-09-13 03:35:38 - vigia_rh - INFO - info:56 - Sin filtro de departamento
+2026-09-13 03:35:39 - vigia_rh - INFO - info:56 - Dashboard renderizado exitosamente

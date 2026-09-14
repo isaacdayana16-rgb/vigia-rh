@@ -1,0 +1,46 @@
+2026-09-14 03:41:58 - vigia_rh - INFO - info:56 - Prueba de logging desde test de estabilidad
+2026-09-14 03:56:36 - vigia_rh - INFO - info:56 - Iniciando dashboard Vigía RH
+2026-09-14 03:56:37 - vigia_rh - INFO - info:56 - Datos default cargados: 1470 registros
+2026-09-14 03:56:37 - vigia_rh - INFO - info:56 - Índice JD-R calculado exitosamente
+2026-09-14 03:56:37 - vigia_rh - INFO - info:56 - Sin filtro de departamento
+2026-09-14 03:56:40 - vigia_rh - INFO - info:56 - Modelo cargado desde joblib
+2026-09-14 03:56:40 - vigia_rh - ERROR - error:64 - Error en componente_modelo_prediccion: Found input variables with inconsistent numbers of samples: [1176, 294]
+Traceback (most recent call last):
+  File "C:\Users\User\vigia-rh\src\dashboard\ui_components.py", line 350, in componente_modelo_prediccion
+    métricas = evaluar_modelo(modelo, X_test, y_test)
+               ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\vigia-rh\src\modelo.py", line 56, in evaluar_modelo
+    "accuracy": accuracy_score(y_test, predicciones),
+                ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\vigia-rh\venv\Lib\site-packages\sklearn\utils\_param_validation.py", line 218, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\User\vigia-rh\venv\Lib\site-packages\sklearn\metrics\_classification.py", line 405, in accuracy_score
+    y_type, _, y_true, y_pred, sample_weight = _check_targets(
+                                               ~~~~~~~~~~~~~~^
+        y_true, y_pred, sample_weight
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\User\vigia-rh\venv\Lib\site-packages\sklearn\metrics\_classification.py", line 115, in _check_targets
+    check_consistent_length(y_true, y_pred, sample_weight)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\vigia-rh\venv\Lib\site-packages\sklearn\utils\validation.py", line 458, in check_consistent_length
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: Found input variables with inconsistent numbers of samples: [1176, 294]
+2026-09-14 03:56:40 - vigia_rh - INFO - info:56 - Dashboard renderizado exitosamente
+2026-09-14 03:57:02 - vigia_rh - INFO - info:56 - Iniciando dashboard Vigía RH
+2026-09-14 03:57:02 - vigia_rh - INFO - info:56 - Datos default cargados: 1470 registros
+2026-09-14 03:57:02 - vigia_rh - INFO - info:56 - Índice JD-R calculado exitosamente
+2026-09-14 03:57:02 - vigia_rh - INFO - info:56 - Sin filtro de departamento
+2026-09-14 03:57:05 - vigia_rh - INFO - info:56 - Modelo cargado desde joblib
+2026-09-14 03:57:05 - vigia_rh - INFO - info:56 - Métricas del modelo: accuracy=0.8741, precision=0.6667, recall=0.1026, f1=0.1778
+2026-09-14 03:57:12 - vigia_rh - INFO - info:56 - Explicación SHAP generada para empleado #0
+2026-09-14 03:57:12 - vigia_rh - INFO - info:56 - Dashboard renderizado exitosamente
+2026-09-14 03:59:41 - vigia_rh - INFO - info:56 - Iniciando dashboard Vigía RH
+2026-09-14 03:59:42 - vigia_rh - INFO - info:56 - Datos default cargados: 1470 registros
+2026-09-14 03:59:42 - vigia_rh - INFO - info:56 - Índice JD-R calculado exitosamente
+2026-09-14 03:59:42 - vigia_rh - INFO - info:56 - Sin filtro de departamento
+2026-09-14 03:59:43 - vigia_rh - INFO - info:56 - Modelo cargado desde joblib
+2026-09-14 03:59:43 - vigia_rh - INFO - info:56 - Métricas del modelo: accuracy=0.8741, precision=0.6667, recall=0.1026, f1=0.1778

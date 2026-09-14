@@ -1,0 +1,30 @@
+2026-09-11 13:23:36 - vigia_rh - INFO - info:56 - Test de logging
+2026-09-11 13:24:16 - vigia_rh - INFO - info:56 - Mensaje de prueba INFO
+2026-09-11 13:24:16 - vigia_rh - WARNING - warning:60 - Mensaje de prueba WARNING
+2026-09-11 13:24:26 - vigia_rh - INFO - info:56 - Mensaje de prueba INFO
+2026-09-11 13:24:26 - vigia_rh - WARNING - warning:60 - Mensaje de prueba WARNING
+2026-09-11 13:24:40 - vigia_rh - INFO - info:56 - Iniciando dashboard Vigía RH
+2026-09-11 13:24:41 - vigia_rh - INFO - info:56 - Datos default cargados: 1470 registros
+2026-09-11 13:24:41 - vigia_rh - INFO - info:56 - Índice JD-R calculado exitosamente
+2026-09-11 13:24:41 - vigia_rh - INFO - info:56 - Sin filtro de departamento
+2026-09-11 13:24:44 - vigia_rh - INFO - info:56 - Dashboard renderizado exitosamente
+2026-09-11 13:31:06 - vigia_rh - INFO - info:56 - Iniciando dashboard Vigía RH
+2026-09-11 13:31:06 - vigia_rh - INFO - info:56 - Datos default cargados: 1470 registros
+2026-09-11 13:31:06 - vigia_rh - INFO - info:56 - Índice JD-R calculado exitosamente
+2026-09-11 13:31:06 - vigia_rh - INFO - info:56 - Sin filtro de departamento
+2026-09-11 13:31:07 - vigia_rh - INFO - info:56 - Dashboard renderizado exitosamente
+2026-09-11 13:35:39 - vigia_rh - INFO - info:56 - Iniciando dashboard Vigía RH
+2026-09-11 13:35:40 - vigia_rh - INFO - info:56 - Datos default cargados: 1470 registros
+2026-09-11 13:35:40 - vigia_rh - INFO - info:56 - Índice JD-R calculado exitosamente
+2026-09-11 13:35:40 - vigia_rh - INFO - info:56 - Sin filtro de departamento
+2026-09-11 13:35:42 - vigia_rh - INFO - info:56 - Dashboard renderizado exitosamente
+2026-09-11 14:06:08 - vigia_rh - INFO - info:56 - Iniciando dashboard Vigía RH
+2026-09-11 14:06:08 - vigia_rh - INFO - info:56 - Datos default cargados: 1470 registros
+2026-09-11 14:06:08 - vigia_rh - INFO - info:56 - Índice JD-R calculado exitosamente
+2026-09-11 14:06:08 - vigia_rh - INFO - info:56 - Sin filtro de departamento
+2026-09-11 14:06:08 - vigia_rh - INFO - info:56 - Dashboard renderizado exitosamente
+2026-09-11 14:23:33 - vigia_rh - INFO - info:56 - CSV leído exitosamente con encoding: utf-8
+2026-09-11 14:23:33 - vigia_rh - INFO - info:56 - Excel leído exitosamente
+2026-09-11 14:23:45 - vigia_rh - INFO - info:56 - CSV leído exitosamente con encoding: utf-8
+2026-09-11 14:23:45 - vigia_rh - INFO - info:56 - Excel leído exitosamente
+2026-09-11 14:23:45 - vigia_rh - INFO - info:56 - CSV leído exitosamente con encoding: utf-8
