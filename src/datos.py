@@ -11,8 +11,8 @@ import os
 
 import pandas as pd
 
-SRC_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_ROOT = os.path.dirname(SRC_DIR)
+SRC_DIR = os.path.join(os.getcwd(), "src")
+PROJECT_ROOT = os.getcwd()
 RUTA_DATOS_DEFAULT = os.path.join(
     PROJECT_ROOT, "data", "WA_Fn-UseC_-HR-Employee-Attrition.csv"
 )
@@ -28,6 +28,59 @@ COLUMNAS_REQUERIDAS = [
     "WorkLifeBalance",
     "RelationshipSatisfaction",
 ]
+
+MAPEO_ES = {
+    "Attrition": ["Rotación", "Renuncia", "Estado", "Estado Laboral"],
+    "OverTime": ["Horas Extra", "Horas Extras", "Sobretiempo"],
+    "JobSatisfaction": ["Satisfacción Laboral", "Satisfacción en el Puesto"],
+    "MonthlyIncome": ["Sueldo", "Salario", "Sueldo Mensual", "Salario Mensual"],
+    "Department": ["Departamento", "Área"],
+    "DistanceFromHome": ["Distancia al Trabajo"],
+    "WorkLifeBalance": ["Balance Vida-Trabajo", "Equilibrio Vida Laboral"],
+    "RelationshipSatisfaction": ["Satisfacción con el Jefe", "Relación con Supervisor"],
+}
+
+def renombrar_columnas_es(df, mapeo=MAPEO_ES):
+    """Traduce columnas en español al esquema interno en inglés.
+    Si ya vienen en inglés, no hace nada."""
+    # Limpiar espacios en blanco de nombres de columnas
+    df.columns = df.columns.str.strip()
+    
+    columnas_nuevas = {}
+    for col_ingles, variantes in mapeo.items():
+        if col_ingles in df.columns:
+            continue
+        for variante in variantes:
+            if variante in df.columns:
+                columnas_nuevas[variante] = col_ingles
+                break
+    return df.rename(columns=columnas_nuevas)
+
+
+def detectar_mapeo_propuesto(df, mapeo=MAPEO_ES):
+    """Detecta qué columnas del CSV coinciden con el mapeo.
+    Retorna dict {columna_espanol: columna_ingles}."""
+    mapeo_detectado = {}
+    for col_ingles, variantes in mapeo.items():
+        if col_ingles in df.columns:
+            continue  # Ya está en inglés
+        for variante in variantes:
+            if variante in df.columns:
+                mapeo_detectado[variante] = col_ingles
+                break
+    return mapeo_detectado
+
+
+def mostrar_mapeo_propuesto(mapeo_detectado):
+    """Formatea el mapeo detectado para visualización."""
+    if not mapeo_detectado:
+        return "No se detectaron columnas en español para mapear."
+    
+    lineas = ["Mapeo propuesto de columnas:", "Columna en español -> Columna en inglés"]
+    lineas.append("-" * 50)
+    for col_es, col_en in mapeo_detectado.items():
+        lineas.append(f"{col_es} -> {col_en}")
+    return "\n".join(lineas)
 
 
 def validar_columnas(df: pd.DataFrame) -> None:
@@ -49,15 +102,36 @@ def validar_columnas(df: pd.DataFrame) -> None:
             )
 
 
-def cargar_datos(ruta: str | None = None) -> pd.DataFrame:
-    """Lee el CSV, valida columnas y devuelve el DataFrame."""
+def cargar_datos(ruta: str | None = None, aplicar_mapeo: bool = False) -> pd.DataFrame:
+    """Lee el archivo (CSV/Excel), valida columnas y devuelve el DataFrame.
+    
+    Args:
+        ruta: Ruta al archivo. Si es None, usa RUTA_DATOS_DEFAULT.
+        aplicar_mapeo: Si True, aplica renombrar_columnas_es() antes de validar.
+                      Opt-in para soportar columnas en español.
+    """
     ruta_archivo = ruta or RUTA_DATOS_DEFAULT
     if not os.path.isfile(ruta_archivo):
         raise FileNotFoundError(
             f"No se encontró el archivo de datos en: {ruta_archivo}. "
             "Coloca el CSV en data/ o pasa una ruta válida."
         )
-    df = pd.read_csv(ruta_archivo)
+    
+    # Detectar formato por extensión
+    extension = ruta_archivo.lower().split('.')[-1] if '.' in ruta_archivo else ''
+    
+    if extension in ['xlsx', 'xls']:
+        df = pd.read_excel(ruta_archivo, engine='openpyxl')
+    else:
+        # CSV con fallback de encoding
+        try:
+            df = pd.read_csv(ruta_archivo)
+        except UnicodeDecodeError:
+            df = pd.read_csv(ruta_archivo, encoding='latin-1')
+    
+    if aplicar_mapeo:
+        df = renombrar_columnas_es(df)
+    
     validar_columnas(df)
     return df
 

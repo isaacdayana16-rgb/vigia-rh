@@ -41,7 +41,7 @@ class VigiaLogger:
         self.logger.addHandler(console_handler)
         
         # Handler para archivo (logs/)
-        logs_dir = Path(__file__).parent.parent.parent / "logs"
+        logs_dir = Path.cwd() / "logs"
         logs_dir.mkdir(exist_ok=True)
         
         archivo_handler = logging.FileHandler(

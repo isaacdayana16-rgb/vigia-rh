@@ -3,14 +3,13 @@ import sys
 from pathlib import Path
 from fpdf import FPDF
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+PROJECT_ROOT = Path.cwd()
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.datos import cargar_datos, agregar_indice_compuesto_jdr
 
-# Rutas seguras - funciona desde cualquier lugar
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.join(PROJECT_ROOT, "src")
 OUTPUT_DIR = os.path.join(BASE_DIR, "..", "output")
 SHAP_PATH = os.path.join(OUTPUT_DIR, "shap_resumen.png")
 PDF_PATH = os.path.join(OUTPUT_DIR, "reporte_vigia_rh.pdf")
