@@ -94,6 +94,20 @@ class TestValidarColumnas:
         df = df_completo.copy()
         validar_columnas(df)
 
+    def test_pasa_con_espacios_en_columnas(self):
+        """validar_columnas strip() los nombres de columnas y pasa con espacios extra."""
+        df = pd.DataFrame({
+            "Attrition ": ["Yes", "No"],
+            "OverTime ": ["Yes", "No"],
+            "JobSatisfaction ": [2, 4],
+            "MonthlyIncome ": [3000, 5000],
+            "Department ": ["Sales", "HR"],
+            "DistanceFromHome ": [5, 10],
+            "WorkLifeBalance ": [3, 4],
+            "RelationshipSatisfaction ": [2, 4],
+        })
+        validar_columnas(df)
+
 
 # --- Tests para agregar_indice_compuesto_jdr ---
 

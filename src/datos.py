@@ -85,6 +85,7 @@ def mostrar_mapeo_propuesto(mapeo_detectado):
 
 def validar_columnas(df: pd.DataFrame) -> None:
     """Falla con un mensaje claro si faltan columnas del esquema mínimo."""
+    df.columns = df.columns.str.strip()
     faltantes = [col for col in COLUMNAS_REQUERIDAS if col not in df.columns]
     if faltantes:
         raise ValueError(
