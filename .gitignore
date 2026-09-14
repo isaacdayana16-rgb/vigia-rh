@@ -2,3 +2,4 @@ venv/
 __pycache__/
 *.pyc
 logs/
+data/RH_Empresa_Ejemplo_Ecuador.xlsx
