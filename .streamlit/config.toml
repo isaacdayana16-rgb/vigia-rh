@@ -1,0 +1,6 @@
+[server]
+headless = true
+port = 8501
+
+[deploy]
+commands = ["pip install -r requirements.txt", "streamlit run dashboard/app.py"]

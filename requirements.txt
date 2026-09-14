@@ -5,6 +5,6 @@ fpdf2>=2.7.0,<3.0.0
 scikit-learn>=1.3.0,<2.0.0
 shap>=0.42.0,<1.0.0
 matplotlib>=3.7.0,<4.0.0
-pysentimiento>=0.7.0,<1.0.0
+pysentimiento>=0.7.0,<1.0.0  # REMOVIDO: rompe pip install en Streamlit Cloud (depende de tensorflow incompatible con Python 3.14)
 psutil>=5.9.0,<8.0.0
 pytest>=7.0,<8.0
