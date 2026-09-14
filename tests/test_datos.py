@@ -14,6 +14,7 @@ from src.datos import (
     agregar_indice_compuesto_jdr,
     renombrar_columnas_es,
     MAPEO_ES,
+    detectar_mapeo_propuesto,
 )
 
 
@@ -185,6 +186,56 @@ class TestRenombrarColumnasEs:
                      "RelationshipSatisfaction"}
         mapeo_claves = set(MAPEO_ES.keys())
         assert required.issubset(mapeo_claves), f"Faltan claves en MAPEO_ES: {required - mapeo_claves}"
+
+
+# --- Tests para detectar_mapeo_propuesto ---
+
+class TestDetectarMapeoPropuesto:
+    def test_no_detecta_mapeo_con_columnas_ingles(self):
+        """No propone mapeo si todas las columnas ya están en inglés."""
+        df = pd.DataFrame({
+            "Attrition": ["Yes"], "OverTime": ["No"],
+            "JobSatisfaction": [3], "MonthlyIncome": [4000],
+            "Department": ["Sales"], "DistanceFromHome": [5],
+            "WorkLifeBalance": [3], "RelationshipSatisfaction": [3],
+        })
+        assert detectar_mapeo_propuesto(df) == {}
+
+    def test_detecta_mapeo_con_columnas_espanol(self):
+        """Detecta columnas en español y propone el mapeo."""
+        df = pd.DataFrame({
+            "Rotación": ["Sí"], "Horas Extra": ["No"],
+            "Satisfacción Laboral": [3], "Sueldo Mensual": [4000],
+            "Departamento": ["Ventas"], "Distancia al Trabajo": [5],
+            "Balance Vida-Trabajo": [3], "Satisfacción con el Jefe": [3],
+        })
+        mapeo = detectar_mapeo_propuesto(df)
+        assert mapeo["Rotación"] == "Attrition"
+        assert mapeo["Horas Extra"] == "OverTime"
+        assert mapeo["Satisfacción Laboral"] == "JobSatisfaction"
+
+    def test_detecta_mapeo_con_espacios_en_columnas(self):
+        """Detecta columnas en español aunque los headers tengan espacios extra."""
+        df = pd.DataFrame({
+            "  Rotación  ": ["Sí"], "  Horas Extra ": ["No"],
+            "  Satisfacción Laboral ": [3], "  Sueldo Mensual ": [4000],
+            "  Departamento ": ["Ventas"], "  Distancia al Trabajo ": [5],
+            "  Balance Vida-Trabajo ": [3], "  Satisfacción con el Jefe ": [3],
+        })
+        mapeo = detectar_mapeo_propuesto(df)
+        assert mapeo["Rotación"] == "Attrition"
+        assert mapeo["Satisfacción Laboral"] == "JobSatisfaction"
+
+    def test_ignora_columnas_extra_no_mapeadas(self):
+        """Columnas extra (no en MAPEO_ES) se ignoran sin error."""
+        df = pd.DataFrame({
+            "Attrition": ["Yes"], "OverTime": ["No"],
+            "JobSatisfaction": [3], "MonthlyIncome": [4000],
+            "Department": ["Sales"], "DistanceFromHome": [5],
+            "WorkLifeBalance": [3], "RelationshipSatisfaction": [3],
+            "Antigüedad (años)": [2],
+        })
+        assert detectar_mapeo_propuesto(df) == {}
 
 
 # --- Tests para cargar_datos ---

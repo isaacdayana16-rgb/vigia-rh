@@ -60,6 +60,7 @@ def renombrar_columnas_es(df, mapeo=MAPEO_ES):
 def detectar_mapeo_propuesto(df, mapeo=MAPEO_ES):
     """Detecta qué columnas del CSV coinciden con el mapeo.
     Retorna dict {columna_espanol: columna_ingles}."""
+    df.columns = df.columns.str.strip()
     mapeo_detectado = {}
     for col_ingles, variantes in mapeo.items():
         if col_ingles in df.columns:
