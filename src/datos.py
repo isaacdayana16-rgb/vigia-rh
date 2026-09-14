@@ -104,6 +104,30 @@ def validar_columnas(df: pd.DataFrame) -> None:
             )
 
 
+# Mapeo de valores booleanos en español a inglés (variantes ortográficas incluidas)
+MAPA_VALORES_ES = {
+    "Sí": "Yes",
+    "Si": "Yes",
+    "No": "No",
+}
+# Columnas booleanas que se normalizan a 'Yes'/'No'
+COLUMNAS_BOOLEANAS = ("Attrition", "OverTime")
+
+
+def normalizar_columnas_booleanas(df: pd.DataFrame) -> pd.DataFrame:
+    """Convierte valores 'Sí'/'Si'/'No' a 'Yes'/'No' en columnas booleanas.
+
+    Normaliza Attrition y OverTime para que el pipeline aguas abajo
+    (validación, índice JD-R, modelo) siempre reciba 'Yes'/'No'.
+    Devuelve un DataFrame nuevo; no modifica el original.
+    """
+    out = df.copy()
+    for col in COLUMNAS_BOOLEANAS:
+        if col in out.columns:
+            out[col] = out[col].replace(MAPA_VALORES_ES)
+    return out
+
+
 def cargar_datos(ruta: str | None = None, aplicar_mapeo: bool = False) -> pd.DataFrame:
     """Lee el archivo (CSV/Excel), valida columnas y devuelve el DataFrame.
     
@@ -133,6 +157,9 @@ def cargar_datos(ruta: str | None = None, aplicar_mapeo: bool = False) -> pd.Dat
     
     if aplicar_mapeo:
         df = renombrar_columnas_es(df)
+    
+    # Normalizar valores booleanos en español (Sí/Si → Yes) antes de validar
+    df = normalizar_columnas_booleanas(df)
     
     validar_columnas(df)
     return df

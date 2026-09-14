@@ -15,6 +15,7 @@ from src.datos import (
     renombrar_columnas_es,
     MAPEO_ES,
     detectar_mapeo_propuesto,
+    normalizar_columnas_booleanas,
 )
 
 
@@ -236,6 +237,60 @@ class TestDetectarMapeoPropuesto:
             "Antigüedad (años)": [2],
         })
         assert detectar_mapeo_propuesto(df) == {}
+
+
+# --- Tests para normalizar_columnas_booleanas ---
+
+class TestNormalizarColumnasBooleanas:
+    def test_convierte_si_a_yes(self):
+        """normalizar_columnas_booleanas convierte 'Sí' a 'Yes' en Attrition."""
+        df = pd.DataFrame({"Attrition": ["Sí", "No"], "OverTime": ["Sí", "No"]})
+        result = normalizar_columnas_booleanas(df)
+        assert result["Attrition"].tolist() == ["Yes", "No"]
+        assert result["OverTime"].tolist() == ["Yes", "No"]
+
+    def test_convierte_sin_acento(self):
+        """normalizar_columnas_booleanas convierte 'Si' (sin acento) a 'Yes'."""
+        df = pd.DataFrame({"Attrition": ["Si", "No"]})
+        result = normalizar_columnas_booleanas(df)
+        assert result["Attrition"].tolist() == ["Yes", "No"]
+
+    def test_no_modifica_yes_no(self):
+        """normalizar_columnas_booleanas no altera valores ya en inglés."""
+        df = pd.DataFrame({"Attrition": ["Yes", "No"], "OverTime": ["Yes", "No"]})
+        result = normalizar_columnas_booleanas(df)
+        assert result["Attrition"].tolist() == ["Yes", "No"]
+
+    def test_no_modifica_original(self):
+        """normalizar_columnas_booleanas devuelve copia, no modifica el original."""
+        df = pd.DataFrame({"Attrition": ["Sí"]})
+        original = df["Attrition"].tolist()
+        normalizar_columnas_booleanas(df)
+        assert df["Attrition"].tolist() == original
+
+    def test_ignora_si_no_existe_columna(self):
+        """normalizar_columnas_booleanas no falla si la columna no existe."""
+        df = pd.DataFrame({"Department": ["Sales"]})
+        result = normalizar_columnas_booleanas(df)
+        assert result["Department"].tolist() == ["Sales"]
+
+    def test_carga_datos_acepta_si_no(self, tmp_path):
+        """cargar_datos normaliza 'Sí'/'No' y pasa la validación de Attrition."""
+        import os
+        xlsx = tmp_path / "test_si.xlsx"
+        df = pd.DataFrame({
+            "Attrition": ["Sí", "No", "Sí"],
+            "OverTime": ["Sí", "No", "Sí"],
+            "JobSatisfaction": [2, 4, 3],
+            "MonthlyIncome": [3000, 5000, 4000],
+            "Department": ["Sales", "HR", "R&D"],
+            "DistanceFromHome": [5, 10, 20],
+            "WorkLifeBalance": [3, 4, 2],
+            "RelationshipSatisfaction": [2, 4, 3],
+        })
+        df.to_excel(xlsx, index=False, engine="openpyxl")
+        result = cargar_datos(ruta=str(xlsx))
+        assert result["Attrition"].tolist() == ["Yes", "No", "Yes"]
 
 
 # --- Tests para cargar_datos ---
