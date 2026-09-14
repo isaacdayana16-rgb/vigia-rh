@@ -315,39 +315,72 @@ def componente_explicabilidad_shap(project_root) -> None:
         logger.error(f"Error en componente_explicabilidad_shap: {e}", exc_info=True)
 
 
-def componente_modelo_prediccion(project_root):
-    """Sección de modelo predictivo: métricas, predicción por empleado y explicación SHAP dinámica."""
+@st.cache_data
+def _cargar_datos_preparados():
+    """Carga y prepara datos con train_test_split. Cacheado para no recalcular."""
     from sklearn.model_selection import train_test_split
-    import joblib
+    from src.datos import cargar_datos
+    df = cargar_datos()
+    df_modelo = df.copy()
+    for columna in df_modelo.select_dtypes(include="object").columns:
+        df_modelo[columna] = df_modelo[columna].astype("category").cat.codes
+    X = df_modelo.drop("Attrition", axis=1)
+    y = df_modelo["Attrition"]
+    _, X_test, _, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    return df, X_test, y_test
+
+
+@st.cache_resource
+def _cargar_modelo_cacheado(modelo_path_str):
+    """Carga el modelo serializado con joblib. Cacheado como recurso."""
+    from src.modelo import cargar_modelo
+    return cargar_modelo(modelo_path_str)
+
+
+@st.cache_data
+def _calcular_metricas_cacheadas(_modelo, X_test, y_test):
+    """Calcula métricas del modelo. Cacheado para no recalcular."""
+    from src.modelo import evaluar_modelo
+    return evaluar_modelo(_modelo, X_test, y_test)
+
+
+@st.cache_data
+def _calcular_shap_cacheado(_modelo, X_test):
+    """Calcula SHAP values. Cacheado para no recalcular."""
+    import shap
+    explicador = shap.TreeExplainer(_modelo)
+    return explicador(X_test)
+
+
+def componente_modelo_prediccion(project_root):
+    """Sección de modelo predictivo: métricas, predicción por empleado y explicación SHAP dinámica.
+
+    Usa caching de Streamlit para evitar recálculos en cada renderizado:
+    - Datos y train_test_split se cachean con @st.cache_data
+    - Modelo se cachea con @st.cache_resource
+    - Métricas y SHAP values se cachean con @st.cache_data
+    """
+    import shap
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
 
     try:
-        from src.modelo import cargar_modelo, evaluar_modelo
-        from src.datos import cargar_datos
-
         modelo_path = project_root / "output" / "modelo_vigia.joblib"
         if not modelo_path.exists():
             st.warning("Modelo no encontrado. Ejecuta src/modelo.py para generar el modelo predictivo.")
             logger.warning("Archivo modelo_vigia.joblib no encontrado")
             return
 
-        modelo = cargar_modelo(str(modelo_path))
+        # Cargar modelo serializado (cacheado)
+        modelo = _cargar_modelo_cacheado(str(modelo_path))
         logger.info("Modelo cargado desde joblib")
 
-        # Preparar datos (mismo esquema que src/modelo.py)
-        df = cargar_datos()
-        df_modelo = df.copy()
-        for columna in df_modelo.select_dtypes(include="object").columns:
-            df_modelo[columna] = df_modelo[columna].astype("category").cat.codes
+        # Cargar datos preparados (cacheado)
+        df, X_test, y_test = _cargar_datos_preparados()
 
-        X = df_modelo.drop("Attrition", axis=1)
-        y = df_modelo["Attrition"]
-
-        _, X_test, _, y_test = train_test_split(
-            X, y, test_size=0.2, random_state=42
-        )
-
-        # Métricas de performance
-        métricas = evaluar_modelo(modelo, X_test, y_test)
+        # Métricas (cacheadas)
+        métricas = _calcular_metricas_cacheadas(modelo, X_test, y_test)
         st.subheader("Performance del Modelo Predictivo")
         col1, col2, col3, col4 = st.columns(4)
         col1.metric("Accuracy", f"{métricas['accuracy']:.2%}")
@@ -368,7 +401,7 @@ def componente_modelo_prediccion(project_root):
         ]
         idx_empleado = st.selectbox("Seleccionar empleado:", range(len(df)))
 
-        empleado_features = X.iloc[[idx_empleado]]
+        empleado_features = X_test.iloc[[idx_empleado]]
         predicción = modelo.predict(empleado_features)[0]
         probabilidad = modelo.predict_proba(empleado_features)[0]
 
@@ -379,12 +412,9 @@ def componente_modelo_prediccion(project_root):
         col1.write(f"Prob. rotación: {probabilidad[1]:.2%}")
         col2.write(f"Prob. permanencia: {probabilidad[0]:.2%}")
 
-        # Explicación SHAP dinámica
+        # Explicación SHAP dinámica (cacheada)
         st.subheader("Explicación de la Predicción (SHAP)")
-        import shap
-
-        explicador = shap.TreeExplainer(modelo)
-        shap_values = explicador(X_test)
+        shap_values = _calcular_shap_cacheado(modelo, X_test)
 
         shap_empleado = pd.Series(
             shap_values.values[idx_empleado][:, 1],
@@ -398,10 +428,6 @@ def componente_modelo_prediccion(project_root):
             st.write(f"- **{feature}**: {signo}{valor:.4f} ({direccion})")
 
         # Gráfico de barras con matplotlib
-        import matplotlib
-        matplotlib.use("Agg")
-        import matplotlib.pyplot as plt
-
         fig, ax = plt.subplots(figsize=(10, 6))
         top_features = shap_empleado.head(10)
         colores = ["red" if v > 0 else "green" for v in top_features.values]
