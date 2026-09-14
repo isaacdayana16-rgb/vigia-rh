@@ -1,5 +1,4 @@
 import streamlit as st
-import plotly.express as px
 import sys
 from pathlib import Path
 
@@ -7,72 +6,83 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.datos import cargar_datos, validar_columnas, agregar_indice_compuesto_jdr
+from src.datos import cargar_datos, agregar_indice_compuesto_jdr
+from src.utils.logger import logger
+from src.dashboard.ui_components import (
+    componente_carga_archivo,
+    componente_metricas_principales,
+    componente_filtro_departamento,
+    componente_graficas_rotacion,
+    componente_indice_jdr,
+    componente_explicabilidad_shap,
+    componente_modelo_prediccion
+)
+
 st.set_page_config(page_title="Vigía RH", layout="wide")
 
-st.title("🔎 Vigía RH — Analítica Predictiva de Rotación")
-st.markdown("Sistema de análisis de riesgo de rotación de personal")
+# Manejo de errores global para evitar caídas
+try:
+    # Logging de inicio de sesión
+    logger.info("Iniciando dashboard Vigía RH")
 
-# Cargar datos (ruta centralizada + validación de esquema)
-df = cargar_datos()
-df = agregar_indice_compuesto_jdr(df)
+    st.title("🔎 Vigía RH — Analítica Predictiva de Rotación")
+    st.markdown("Sistema de análisis de riesgo de rotación de personal")
 
-# Métricas generales arriba
-col1, col2, col3 = st.columns(3)
-total_empleados = len(df)
-total_renuncias = len(df[df["Attrition"] == "Yes"])
-tasa_rotacion = (total_renuncias / total_empleados) * 100
+    st.divider()
 
-col1.metric("Total de empleados", total_empleados)
-col2.metric("Renuncias registradas", total_renuncias)
-col3.metric("Tasa de rotación", f"{tasa_rotacion:.1f}%")
+    # Carga de datos con componente modular
+    st.subheader("Cargar archivo de datos")
+    df_cargado = componente_carga_archivo()
 
-st.divider()
+    if df_cargado is not None:
+        df = df_cargado
+        logger.info(f"Archivo cargado exitosamente: {len(df)} registros")
+    else:
+        try:
+            df = cargar_datos()
+            logger.info(f"Datos default cargados: {len(df)} registros")
+        except Exception as e:
+            logger.error(f"Error cargando datos default: {e}", exc_info=True)
+            st.error("❌ Error crítico cargando datos default. Contacta al administrador.")
+            st.stop()
 
-# Filtro interactivo por departamento
-departamentos = ["Todos"] + df["Department"].unique().tolist()
-depto_elegido = st.selectbox("Filtrar por departamento:", departamentos)
+    # Calcular índice JD-R
+    try:
+        df = agregar_indice_compuesto_jdr(df)
+        logger.info("Índice JD-R calculado exitosamente")
+    except Exception as e:
+        logger.error(f"Error calculando índice JD-R: {e}", exc_info=True)
+        st.error("❌ Error calculando índice JD-R. Los análisis pueden estar incompletos.")
 
-if depto_elegido != "Todos":
-    df_filtrado = df[df["Department"] == depto_elegido]
-else:
-    df_filtrado = df
+    st.divider()
 
-# Gráficas interactivas
-col1, col2 = st.columns(2)
+    # Métricas principales
+    componente_metricas_principales(df)
 
-with col1:
-    fig1 = px.histogram(df_filtrado, x="OverTime", color="Attrition", barmode="group",
-                         title="Rotación según horas extra")
-    st.plotly_chart(fig1, use_container_width=True)
+    st.divider()
 
-with col2:
-    fig2 = px.histogram(df_filtrado, x="JobSatisfaction", color="Attrition", barmode="group",
-                         title="Rotación según satisfacción laboral")
-    st.plotly_chart(fig2, use_container_width=True)
+    # Filtro por departamento
+    df_filtrado = componente_filtro_departamento(df)
 
-st.divider()
-st.subheader("Índice compuesto JD-R (exploratorio)")
+    # Gráficas de rotación
+    componente_graficas_rotacion(df_filtrado)
 
-indice_promedio = df_filtrado["indice_compuesto_jdr"].mean()
-st.metric("Promedio del índice JD-R (plantilla filtrada)", f"{indice_promedio:.2f}")
+    st.divider()
 
-fig_jdr = px.histogram(
-    df_filtrado,
-    x="indice_compuesto_jdr",
-    color="Attrition",
-    barmode="overlay",
-    nbins=15,
-    title="Distribución del índice compuesto JD-R, según rotación",
-    labels={"indice_compuesto_jdr": "Índice compuesto JD-R (0 = menor desgaste, 14 = mayor desgaste)"},
-    opacity=0.75,
-)
-fig_jdr.update_layout(bargap=0.1)
-st.plotly_chart(fig_jdr, use_container_width=True)
+    # Índice JD-R
+    componente_indice_jdr(df_filtrado)
 
-st.warning("⚠️ *Aviso ético:* Este índice compuesto es una métrica exploratoria inspirada conceptualmente en el modelo Job Demands-Resources (JD-R). No constituye un test psicométrico validado, un diagnóstico clínico, ni una evaluación de síndrome de burnout.")
+    st.divider()
 
-st.divider()
-st.subheader("Explicabilidad del modelo (SHAP)")
-shap_path = PROJECT_ROOT / "output" / "shap_resumen.png"
-st.image(str(shap_path), caption="Variables que más influyen en la rotación, según SHAP")
+    # Explicabilidad SHAP y modelo predictivo
+    componente_explicabilidad_shap(PROJECT_ROOT)
+    componente_modelo_prediccion(PROJECT_ROOT)
+
+    # Logging de fin de ejecución
+    logger.info("Dashboard renderizado exitosamente")
+
+except Exception as e:
+    # Capturar cualquier error no manejado para evitar caída total
+    logger.critical(f"Error crítico no manejado en dashboard: {e}", exc_info=True)
+    st.error(f"❌ Error crítico: {str(e)}")
+    st.info("Por favor recarga la página. Si el problema persiste, contacta al administrador.")
