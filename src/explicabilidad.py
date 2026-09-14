@@ -1,10 +1,18 @@
+import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
 import pandas as pd
+from src.datos import cargar_datos
 import shap
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 
 # Cargar y preparar los datos (igual que en modelo.py)
-df = pd.read_csv("../data/WA_Fn-UseC_-HR-Employee-Attrition.csv")
+df = cargar_datos()
 df_modelo = df.copy()
 for columna in df_modelo.select_dtypes(include="object").columns:
     df_modelo[columna] = df_modelo[columna].astype("category").cat.codes
@@ -45,5 +53,5 @@ import matplotlib.pyplot as plt
 
 shap.summary_plot(valores_shap[:, :, 1], X_test, show=False)
 plt.tight_layout()
-plt.savefig("../output/shap_resumen.png")
+plt.savefig(PROJECT_ROOT / "output" / "shap_resumen.png")
 print("\nGráfica de SHAP guardada en output/shap_resumen.png")
