@@ -147,7 +147,7 @@ source venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
-Incluye: streamlit, pandas, plotly, fpdf2, openpyxl, scikit-learn, shap, matplotlib, pysentimiento, psutil.
+Incluye: streamlit, pandas, plotly, fpdf2, openpyxl, scikit-learn, shap, matplotlib, psutil.
 
 ### 3. Generar el modelo predictivo (primera vez)
 ```bash
