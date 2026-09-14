@@ -1,14 +1,16 @@
-# 🔎 Vigía RH — People Analytics Ético & Rotación Predictiva (exploratorio)
+# 🔎 Vigía RH — People Analytics Ético & Rotación Predictiva
 
-> Intersección entre **Psicología Organizacional** (marco conceptual Job Demands-Resources) y **Ciencia de Datos** (Streamlit + pandas + Plotly + SHAP).
+> Intersección entre **Psicología Organizacional** (marco conceptual Job Demands-Resources) y **Ciencia de Datos** (Streamlit + pandas + Plotly + scikit-learn + SHAP).
 
 ![Python](https://img.shields.io/badge/Python-3.11%2B-blue?logo=python)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.63+-red?logo=streamlit)
 ![pandas](https://img.shields.io/badge/pandas-2.x-150458?logo=pandas)
 ![Plotly](https://img.shields.io/badge/Plotly-Express-3F4F75?logo=plotly)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-1.9.0-FFCB2E?logo=scikit-learn)
+![joblib](https://img.shields.io/badge/joblib-serialized_model-00B04A?logo=joblib)
 ![FPDF](https://img.shields.io/badge/FPDF2-reportes-EC1C24)
 ![License](https://img.shields.io/badge/Licencia-MIT-green)
-![Status](https://img.shields.io/badge/Estado-Prototipo%20funcional-yellow)
+![Status](https://img.shields.io/badge/Estado-Modelo%20predictivo%20funcional-green)
 
 ---
 
@@ -63,19 +65,24 @@ Rango teórico: **0 (menor desgaste)** → **14 (mayor desgaste)**. A mayor valo
 ## ✅ Qué hace HOY el producto (features reales, committeadas)
 
 1. **🔌 Pipeline de datos centralizado** (`src/datos.py`):
-   - Carga de CSV con ruta configurable.
-   - `validar_columnas()`: validación estricta del esquema mínimo IBM HR (8 columnas).
-   - `agregar_indice_compuesto_jdr(df)`: cálculo único del indicador (fuente de verdad).
+    - Carga de CSV/Excel con ruta configurable.
+    - Mapeo dinámico español-inglés para columnas en ambos idiomas.
+    - `validar_columnas()`: validación estricta del esquema mínimo IBM HR (8 columnas).
+    - `agregar_indice_compuesto_jdr(df)`: cálculo único del indicador (fuente de verdad).
 2. **📊 Dashboard interactivo Streamlit** (`dashboard/app.py`):
-   - 3 métricas de rotación globales.
-   - Filtro dinámico por **Departamento**.
-   - 2 histogramas Plotly (horas extra / satisfacción laboral) segmentados por Attrition.
-   - **Sección Índice JD-R**: métrica promedio + histograma 0..14 + disclaimer ético `st.warning()`.
-   - Sección **SHAP** con imagen de resumen precomputada.
-3. **📄 Reporte PDF automatizado** (`src/reportes.py`):
-   - Encabezado, resumen general, sección JD-R (con disclaimer), sección SHAP (con disclaimer).
-4. **📘 Script de lectura conceptual** (`src/marco_psicologico.py`):
-   - Compara promedio del índice JD-R entre empleados que renunciaron vs los que se quedaron (validación exploratoria del dataset demo).
+    - 3 métricas de rotación globales.
+    - Filtro dinámico por **Departamento**.
+    - 2 histogramas Plotly (horas extra / satisfacción laboral) segmentados por Attrition.
+    - **Sección Índice JD-R**: métrica promedio + histograma 0..14 + disclaimer ético `st.warning()`.
+    - **Sección Modelo Predictivo**: métricas de performance (accuracy, precision, recall, F1), predicción por empleado seleccionable, y explicación SHAP dinámica por predicción individual.
+3. **🤖 Modelo predictivo** (`src/modelo.py`):
+    - RandomForestClassifier (scikit-learn) entrenado y serializado con joblib.
+    - 5 funciones modulares: `entrenar_modelo()`, `evaluar_modelo()`, `guardar_modelo()`, `cargar_modelo()`, `obtener_importancias()`.
+    - Accuracy: ~87.4% en dataset de prueba. Feature más importante: `MonthlyIncome`.
+4. **📄 Reporte PDF automatizado** (`src/reportes.py`):
+    - Encabezado, resumen general, sección JD-R (con disclaimer), sección SHAP (con disclaimer).
+5. **📘 Script de lectura conceptual** (`src/marco_psicologico.py`):
+    - Compara promedio del índice JD-R entre empleados que renunciaron vs los que se quedaron (validación exploratoria del dataset demo).
 
 ---
 
@@ -86,12 +93,14 @@ Rango teórico: **0 (menor desgaste)** → **14 (mayor desgaste)**. A mayor valo
 | Lenguaje | Python 3.11+ | Runtime. |
 | Dashboard | Streamlit | Interfaz web interactiva. |
 | Datos | pandas | DataFrames y validación. |
+| ML | scikit-learn | RandomForestClassifier, métricas. |
+| Explicabilidad | SHAP | Explicación dinámica por predicción. |
+| Serialización | joblib | Guardar/cargar modelo entrenado. |
 | Viz | Plotly Express | Gráficas interactivas. |
-| Explicabilidad (outputs) | SHAP | Gráfica de resumen precomputada. |
 | Reportes | fpdf2 | Exportación PDF. |
 | Robustez imports | `pathlib` + `sys.path` idempotente | Funciona desde cualquier cwd. |
 
-> Nota: scikit-learn, pysentimiento y otros módulos del árbol `src/` sin commitear no forman parte del prototipo mínimamente reproducible en este momento; se listarán cuando se integren al pipeline estable.
+> Todas las dependencias están declaradas en `requirements.txt`. El modelo serializado (`output/modelo_vigia.joblib`) se genera ejecutando `python src/modelo.py`.
 
 ---
 
@@ -104,13 +113,17 @@ flowchart LR
     B --> C[dashboard/app.py\nUI interactiva Streamlit]
     B --> D[src/reportes.py\nreporte PDF]
     B --> E[src/marco_psicologico.py\nanalisis conceptual]
+    B --> F[src/modelo.py\nentrenamiento + evaluacion]
+    F --> G[output/modelo_vigia.joblib\nmodelo serializado]
+    C --> H[src/modelo\ncargar_modelo + evaluar_modelo]
+    H --> I[Explicacion SHAP dinamica\npor empleado]
 
-    F[output/shap_resumen.png] --> C
-    F --> D
-    D --> G[output/reporte_vigia_rh.pdf]
+    F --> I
+    I --> C
+    D --> J[output/reporte_vigia_rh.pdf]
 ```
 
-**Diseño clave**: la fórmula del índice JD-R vive **en un solo lugar** — no existe duplicación en el repositorio.
+**Diseño clave**: la fórmula del índice JD-R vive **en un solo lugar** (`src/datos.py`), y el modelo predictivo vive **en un solo módulo** (`src/modelo.py`). No existe duplicación en el repositorio.
 
 ---
 
@@ -130,26 +143,32 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-### 2. Instalar dependencias mínimas
+### 2. Instalar dependencias
 ```bash
 pip install -r requirements.txt
-# adicionalmente, para generar PDFs:
-pip install fpdf2
+```
+Incluye: streamlit, pandas, plotly, fpdf2, openpyxl, scikit-learn, shap, matplotlib, pysentimiento, psutil.
+
+### 3. Generar el modelo predictivo (primera vez)
+```bash
+python src/modelo.py
+# Genera output/modelo_vigia.joblib y muestra métricas.
+# Solo necesario una vez; el dashboard usa el modelo serializado.
 ```
 
-### 3. Ejecutar el dashboard
+### 4. Ejecutar el dashboard
 ```bash
 streamlit run dashboard/app.py
 ```
 Abre `http://localhost:8501` en tu navegador.
 
-### 4. (Opcional) Generar reporte PDF
+### 5. (Opcional) Generar reporte PDF
 ```bash
 python src/reportes.py
 # Salida: output/reporte_vigia_rh.pdf
 ```
 
-### 5. (Opcional) Análisis conceptual JD-R
+### 6. (Opcional) Análisis conceptual JD-R
 ```bash
 python src/marco_psicologico.py
 # Imprime en consola el promedio del índice por grupo de rotación.
@@ -167,14 +186,25 @@ vigia-rh/
 │   └── WA_Fn-UseC_-HR-Employee-Attrition.csv   # Dataset demo IBM
 ├── src/
 │   ├── __init__.py               # Paquete Python
-│   ├── datos.py                  # Núcleo: carga + validación + índice JD-R
+│   ├── datos.py                  # Núcleo: carga + validación + índice JD-R + mapeo ES-EN
+│   ├── modelo.py                 # Modelo predictivo: entrenamiento, evaluación, serialización
+│   ├── explicabilidad.py         # Explicabilidad SHAP por predicción
 │   ├── reportes.py               # Generación PDF (FPDF2)
-│   └── marco_psicologico.py      # Lectura conceptual del índice
+│   ├── marco_psicologico.py      # Lectura conceptual del índice
+│   └── utils/
+│       ├── logger.py             # VigiaLogger: logging estructurado
+│       └── __init__.py
+│   └── dashboard/
+│       ├── __init__.py
+│       ├── error_handler.py      # VigiaError, ErrorDatos, ErrorMapeo, ErrorCalculo
+│       └── ui_components.py      # Componentes UI reutilizables + modelo predictivo
 ├── output/
+│   ├── modelo_vigia.joblib       # Modelo predictivo serializado
 │   ├── shap_resumen.png          # Plot SHAP precomputado
 │   └── reporte_vigia_rh.pdf      # Último reporte generado
 ├── notebooks/                    # Análisis exploratorios (WIP)
 ├── requirements.txt
+├── start_dashboard_safe.py       # Inicio seguro con monitoreo de procesos
 └── README.md
 ```
 
@@ -195,13 +225,13 @@ Al ejecutar `python src/marco_psicologico.py` se obtienen valores de promedio de
 
 ## 🗺️ Roadmap (próximos pasos intencionales)
 
-| Fase | Descripción |
-|---|---|
-| 🔜 Fase 1 | Despliegue público en **Streamlit Community Cloud**. |
-| 🔜 Fase 2 | Soporte para **cargar CSV propio** desde la UI (drag & drop). |
-| 🔜 Fase 3 | Tests unitarios (`pytest`) sobre `validar_columnas()` y `agregar_indice_compuesto_jdr()` con fixtures. |
-| 🔜 Fase 4 | Integrar **modelo predictivo scikit-learn** committeable al pipeline estable + joblib serializado. |
-| 🔜 Fase 5 | Filtros adicionales en dashboard (rango salarial, distancia, antigüedad). |
+| Fase | Descripción | Estado |
+|---|---|---|
+| ✅ Fase 1 | Pipeline de datos, mapeo ES-EN, validación, dashboard descriptivo | **Completada** |
+| ✅ Fase 2 | Modelo predictivo scikit-learn, serialización joblib, explicabilidad SHAP dinámica | **Completada** |
+| 🔜 Fase 3 | Tests unitarios (`pytest`) sobre `validar_columnas()` y `agregar_indice_compuesto_jdr()` con fixtures. | **Pendiente** |
+| 🔜 Fase 4 | Filtros adicionales en dashboard (rango salarial, distancia, antigüedad). | **Pendiente** |
+| 🔜 Fase 5 | Despliegue público en **Streamlit Community Cloud**. | **Pendiente** |
 
 ---
 
