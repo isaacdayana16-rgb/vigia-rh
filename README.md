@@ -76,13 +76,57 @@ Rango teórico: **0 (menor desgaste)** → **14 (mayor desgaste)**. A mayor valo
     - **Sección Índice JD-R**: métrica promedio + histograma 0..14 + disclaimer ético `st.warning()`.
     - **Sección Modelo Predictivo**: métricas de performance (accuracy, precision, recall, F1), predicción por empleado seleccionable, y explicación SHAP dinámica por predicción individual.
 3. **🤖 Modelo predictivo** (`src/modelo.py`):
-    - RandomForestClassifier (scikit-learn) entrenado y serializado con joblib.
-    - 5 funciones modulares: `entrenar_modelo()`, `evaluar_modelo()`, `guardar_modelo()`, `cargar_modelo()`, `obtener_importancias()`.
-    - Accuracy: ~87.4% en dataset de prueba. Feature más importante: `MonthlyIncome`.
+     - RandomForestClassifier (scikit-learn) entrenado y serializado con joblib.
+     - 5 funciones modulares: `entrenar_modelo()`, `evaluar_modelo()`, `guardar_modelo()`, `cargar_modelo()`, `obtener_importancias()`.
+     - Accuracy: ~87.4% en dataset de prueba. Feature más importante: `MonthlyIncome`.
+     - Documentación completa: [`docs/API_MODELO.md`](docs/API_MODELO.md).
 4. **📄 Reporte PDF automatizado** (`src/reportes.py`):
     - Encabezado, resumen general, sección JD-R (con disclaimer), sección SHAP (con disclaimer).
 5. **📘 Script de lectura conceptual** (`src/marco_psicologico.py`):
     - Compara promedio del índice JD-R entre empleados que renunciaron vs los que se quedaron (validación exploratoria del dataset demo).
+
+---
+
+## 🔄 Pipeline ETL y flujo de datos
+
+### Flujo de datos
+
+```
+[Dataset IBM HR (CSV/Excel)]
+         │
+         ▼
+┌─────────────────────────────┐
+│  src/datos.py               │
+│  1. cargar_datos()          │  ← Lee CSV/Excel, maneja encoding
+│  2. validar_columnas()      │  ← Valida esquema mínimo (8 col)
+│  3. renombrar_columnas_es() │  ← Mapeo ES→EN si aplica
+│  4. agregar_indice_jdr()    │  ← Calcula índice compuesto JD-R
+└─────────────────────────────┘
+         │
+         ├──► [dashboard/app.py]  ← Consume DataFrame, renderiza UI
+         │
+         ├──► [src/modelo.py]    ← Entrena RandomForestClassifier
+         │                         → output/modelo_vigia.joblib
+         │
+         └──► [src/reportes.py]  ← Genera PDF con fpdf2
+```
+
+### Escalabilidad con datos reales
+
+El pipeline está diseñado para escalar con datos reales de RRHH. Para ello:
+
+1. **Carga**: `cargar_datos(ruta="...")` acepta cualquier ruta. Con datos reales, el archivo se coloca en `data/` o se pasa la ruta completa.
+2. **Validación**: `validar_columnas()` garantiza que el esquema sea consistente antes de cualquier procesamiento. Si el schema cambia, el error es inmediato y explícito.
+3. **Mapeo**: `renombrar_columnas_es()` detecta automáticamente columnas en español y las traduce al esquema interno en inglés. Con datos de diferentes fuentes, basta con actualizar `MAPEO_ES` en `src/datos.py`.
+4. **Índice JD-R**: `agregar_indice_compuesto_jdr()` es la única fuente de verdad del cálculo del índice. Cualquier cambio en la fórmula se hace en un solo lugar.
+5. **Modelo**: `entrenar_modelo()` recibe cualquier DataFrame con el esquema correcto. Para datos reales con más features, el modelo los incorpora automáticamente.
+
+### Limitaciones actuales (honestidad técnica)
+
+- **No hay data drift detection**: el modelo no detecta cambios en la distribución de datos a lo largo del tiempo.
+- **No hay monitoreo de calidad de datos**: no hay alertas automáticas si los datos entrantes tienen anomalías.
+- **No hay pipeline automatizado**: el entrenamiento se ejecuta manualmente con `python src/modelo.py`. Para automatizar, se necesita un orquestador (Airflow, Prefect, etc.) que no está implementado.
+- **El dataset es de demo**: los resultados provienen del dataset público IBM HR Analytics de Kaggle, no de datos reales de empleados.
 
 ---
 
@@ -198,6 +242,8 @@ vigia-rh/
 │       ├── __init__.py
 │       ├── error_handler.py      # VigiaError, ErrorDatos, ErrorMapeo, ErrorCalculo
 │       └── ui_components.py      # Componentes UI reutilizables + modelo predictivo
+├── docs/
+│   └── API_MODELO.md             # Documentación completa de la API del modelo
 ├── output/
 │   ├── modelo_vigia.joblib       # Modelo predictivo serializado
 │   ├── shap_resumen.png          # Plot SHAP precomputado
@@ -229,9 +275,13 @@ Al ejecutar `python src/marco_psicologico.py` se obtienen valores de promedio de
 |---|---|---|
 | ✅ Fase 1 | Pipeline de datos, mapeo ES-EN, validación, dashboard descriptivo | **Completada** |
 | ✅ Fase 2 | Modelo predictivo scikit-learn, serialización joblib, explicabilidad SHAP dinámica | **Completada** |
-| 🔜 Fase 3 | Tests unitarios (`pytest`) sobre `validar_columnas()` y `agregar_indice_compuesto_jdr()` con fixtures. | **Pendiente** |
-| 🔜 Fase 4 | Filtros adicionales en dashboard (rango salarial, distancia, antigüedad). | **Pendiente** |
-| 🔜 Fase 5 | Despliegue público en **Streamlit Community Cloud**. | **Pendiente** |
+| 🔜 Fase 3 | Tests unitarios (`pytest`) sobre validación, índice JD-R y componentes de dashboard. | **Completada** |
+| 🔜 Fase 4 | Dockerfile para despliegue reproducible. | **Completada** |
+| 🔜 Fase 5 | GitHub Actions CI/CD pipeline. | **Completada** |
+| 🔜 Fase 6 | Documentación de la API del modelo (`docs/API_MODELO.md`). | **Completada** |
+| 🔜 Fase 7 | Documentación del pipeline ETL y escalabilidad. | **Completada** |
+| 🔜 Fase 8 | Tests de integración para el dashboard completo. | **Pendiente** |
+| 🔜 Fase 9 | Despliegue en Docker + Streamlit Cloud con CI/CD. | **Pendiente** |
 
 ---
 
