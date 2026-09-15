@@ -8,6 +8,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from src.datos import cargar_datos, agregar_indice_compuesto_jdr
 from src.utils.logger import logger
+from src.psicometria.vista_dashboard import componente_perfiles_psicosociales
 from src.dashboard.ui_components import (
     componente_carga_archivo,
     componente_metricas_principales,
@@ -77,6 +78,11 @@ try:
     # Explicabilidad SHAP y modelo predictivo
     componente_explicabilidad_shap(PROJECT_ROOT)
     componente_modelo_prediccion(PROJECT_ROOT)
+
+    st.divider()
+
+    # Vía psicométrica validada (aditiva; los errores internos no rompen la app)
+    componente_perfiles_psicosociales(PROJECT_ROOT)
 
     # Logging de fin de ejecución
     logger.info("Dashboard renderizado exitosamente")
