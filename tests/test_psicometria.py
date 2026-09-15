@@ -178,6 +178,29 @@ class TestAnalisisFactorial:
         assert (varianza > 0).all()
         assert varianza.sum() <= 1.0
 
+    def test_dataframe_vacio_no_falla(self):
+        """analisis_factorial con 0 filas no lanza error LAPACK, retorna vacío."""
+        df = pd.DataFrame({iid: [] for iid in ITEMS})
+        cargas, varianza = analisis_factorial(df, n_factores=2)
+        assert cargas.shape == (len(ITEMS), 2)
+        assert (varianza == 0).all()
+
+    def test_dataframe_con_nan_no_falla(self):
+        """analisis_factorial con NaN (varianza nula) no lanza, retorna vacío."""
+        df = generar_datos_ejemplo(n=50, semilla=5)
+        df = df[list(ITEMS.keys())].copy()
+        df.loc[:, "d_cant_1"] = 3.0  # varianza nula en un ítem
+        with np.errstate(all="ignore"):
+            cargas, _ = analisis_factorial(df, n_factores=2)
+        assert cargas.shape == (len(ITEMS), 2)
+
+    def test_una_fila_no_falla(self):
+        """analisis_factorial con 1 fila no lanza."""
+        df = pd.DataFrame({iid: [3.0] for iid in ITEMS})
+        with np.errstate(all="ignore"):
+            cargas, _ = analisis_factorial(df, n_factores=2)
+        assert cargas.shape == (len(ITEMS), 2)
+
 
 # --- Tests de validez de criterio (regresión logística) ---
 

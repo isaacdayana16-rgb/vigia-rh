@@ -54,7 +54,20 @@ def analisis_factorial(df_items: pd.DataFrame, n_factores: int = 2, rotacion: bo
             cargas: DataFrame con las cargas factoriales (ítems x factores).
             varianza: ndarray con la varianza explicada por factor.
     """
+    n_filas, n_cols = df_items.shape
+    # Protección: se necesitan al menos 2 observaciones y 2 ítems para correlacionar
+    if n_filas < 2 or n_cols < 2:
+        nombres = [f"F{i + 1}" for i in range(n_factores)]
+        cargas_vacio = pd.DataFrame(0.0, index=df_items.columns, columns=nombres)
+        return cargas_vacio, np.zeros(n_factores)
+
     corr = np.corrcoef(df_items.to_numpy(dtype=float).T)
+    # Protección: valores NaN en la correlación (varianza nula en algún ítem)
+    if not np.isfinite(corr).all():
+        nombres = [f"F{i + 1}" for i in range(n_factores)]
+        cargas_vacio = pd.DataFrame(0.0, index=df_items.columns, columns=nombres)
+        return cargas_vacio, np.zeros(n_factores)
+
     eigvals, eigvecs = np.linalg.eigh(corr)
     # Ordenar descendente
     orden = np.argsort(eigvals)[::-1][:n_factores]

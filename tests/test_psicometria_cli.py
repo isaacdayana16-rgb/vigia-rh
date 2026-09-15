@@ -150,6 +150,36 @@ class TestCli:
         assert ruta_pdf.exists()
 
 
+# --- Tests del cargador de datos de encuesta (dashboard) ---
+
+class TestCargarDatosEncuesta:
+    def test_ignora_plantilla_vacia(self, tmp_path, monkeypatch):
+        """Si solo existe la plantilla vacía, genera datos de demostración."""
+        from src.psicometria.vista_dashboard import _cargar_datos_encuesta
+        encuestas = tmp_path / "data" / "encuestas"
+        encuestas.mkdir(parents=True)
+        (encuestas / "plantilla_respuestas.csv").write_text(
+            "d_cant_1,d_cant_2,intencion_rotacion", encoding="utf-8"
+        )
+        df, es_demo = _cargar_datos_encuesta(tmp_path)
+        assert es_demo is True
+        assert len(df) > 0
+
+    def test_carga_archivo_con_datos(self, tmp_path):
+        """Si existe un CSV con datos, se usa como datos reales (no demo)."""
+        from src.psicometria.vista_dashboard import _cargar_datos_encuesta
+        encuestas = tmp_path / "data" / "encuestas"
+        encuestas.mkdir(parents=True)
+        (encuestas / "plantilla_respuestas.csv").write_text(
+            "d_cant_1,d_cant_2,intencion_rotacion", encoding="utf-8"
+        )
+        df_real = generar_datos_ejemplo(n=30, semilla=9)
+        df_real.to_csv(encuestas / "respuestas.csv", index=False)
+        df, es_demo = _cargar_datos_encuesta(tmp_path)
+        assert es_demo is False
+        assert len(df) == 30
+
+
 # --- Tests de integridad de la plantilla CSV ---
 
 class TestPlantillaCsv:

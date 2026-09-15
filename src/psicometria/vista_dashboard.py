@@ -24,15 +24,25 @@ from src.utils.logger import logger
 def _cargar_datos_encuesta(project_root) -> tuple:
     """Carga respuestas desde data/encuestas/ o genera datos de demostración.
 
+    Ignora la plantilla vacía y cualquier archivo sin filas de datos reales.
+
     Returns:
         (df, es_demo): DataFrame de respuestas y flag si son datos sintéticos.
     """
     encuestas_dir = Path(project_root) / "data" / "encuestas"
+    plantilla = "plantilla_respuestas.csv"
     if encuestas_dir.exists():
-        archivos = sorted(encuestas_dir.glob("*.csv"))
-        if archivos:
-            df = pd.read_csv(archivos[0])
-            return df, False
+        for archivo in sorted(encuestas_dir.glob("*.csv")):
+            if archivo.name == plantilla:
+                continue  # la plantilla solo contiene encabezados
+            try:
+                df = pd.read_csv(archivo)
+            except Exception:
+                continue  # archivo ilegible: pasar al siguiente
+            if df.empty:
+                continue  # sin filas de datos
+            if any(iid in df.columns for iid in ITEMS):
+                return df, False
     return generar_datos_ejemplo(n=200, semilla=42), True
 
 
