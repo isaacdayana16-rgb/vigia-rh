@@ -11,12 +11,19 @@ from src.datos import cargar_datos, agregar_indice_compuesto_jdr
 # los "recursos" protegen. El calculo del indicador se centralizo en
 # src.datos: no duplicamos la formula aqui.
 
-df = cargar_datos()
-df = agregar_indice_compuesto_jdr(df)
 
-# ¿El índice compuesto JD-R se relaciona con la rotación real?
-print("Índice compuesto JD-R promedio, según si la persona renunció o no:")
-print(df.groupby("Attrition")["indice_compuesto_jdr"].mean())
+def _analisis_conceptual() -> None:
+    """Compara el índice JD-R entre empleados que renunciaron y los que se quedaron."""
+    df = cargar_datos()
+    df = agregar_indice_compuesto_jdr(df)
 
-print("\nEsto muestra si nuestra lectura conceptual del JD-R")
-print("coincide con lo que el modelo predictivo encontró por su cuenta.")
+    # ¿El índice compuesto JD-R se relaciona con la rotación real?
+    print("Índice compuesto JD-R promedio, según si la persona renunció o no:")
+    print(df.groupby("Attrition")["indice_compuesto_jdr"].mean())
+
+    print("\nEsto muestra si nuestra lectura conceptual del JD-R")
+    print("coincide con lo que el modelo predictivo encontró por su cuenta.")
+
+
+if __name__ == "__main__":
+    _analisis_conceptual()

@@ -75,6 +75,7 @@ Rango teórico: **0 (menor desgaste)** → **14 (mayor desgaste)**. A mayor valo
     - 2 histogramas Plotly (horas extra / satisfacción laboral) segmentados por Attrition.
     - **Sección Índice JD-R**: métrica promedio + histograma 0..14 + disclaimer ético `st.warning()`.
     - **Sección Modelo Predictivo**: métricas de performance (accuracy, precision, recall, F1), predicción por empleado seleccionable, y explicación SHAP dinámica por predicción individual.
+    - **Sección Perfiles Psicosociales**: vía validada basada en COPSOQ, con fiabilidad (α/ω), validez de constructo (AFE) y validez de criterio.
 3. **🤖 Modelo predictivo** (`src/modelo.py`):
      - RandomForestClassifier (scikit-learn) entrenado y serializado con joblib.
      - 5 funciones modulares: `entrenar_modelo()`, `evaluar_modelo()`, `guardar_modelo()`, `cargar_modelo()`, `obtener_importancias()`.
@@ -84,6 +85,13 @@ Rango teórico: **0 (menor desgaste)** → **14 (mayor desgaste)**. A mayor valo
     - Encabezado, resumen general, sección JD-R (con disclaimer), sección SHAP (con disclaimer).
 5. **📘 Script de lectura conceptual** (`src/marco_psicologico.py`):
     - Compara promedio del índice JD-R entre empleados que renunciaron vs los que se quedaron (validación exploratoria del dataset demo).
+6. **🧬 Vía psicométrica validada** (`src/psicometria/`):
+    - Instrumento COPSOQ-ISTAS21 (Job Demands y Job Resources por separado).
+    - Fiabilidad: Cronbach α y McDonald ω.
+    - Validez de constructo: análisis factorial (AFE) con rotación varimax.
+    - Validez de criterio: regresión logística sobre intención de rotación.
+    - CLI: `python -m src.psicometria <respuestas.csv> --pdf`.
+    - Documentos: [`docs/CUESTIONARIO.md`](docs/CUESTIONARIO.md), [`docs/CONSENTIMIENTO.md`](docs/CONSENTIMIENTO.md), [`docs/GUIA_RECOLECCION.md`](docs/GUIA_RECOLECCION.md).
 
 ---
 
@@ -227,7 +235,9 @@ vigia-rh/
 ├── dashboard/
 │   └── app.py                    # Entry point: UI Streamlit
 ├── data/
-│   └── WA_Fn-UseC_-HR-Employee-Attrition.csv   # Dataset demo IBM
+│   ├── WA_Fn-UseC_-HR-Employee-Attrition.csv   # Dataset demo IBM
+│   └── encuestas/
+│       └── plantilla_respuestas.csv  # Plantilla de respuestas psicométricas
 ├── src/
 │   ├── __init__.py               # Paquete Python
 │   ├── datos.py                  # Núcleo: carga + validación + índice JD-R + mapeo ES-EN
@@ -235,15 +245,29 @@ vigia-rh/
 │   ├── explicabilidad.py         # Explicabilidad SHAP por predicción
 │   ├── reportes.py               # Generación PDF (FPDF2)
 │   ├── marco_psicologico.py      # Lectura conceptual del índice
-│   └── utils/
-│       ├── logger.py             # VigiaLogger: logging estructurado
-│       └── __init__.py
+│   ├── psicometria/              # Vía psicométrica validada (COPSOQ)
+│   │   ├── __init__.py
+│   │   ├── instrumento.py        # Definición del cuestionario (ítems, subescalas)
+│   │   ├── puntuaciones.py       # Cálculo de puntuaciones por dimensión
+│   │   ├── fiabilidad.py         # Cronbach α + McDonald ω
+│   │   ├── validacion.py         # AFE (varimax) + regresión logística
+│   │   ├── ejemplos_datos.py     # Datos sintéticos de demostración
+│   │   ├── reporte.py            # Reporte de validación (consola + PDF)
+│   │   ├── cli.py                # CLI: python -m src.psicometria
+│   │   ├── __main__.py           # Entry point del paquete
+│   │   └── vista_dashboard.py    # Sección "Perfiles psicosociales"
+│   ├── utils/
+│   │   ├── logger.py             # VigiaLogger: logging estructurado
+│   │   └── __init__.py
 │   └── dashboard/
 │       ├── __init__.py
 │       ├── error_handler.py      # VigiaError, ErrorDatos, ErrorMapeo, ErrorCalculo
 │       └── ui_components.py      # Componentes UI reutilizables + modelo predictivo
 ├── docs/
-│   └── API_MODELO.md             # Documentación completa de la API del modelo
+│   ├── API_MODELO.md             # Documentación de la API del modelo
+│   ├── CUESTIONARIO.md           # Cuestionario COPSOQ (13 ítems + criterio)
+│   ├── CONSENTIMIENTO.md         # Consentimiento informado
+│   └── GUIA_RECOLECCION.md       # Guía de recolección de datos de campo
 ├── output/
 │   ├── modelo_vigia.joblib       # Modelo predictivo serializado
 │   ├── shap_resumen.png          # Plot SHAP precomputado
@@ -275,13 +299,16 @@ Al ejecutar `python src/marco_psicologico.py` se obtienen valores de promedio de
 |---|---|---|
 | ✅ Fase 1 | Pipeline de datos, mapeo ES-EN, validación, dashboard descriptivo | **Completada** |
 | ✅ Fase 2 | Modelo predictivo scikit-learn, serialización joblib, explicabilidad SHAP dinámica | **Completada** |
-| 🔜 Fase 3 | Tests unitarios (`pytest`) sobre validación, índice JD-R y componentes de dashboard. | **Completada** |
-| 🔜 Fase 4 | Dockerfile para despliegue reproducible. | **Completada** |
-| 🔜 Fase 5 | GitHub Actions CI/CD pipeline. | **Completada** |
-| 🔜 Fase 6 | Documentación de la API del modelo (`docs/API_MODELO.md`). | **Completada** |
-| 🔜 Fase 7 | Documentación del pipeline ETL y escalabilidad. | **Completada** |
-| 🔜 Fase 8 | Tests de integración para el dashboard completo. | **Pendiente** |
-| 🔜 Fase 9 | Despliegue en Docker + Streamlit Cloud con CI/CD. | **Pendiente** |
+| ✅ Fase 3 | Tests unitarios (`pytest`) sobre validación, índice JD-R y componentes de dashboard. | **Completada** |
+| ✅ Fase 4 | Dockerfile para despliegue reproducible. | **Completada** |
+| ✅ Fase 5 | GitHub Actions CI/CD pipeline. | **Completada** |
+| ✅ Fase 6 | Documentación de la API del modelo (`docs/API_MODELO.md`). | **Completada** |
+| ✅ Fase 7 | Documentación del pipeline ETL y escalabilidad. | **Completada** |
+| ✅ Fase 8 | Vía psicométrica validada (`src/psicometria`): instrumento COPSOQ, fiabilidad, AFE, validez de criterio. | **Completada** |
+| ✅ Fase 9 | Herramientas de campo: CLI de validación, plantilla, cuestionario, consentimiento, guía. | **Completada** |
+| 🔜 Fase 10 | Recolección de datos reales de campo y validación empírica (≥150 respondientes). | **Pendiente (trabajo de campo)** |
+| 🔜 Fase 11 | Tests de integración para el dashboard completo. | **Pendiente** |
+| 🔜 Fase 12 | Despliegue en Docker + Streamlit Cloud con CI/CD. | **Pendiente** |
 
 ---
 
