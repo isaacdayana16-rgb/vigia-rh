@@ -16,10 +16,15 @@ from .instrumento import (
     items_de_dimension,
     validar_instrumento,
 )
-from .puntuaciones import aplicar_reversa, calcular_puntuaciones
+from .puntuaciones import (
+    aplicar_reversa,
+    calcular_puntuaciones,
+    validar_datos_respuestas,
+)
 from .fiabilidad import cronbach_alpha, mcdonald_omega
 from .validacion import analisis_factorial, regresion_logistica
 from .ejemplos_datos import generar_datos_ejemplo
+from .reporte import generar_reporte_texto, generar_reporte_pdf
 
 __all__ = [
     "ITEMS",
@@ -29,9 +34,12 @@ __all__ = [
     "validar_instrumento",
     "aplicar_reversa",
     "calcular_puntuaciones",
+    "validar_datos_respuestas",
     "cronbach_alpha",
     "mcdonald_omega",
     "analisis_factorial",
     "regresion_logistica",
     "generar_datos_ejemplo",
+    "generar_reporte_texto",
+    "generar_reporte_pdf",
 ]

@@ -9,6 +9,32 @@ import pandas as pd
 from .instrumento import ITEMS, DIMENSIONES, items_de_dimension
 
 
+def validar_datos_respuestas(df: pd.DataFrame) -> dict:
+    """Valida la estructura de un archivo de respuestas.
+
+    Comprueba qué ítems del instrumento están presentes y si existe la
+    columna de outcome ('intencion_rotacion'). No modifica el DataFrame.
+
+    Args:
+        df: DataFrame con columnas = ids de ítems (y opcionalmente outcome).
+
+    Returns:
+        dict con:
+            'presentes': lista de ids de ítems presentes.
+            'faltantes': lista de ids de ítems requeridos ausentes.
+            'tiene_outcome': bool si existe 'intencion_rotacion'.
+            'total_items_instrumento': número de ítems del instrumento.
+    """
+    presentes = [iid for iid in ITEMS if iid in df.columns]
+    faltantes = [iid for iid in ITEMS if iid not in df.columns]
+    return {
+        "presentes": presentes,
+        "faltantes": faltantes,
+        "tiene_outcome": "intencion_rotacion" in df.columns,
+        "total_items_instrumento": len(ITEMS),
+    }
+
+
 def aplicar_reversa(serie: pd.Series, escala: int = 1, maximo: int = 5) -> pd.Series:
     """Invierte una serie Likert: puntuación = maximo + escala - valor.
 

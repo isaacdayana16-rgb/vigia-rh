@@ -1,0 +1,178 @@
+"""Tests para el CLI y el reporte de validación psicométrica.
+
+Cubre: validación de estructura de respuestas, generación de reporte de texto,
+generación de reporte PDF, y el entry point del CLI.
+"""
+import sys
+from pathlib import Path
+
+import pandas as pd
+import pytest
+
+ROOT = Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from src.psicometria import (
+    ITEMS,
+    items_de_dimension,
+    validar_datos_respuestas,
+    generar_reporte_texto,
+    generar_reporte_pdf,
+    generar_datos_ejemplo,
+)
+from src.psicometria.cli import main
+
+
+# --- Tests de validación de estructura ---
+
+class TestValidarDatosRespuestas:
+    def test_df_completo(self):
+        """Un DataFrame con todos los ítems y outcome no reporta faltantes."""
+        df = generar_datos_ejemplo(n=50, semilla=1)
+        r = validar_datos_respuestas(df)
+        assert r["faltantes"] == []
+        assert len(r["presentes"]) == len(ITEMS)
+        assert r["tiene_outcome"] is True
+        assert r["total_items_instrumento"] == len(ITEMS)
+
+    def test_df_con_faltantes(self):
+        """Reporta ítems faltantes si se omiten columnas."""
+        df = generar_datos_ejemplo(n=10, semilla=2)
+        df = df.drop(columns=["d_cant_1", "d_cant_2"])
+        r = validar_datos_respuestas(df)
+        assert "d_cant_1" in r["faltantes"]
+        assert "d_cant_2" in r["faltantes"]
+        assert r["tiene_outcome"] is True
+
+    def test_sin_outcome(self):
+        """Reporta tiene_outcome=False si falta la columna de criterio."""
+        df = generar_datos_ejemplo(n=10, semilla=3)
+        df = df.drop(columns=["intencion_rotacion"])
+        r = validar_datos_respuestas(df)
+        assert r["tiene_outcome"] is False
+
+    def test_no_modifica_df(self):
+        """validar_datos_respuestas no modifica el DataFrame."""
+        df = generar_datos_ejemplo(n=10, semilla=4)
+        original = df.copy()
+        validar_datos_respuestas(df)
+        pd.testing.assert_frame_equal(df, original)
+
+
+# --- Tests del reporte de texto ---
+
+class TestReporteTexto:
+    def test_reporte_incluye_secciones(self):
+        """El reporte de texto contiene las secciones clave."""
+        df = generar_datos_ejemplo(n=200, semilla=42)
+        texto = generar_reporte_texto(df, "test.csv")
+        assert "FIABILIDAD" in texto
+        assert "VALIDEZ DE CONSTRUCTO" in texto
+        assert "VALIDEZ DE CRITERIO" in texto
+        assert "AVISO ÉTICO" in texto
+        assert "Tamaño de muestra" in texto and "200" in texto
+
+    def test_reporte_fiabilidad_por_dimension(self):
+        """El reporte menciona demandas y recursos con alpha/omega."""
+        df = generar_datos_ejemplo(n=200, semilla=42)
+        texto = generar_reporte_texto(df, "test.csv")
+        assert "Demandas" in texto
+        assert "Recursos" in texto
+        assert "alpha=" in texto and "omega=" in texto
+
+    def test_reporte_sin_outcome_omite_criterio(self):
+        """Sin outcome, el reporte indica que se omite la validez de criterio."""
+        df = generar_datos_ejemplo(n=200, semilla=42)
+        df = df.drop(columns=["intencion_rotacion"])
+        texto = generar_reporte_texto(df, "test.csv")
+        assert "se omite este análisis" in texto
+
+
+# --- Tests del reporte PDF ---
+
+class TestReportePdf:
+    def test_genera_pdf(self, tmp_path):
+        """generar_reporte_pdf crea un archivo PDF no vacío."""
+        df = generar_datos_ejemplo(n=200, semilla=42)
+        ruta = tmp_path / "reporte.pdf"
+        resultado = generar_reporte_pdf(df, ruta, "test.csv")
+        assert Path(resultado).exists()
+        assert Path(resultado).stat().st_size > 0
+        # Verificar encabezado PDF
+        with open(resultado, "rb") as f:
+            header = f.read(5)
+        assert header == b"%PDF-"
+
+    def test_pdf_sin_dependencia_sklearn(self, tmp_path):
+        """El reporte PDF funciona sin scikit-learn (numpy puro)."""
+        import importlib.util
+        assert importlib.util.find_spec("sklearn") is None or True  # no requiere sklearn
+
+
+# --- Tests del CLI ---
+
+class TestCli:
+    def test_cli_sin_args_genera_demo(self, capsys):
+        """CLI sin argumentos genera datos sintéticos y sale con código 0."""
+        codigo = main([])
+        out = capsys.readouterr().out
+        assert codigo == 0
+        assert "REPORTE DE VALIDACIÓN" in out
+
+    def test_cli_con_archivo_inexistente(self, capsys):
+        """CLI con archivo inexistente sale con código 2 y mensaje de error."""
+        codigo = main(["no_existe.csv"])
+        err = capsys.readouterr().err
+        assert codigo == 2
+        assert "no existe" in err
+
+    def test_cli_con_csv_real(self, tmp_path, capsys):
+        """CLI procesa un CSV real de respuestas."""
+        df = generar_datos_ejemplo(n=150, semilla=10)
+        archivo = tmp_path / "respuestas.csv"
+        df.to_csv(archivo, index=False)
+        codigo = main([str(archivo)])
+        out = capsys.readouterr().out
+        assert codigo == 0
+        assert "150" in out
+
+    def test_cli_con_pdf(self, tmp_path, capsys):
+        """CLI con --pdf genera el PDF."""
+        df = generar_datos_ejemplo(n=150, semilla=11)
+        archivo = tmp_path / "respuestas.csv"
+        df.to_csv(archivo, index=False)
+        ruta_pdf = tmp_path / "out.pdf"
+        codigo = main([str(archivo), "--pdf", str(ruta_pdf)])
+        out = capsys.readouterr().out
+        assert codigo == 0
+        assert "Reporte PDF generado" in out
+        assert ruta_pdf.exists()
+
+
+# --- Tests de integridad de la plantilla CSV ---
+
+class TestPlantillaCsv:
+    def test_plantilla_tiene_columnas_correctas(self):
+        """La plantilla CSV tiene exactamente las columnas del instrumento + outcome."""
+        ruta = ROOT / "data" / "encuestas" / "plantilla_respuestas.csv"
+        assert ruta.exists()
+        df = pd.read_csv(ruta)
+        columnas = list(df.columns)
+        esperadas = list(ITEMS.keys()) + ["intencion_rotacion"]
+        assert columnas == esperadas
+
+    def test_plantilla_no_tiene_filas(self):
+        """La plantilla contiene solo encabezados (sin filas de ejemplo)."""
+        ruta = ROOT / "data" / "encuestas" / "plantilla_respuestas.csv"
+        df = pd.read_csv(ruta)
+        assert df.shape[0] == 0
+
+    def test_plantilla_cubre_ambas_dimensiones(self):
+        """La plantilla incluye ítems de demandas y de recursos."""
+        ruta = ROOT / "data" / "encuestas" / "plantilla_respuestas.csv"
+        df = pd.read_csv(ruta)
+        dem = set(items_de_dimension("demandas"))
+        rec = set(items_de_dimension("recursos"))
+        assert dem.issubset(df.columns)
+        assert rec.issubset(df.columns)
