@@ -34,9 +34,19 @@ def _cargas_1_factor(df_items: pd.DataFrame) -> np.ndarray:
 
     Usa la descomposición de la matriz de correlaciones (eigendecomposition).
     Retorna las cargas estandarizadas lambda para cada ítem.
+
+    Retorna un arreglo de NaN si no hay suficientes filas, hay valores NaN en
+    la correlación (varianza nula) o la descomposición no converge.
     """
+    if df_items.shape[0] < 2:
+        return np.full(df_items.shape[1], np.nan)
     corr = np.corrcoef(df_items.to_numpy(dtype=float).T)
-    eigvals, eigvecs = np.linalg.eigh(corr)
+    if not np.isfinite(corr).all():
+        return np.full(df_items.shape[1], np.nan)
+    try:
+        eigvals, eigvecs = np.linalg.eigh(corr)
+    except np.linalg.LinAlgError:
+        return np.full(df_items.shape[1], np.nan)
     idx = int(np.argmax(eigvals))
     cargas = eigvecs[:, idx] * np.sqrt(eigvals[idx])
     return cargas
@@ -48,10 +58,15 @@ def mcdonald_omega(df_items: pd.DataFrame) -> float:
     omega = (sum lambda)^2 / [(sum lambda)^2 + sum(1 - lambda^2)]
 
     Es más robusto que alpha porque no asume tau-equivalencia.
+
+    Retorna NaN si los datos no permiten calcular las cargas (menos de 2 filas,
+    varianza nula, o descomposición no convergente).
     """
     if df_items.shape[1] < 2:
         return float("nan")
     lambdas = _cargas_1_factor(df_items)
+    if not np.isfinite(lambdas).all():
+        return float("nan")
     numerador = np.sum(lambdas) ** 2
     denominador = numerador + np.sum(1 - lambdas**2)
     if denominador == 0:

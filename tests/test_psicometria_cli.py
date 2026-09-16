@@ -22,6 +22,7 @@ from src.psicometria import (
     generar_datos_ejemplo,
 )
 from src.psicometria.cli import main
+from src.psicometria.reporte import _interpretacion_general, _calcular_indicadores
 
 
 # --- Tests de validación de estructura ---
@@ -206,3 +207,44 @@ class TestPlantillaCsv:
         rec = set(items_de_dimension("recursos"))
         assert dem.issubset(df.columns)
         assert rec.issubset(df.columns)
+
+
+# --- Tests de interpretación cualitativa (Entregable D) ---
+
+class TestInterpretacion:
+    def test_interpretacion_con_datos_validos(self):
+        """Con datos limpios, la interpretación resalta las fortalezas."""
+        df = generar_datos_ejemplo(n=300, semilla=42)
+        r = _calcular_indicadores(df)
+        puntos = _interpretacion_general(r)
+        assert len(puntos) >= 3
+        texto = " ".join(puntos)
+        assert "Fiabilidad aceptable" in texto
+        assert "validez de constructo" in texto
+        assert "consistente con el modelo JD-R" in texto
+
+    def test_interpretacion_advierte_fiabilidad_baja(self):
+        """Fiabilidad baja genera una advertencia específica."""
+        df = generar_datos_ejemplo(n=300, semilla=42)
+        df["r_apoy_1"] = 6 - df["r_apoy_1"]
+        df["r_apoy_2"] = 6 - df["r_apoy_2"]
+        r = _calcular_indicadores(df)
+        puntos = _interpretacion_general(r)
+        texto = " ".join(puntos)
+        assert "Fiabilidad de recursos" in texto or "no alcanza" in texto
+
+    def test_interpretacion_sin_outcome(self):
+        """Sin outcome, no menciona la dirección JD-R."""
+        df = generar_datos_ejemplo(n=300, semilla=42)
+        df = df.drop(columns=["intencion_rotacion"])
+        r = _calcular_indicadores(df)
+        puntos = _interpretacion_general(r)
+        texto = " ".join(puntos)
+        assert "modelo JD-R" not in texto
+
+    def test_interpretacion_solo_ascii(self):
+        """La interpretación usa solo caracteres ASCII (portable a PDF)."""
+        df = generar_datos_ejemplo(n=300, semilla=42)
+        r = _calcular_indicadores(df)
+        texto = " ".join(_interpretacion_general(r))
+        texto.encode("latin-1")  # no debe lanzar: todos los caracteres son latin-1

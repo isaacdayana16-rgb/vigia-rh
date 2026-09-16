@@ -25,6 +25,7 @@ from .fiabilidad import cronbach_alpha, mcdonald_omega
 from .validacion import analisis_factorial, regresion_logistica
 from .ejemplos_datos import generar_datos_ejemplo
 from .reporte import generar_reporte_texto, generar_reporte_pdf
+from .calidad_datos import reporte_calidad_datos
 
 __all__ = [
     "ITEMS",
@@ -42,4 +43,5 @@ __all__ = [
     "generar_datos_ejemplo",
     "generar_reporte_texto",
     "generar_reporte_pdf",
+    "reporte_calidad_datos",
 ]

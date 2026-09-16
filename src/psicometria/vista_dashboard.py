@@ -8,6 +8,8 @@ import sys
 from pathlib import Path
 
 import pandas as pd
+import streamlit as st
+import plotly.express as px
 
 PROJECT_ROOT = Path.cwd()
 if str(PROJECT_ROOT) not in sys.path:
@@ -18,7 +20,62 @@ from src.psicometria.puntuaciones import calcular_puntuaciones
 from src.psicometria.fiabilidad import cronbach_alpha, mcdonald_omega
 from src.psicometria.validacion import analisis_factorial, regresion_logistica
 from src.psicometria.ejemplos_datos import generar_datos_ejemplo
+from src.psicometria.calidad_datos import reporte_calidad_datos
 from src.utils.logger import logger
+
+
+def _metricas_fiabilidad(df) -> dict:
+    """Calcula alpha y omega por dimensión (o None si no calculable)."""
+    metricas = {}
+    for dimension in ["demandas", "recursos"]:
+        items = [i for i in items_de_dimension(dimension) if i in df.columns]
+        if len(items) >= 2:
+            a = cronbach_alpha(df[items])
+            o = mcdonald_omega(df[items])
+            metricas[dimension] = {
+                "alpha": None if not a or a != a else a,
+                "omega": None if not o or o != o else o,
+            }
+    return metricas
+
+
+def componente_simulador_psicometria() -> None:
+    """Simulador interactivo (DEMO): varía el tamaño de muestra y observa α/ω.
+
+    Es una herramienta pedagógica para ilustrar cómo la fiabilidad depende del
+    tamaño de muestra. NO constituye validación con datos reales.
+    """
+    st.markdown("#### 🧪 Simulador de fiabilidad según tamaño de muestra")
+    st.caption(
+        "**Demo pedagógica:** varía N y observa cómo cambian Cronbach α y McDonald ω. "
+        "No es una validación real."
+    )
+    n = st.slider("Tamaño de muestra (N)", min_value=30, max_value=500, value=150, step=10)
+    df_demo = generar_datos_ejemplo(n=n, semilla=42)
+    metricas = _metricas_fiabilidad(df_demo)
+
+    col1, col2 = st.columns(2)
+    with col1:
+        for dimension in ["demandas", "recursos"]:
+            if dimension in metricas:
+                a = metricas[dimension]["alpha"]
+                st.metric(
+                    f"α {dimension.capitalize()} (N={n})",
+                    f"{a:.3f}" if a is not None else "N/D",
+                )
+    with col2:
+        for dimension in ["demandas", "recursos"]:
+            if dimension in metricas:
+                o = metricas[dimension]["omega"]
+                st.metric(
+                    f"ω {dimension.capitalize()} (N={n})",
+                    f"{o:.3f}" if o is not None else "N/D",
+                )
+
+    st.caption(
+        "Observa: con N pequeño, α/ω pueden ser inestables; estabilizan al crecer N. "
+        "Esto fundamenta la recomendación de ≥150 respondientes."
+    )
 
 
 def _cargar_datos_encuesta(project_root) -> tuple:
@@ -53,9 +110,6 @@ def componente_perfiles_psicosociales(project_root) -> None:
         project_root: Ruta raíz del proyecto.
     """
     try:
-        import streamlit as st
-        import plotly.express as px
-
         st.subheader("🧬 Perfiles psicosociales (vía validada — COPSOQ)")
         st.caption(
             "Mide Job Demands y Job Resources por separado con un instrumento "
@@ -69,6 +123,13 @@ def componente_perfiles_psicosociales(project_root) -> None:
                 "Coloca tu encuesta real como CSV en `data/encuestas/` para "
                 "usar esta vía con datos válidos."
             )
+        else:
+            # Control de calidad sobre datos reales
+            calidad = reporte_calidad_datos(df)
+            if calidad["advertencias"]:
+                st.warning("📋 **Control de calidad de datos:**")
+                for adv in calidad["advertencias"]:
+                    st.markdown(f"- {adv}")
 
         ids_items = [iid for iid in ITEMS if iid in df.columns]
         if not ids_items:
@@ -132,6 +193,10 @@ def componente_perfiles_psicosociales(project_root) -> None:
                     "Revisa la calidad de los datos."
                 )
 
+        # Simulador pedagógico (solo para datos de demostración)
+        if es_demo:
+            componente_simulador_psicometria()
+
         st.warning(
             "⚠️ *Aviso ético:* Esta vía mide constructos psicosociales a nivel grupal. "
             "No es diagnóstico clínico ni debe usarse para decisiones individuales "
@@ -141,7 +206,6 @@ def componente_perfiles_psicosociales(project_root) -> None:
         logger.info("Sección de perfiles psicosociales renderizada")
     except Exception as e:
         try:
-            import streamlit as st
             st.error(f"❌ Error en perfiles psicosociales: {e}")
         except Exception:
             pass

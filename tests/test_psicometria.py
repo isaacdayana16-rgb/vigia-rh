@@ -146,6 +146,27 @@ class TestFiabilidad:
         df = pd.DataFrame({"a": [1, 2, 3]})
         assert np.isnan(cronbach_alpha(df))
 
+    def test_omega_nan_con_varianza_cero(self):
+        """omega devuelve NaN (no lanza) si un ítem tiene varianza nula."""
+        df = generar_datos_ejemplo(n=100, semilla=5)
+        df["d_cant_1"] = 3.0  # varianza nula
+        with np.errstate(all="ignore"):
+            omega = mcdonald_omega(df[items_de_dimension("demandas")])
+        assert np.isnan(omega)
+
+    def test_omega_nan_con_pocas_filas(self):
+        """omega devuelve NaN con menos de 2 filas (sin warning)."""
+        df = pd.DataFrame({iid: [3.0] for iid in items_de_dimension("recursos")})
+        assert np.isnan(mcdonald_omega(df))
+
+    def test_omega_nan_con_nan_en_items(self):
+        """omega devuelve NaN (no lanza) con NaN en los ítems."""
+        df = generar_datos_ejemplo(n=100, semilla=6)
+        df.loc[0, "r_apoy_1"] = None
+        with np.errstate(all="ignore"):
+            omega = mcdonald_omega(df[items_de_dimension("recursos")])
+        assert np.isnan(omega)
+
 
 # --- Tests de validez de constructo (análisis factorial) ---
 

@@ -32,6 +32,7 @@ def main(argv=None) -> int:
     from src.psicometria.reporte import generar_reporte_texto, generar_reporte_pdf
     from src.psicometria.ejemplos_datos import generar_datos_ejemplo
     from src.psicometria.puntuaciones import validar_datos_respuestas
+    from src.psicometria.calidad_datos import reporte_calidad_datos
 
     parser = argparse.ArgumentParser(
         prog="python -m src.psicometria",
@@ -72,6 +73,16 @@ def main(argv=None) -> int:
         print(f"⚠️ Aviso: muestra de {len(df)} < 150. Recomendado ≥150 para análisis factorial estable.")
     if not est["tiene_outcome"]:
         print("⚠️ Aviso: sin columna 'intencion_rotacion'. Se omite la validez de criterio.")
+
+    # Control de calidad de datos antes de validar
+    calidad = reporte_calidad_datos(df)
+    if calidad["advertencias"]:
+        print("\n📋 Control de calidad de datos:")
+        for adv in calidad["advertencias"]:
+            print(f"  [!] {adv}")
+        if calidad["items_varianza_cero"]:
+            print(f"  -> Sugerencia: elimina los ítems con varianza nula "
+                  f"({', '.join(calidad['items_varianza_cero'])}) para evitar errores en el AFE.")
 
     print(generar_reporte_texto(df, ruta_origen))
 
