@@ -1,4 +1,4 @@
-"""Tests para el validador de calidad de datos de encuesta (src/psicometria/calidad_datos.py)."""
+﻿"""Tests para el validador de calidad de datos de encuesta (src/psicometria/calidad_datos.py)."""
 import sys
 from pathlib import Path
 
@@ -41,21 +41,31 @@ class TestValidarRangoItems:
         assert r["valores_fuera"] == {}
 
     def test_detecta_valores_fuera_de_rango(self):
-        """Detecta valores fuera del rango 1-5."""
+        """Detecta valores fuera del rango 1-4 (escala oficial MDT)."""
         df = _df_limpio()
-        df.loc[0, "d_cant_1"] = 7
-        df.loc[1, "d_cant_1"] = 0
+        df.loc[0, "item_01"] = 7
+        df.loc[1, "item_01"] = 0
         r = validar_rango_items(df)
-        assert "d_cant_1" in r["items_afectados"]
-        assert 7 in r["valores_fuera"]["d_cant_1"]
+        assert "item_01" in r["items_afectados"]
+        assert 7 in r["valores_fuera"]["item_01"]
+
+    def test_nr_no_se_marca_fuera_de_rango(self):
+        """'NR' (No Responde, opción oficial) se trata como faltante, no fuera de rango."""
+        df = _df_limpio()
+        df["item_01"] = df["item_01"].astype(object)
+        df.loc[0, "item_01"] = "NR"
+        r = validar_rango_items(df)
+        assert "item_01" not in r["items_afectados"]
+        incompletas = detectar_filas_incompletas(df)
+        assert len(incompletas) == 1
 
     def test_limites_son_validos(self):
-        """1 y 5 son valores válidos; no se marcan como fuera de rango."""
+        """1 y 4 son valores válidos (escala oficial MDT); no se marcan fuera de rango."""
         df = _df_limpio()
-        df.loc[0, "d_cant_1"] = 1
-        df.loc[1, "d_cant_1"] = 5
+        df.loc[0, "item_01"] = 1
+        df.loc[1, "item_01"] = 4
         r = validar_rango_items(df)
-        assert "d_cant_1" not in r["items_afectados"]
+        assert "item_01" not in r["items_afectados"]
 
 
 class TestDetectarFilasIncompletas:
@@ -67,8 +77,8 @@ class TestDetectarFilasIncompletas:
     def test_detecta_nan(self):
         """Detecta filas con valores faltantes en ítems."""
         df = _df_limpio()
-        df.loc[3, "d_cant_1"] = None
-        df.loc[4, "r_apoy_1"] = None
+        df.loc[3, "item_01"] = None
+        df.loc[4, "item_30"] = None
         incompletas = detectar_filas_incompletas(df)
         assert len(incompletas) == 2
         assert 3 in incompletas["indice"].tolist()
@@ -85,10 +95,10 @@ class TestDetectarColumnasProblema:
 
     def test_detecta_items_faltantes(self):
         """Reporta ítems ausentes si se quitan columnas."""
-        df = _df_limpio().drop(columns=["d_cant_1", "d_emoc_3"])
+        df = _df_limpio().drop(columns=["item_01", "item_19"])
         r = detectar_columnas_problema(df)
-        assert "d_cant_1" in r["items_faltantes"]
-        assert "d_emoc_3" in r["items_faltantes"]
+        assert "item_01" in r["items_faltantes"]
+        assert "item_19" in r["items_faltantes"]
 
     def test_detecta_columnas_desconocidas(self):
         """Reporta columnas que no pertenecen al instrumento."""
@@ -121,8 +131,8 @@ class TestDetectarItemsVarianzaCero:
     def test_detecta_varianza_cero(self):
         """Detecta ítems constantes (no discriminan)."""
         df = _df_limpio()
-        df["d_cant_1"] = 3.0
-        assert "d_cant_1" in detectar_items_varianza_cero(df)
+        df["item_01"] = 3.0
+        assert "item_01" in detectar_items_varianza_cero(df)
 
 
 class TestValidarOutcome:
@@ -158,8 +168,8 @@ class TestReporteCalidadDatos:
     def test_datos_sucios_generan_advertencias(self):
         """Múltiples problemas generan advertencias."""
         df = _df_limpio()
-        df.loc[0, "d_cant_1"] = 9  # fuera de rango
-        df.loc[1, "r_apoy_1"] = None  # incompleta
+        df.loc[0, "item_01"] = 9  # fuera de rango
+        df.loc[1, "item_30"] = None  # incompleta
         df = pd.concat([df, df.iloc[[2]]], ignore_index=True)  # duplicado
         reporte = reporte_calidad_datos(df)
         assert len(reporte["advertencias"]) >= 2
@@ -169,7 +179,7 @@ class TestReporteCalidadDatos:
         from src.psicometria import analisis_factorial, cronbach_alpha
         df = _df_limpio()
         # Varianza cero rompería el AFE -> debe detectarse
-        df["d_cant_1"] = 3.0
+        df["item_01"] = 3.0
         reporte = reporte_calidad_datos(df)
-        assert "d_cant_1" in reporte["items_varianza_cero"]
+        assert "item_01" in reporte["items_varianza_cero"]
         assert reporte["advertencias"]

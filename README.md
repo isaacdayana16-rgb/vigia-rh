@@ -18,10 +18,11 @@
 
 Este proyecto es **estrictamente exploratorio** y no reemplaza la práctica profesional:
 
-- ✅ El indicador principal se denomina **Índice compuesto JD-R (exploratorio)**, "inspirado conceptualmente" en el modelo Job Demands-Resources.
-- ❌ **NO** es un instrumento psicométrico validado, **NO** es diagnóstico clínico, y **NO** evalúa síndrome de burnout, MBI, UWES-9 ni ningún test sancionado.
-- 🧪 El dataset de demostración es **IBM HR Analytics Employee Attrition (dataset público de Kaggle)**: no contiene datos reales de empleados.
+- ✅ La vía psicosocial usa el **instrumento oficial del Ministerio del Trabajo del Ecuador** (Cuestionario de Evaluación de Riesgo Psicosocial, 58 ítems, escala Likert 1-4, puntos de corte oficiales), transcrito de la fuente primaria (`docs/fuentes/`).
+- ❌ **NO** es diagnóstico clínico, **NO** evalúa síndrome de burnout, MBI, UWES-9 ni ningún test sancionado.
 - 🚫 El código **no debe usarse** para tomar decisiones individuales sobre contratación, despido, ascenso o sanción de personas.
+- 🏥 Los resultados se **asocian con indicadores de salud laboral**; la relación con **accidentabilidad específica es débil** según la evidencia disponible (SUSESO/ISTAS21, Chile: rho -0.29 a -0.34). **No se afirma que el modelo "prevenga accidentes".**
+- 🧪 El dataset de demostración psicosocial es **sintético** (estructura conocida, sin datos reales). El dataset predictivo es IBM HR Analytics (público de Kaggle).
 
 ---
 
@@ -85,13 +86,18 @@ Rango teórico: **0 (menor desgaste)** → **14 (mayor desgaste)**. A mayor valo
     - Encabezado, resumen general, sección JD-R (con disclaimer), sección SHAP (con disclaimer).
 5. **📘 Script de lectura conceptual** (`src/marco_psicologico.py`):
     - Compara promedio del índice JD-R entre empleados que renunciaron vs los que se quedaron (validación exploratoria del dataset demo).
-6. **🧬 Vía psicométrica validada** (`src/psicometria/`):
-    - Instrumento COPSOQ-ISTAS21 (Job Demands y Job Resources por separado).
-    - Fiabilidad: Cronbach α y McDonald ω.
-    - Validez de constructo: análisis factorial (AFE) con rotación varimax.
-    - Validez de criterio: regresión logística sobre intención de rotación.
+6. **🧬 Vía psicométrica con instrumento oficial MDT** (`src/psicometria/`):
+    - **Instrumento oficial del MDT-Ecuador**: 58 ítems, escala Likert 1-4, sumatoria simple con puntos de corte oficiales (Tablas 3-4). Fuente primaria transcrita: `docs/fuentes/guia_aplicacion_cuestionario_mdt_ecuador.pdf`.
+    - **Clasificación oficial de riesgo**: distribución Bajo/Medio/Alto por dimensión, subescala y global.
+    - Fiabilidad: Cronbach α y McDonald ω (dimensiones de 3+ ítems); **Spearman-Brown y marca "descriptiva, no psicométrica" para las subescalas de 2 ítems** (acoso sexual, acoso laboral, doble presencia, condiciones del trabajo, salud auto percibida) — nunca se reporta α como válido ahí.
+    - Validez de constructo: análisis factorial **exploratorio** (el MDT no postula estructura bidimensional).
+    - Validez de criterio: dirección univariada (estable frente a multicolinealidad) + regresión logística multivariada con nota de cautela.
+    - **Validación cruzada k-fold ESTRATIFICADA (k=5)** con **F1 macro y accuracy balanceada** (no accuracy simple); con N < 100 el modelo se declara "exploratorio, no generalizable".
+    - **Campo demográfico tipo_jornada** (turno fijo/rotativo; Aguilar Ortega & Vega Cauich, 2024, n=597).
     - CLI: `python -m src.psicometria <respuestas.csv> --pdf`.
-    - Documentos: [`docs/CUESTIONARIO.md`](docs/CUESTIONARIO.md), [`docs/CONSENTIMIENTO.md`](docs/CONSENTIMIENTO.md), [`docs/GUIA_RECOLECCION.md`](docs/GUIA_RECOLECCION.md).
+    - Documentos: [`docs/CUESTIONARIO.md`](docs/CUESTIONARIO.md), [`docs/CONSENTIMIENTO.md`](docs/CONSENTIMIENTO.md), [`docs/PROTOCOLO_SITUACIONES_DETECTADAS.md`](docs/PROTOCOLO_SITUACIONES_DETECTADAS.md), [`docs/GUIA_RECOLECCION.md`](docs/GUIA_RECOLECCION.md).
+7. **🧪 Simulador de N vs α/ω** (`src/psicometria/simulador_muestra.py`): fija el N objetivo de campo con las dimensiones reales del instrumento (no con reglas genéricas).
+8. **🛠️ Simulador de intervención informado por evidencia externa** (`src/simulador_intervencion.py`): combina la prioridad local (correlaciones dimensión-rotación) con tamaños de efecto de meta-análisis publicados (Richardson & Rothstein, 2008: d=0.526, IC 95% 0.364-0.687) y el menú de intervenciones HSE/OMS de la guía oficial. CLI: `python -m src.simulador_intervencion`.
 
 ---
 
@@ -131,10 +137,65 @@ El pipeline está diseñado para escalar con datos reales de RRHH. Para ello:
 
 ### Limitaciones actuales (honestidad técnica)
 
-- **No hay data drift detection**: el modelo no detecta cambios en la distribución de datos a lo largo del tiempo.
+- **No hay data drift detection**: el modelo no detecta cambios en la distribución de datos a lo largo de tiempo.
 - **No hay monitoreo de calidad de datos**: no hay alertas automáticas si los datos entrantes tienen anomalías.
 - **No hay pipeline automatizado**: el entrenamiento se ejecuta manualmente con `python src/modelo.py`. Para automatizar, se necesita un orquestador (Airflow, Prefect, etc.) que no está implementado.
-- **El dataset es de demo**: los resultados provienen del dataset público IBM HR Analytics de Kaggle, no de datos reales de empleados.
+- **El dataset predictivo es de demo**: los resultados provienen del dataset público IBM HR Analytics de Kaggle, no de datos reales de empleados.
+- **Limitación de N con el instrumento MDT (documentada, no forzada):** con 58 ítems, la regla clásica de 10 sujetos por ítem (Nunnally & Bernstein, 1994) exigiría **N ≈ 580** para un AFE estable — **inviable de recolectar en este proyecto**. La meta original de 150 NO se fuerza como requisito de AFE:
+    - La simulación (`src/psicometria/simulador_muestra.py`) muestra que la fiabilidad α/ω de las dimensiones principales (4-6 ítems) es estable (≥ 0.85) a cualquier N de 30-400; N=150 da α/ω ≈ 0.90-0.95.
+    - **N objetivo: ≥ 100 (mínimo indicativo, alineado con el umbral de la validación cruzada); 150-300 recomendado.** Por debajo de 100, los resultados se declaran "exploratorios, no generalizables".
+    - A N alcanzable, el AFE se declara **exploratorio** y las subescalas de 2 ítems **descriptivas**.
+    - La dimensión "Otros puntos importantes" (24 ítems de 8 subconstructos) converge a α ≈ 0.68 a **cualquier N**: límite **estructural**, no de muestra (la guía oficial, pág. 17, la define como "punto de partida para evaluaciones más específicas").
+
+---
+
+## 🌾 Cómo recolectar tus datos reales (paso a paso)
+
+> Esta es la guía práctica para el trabajo de campo (Fase 10). El detalle completo está
+> en [`docs/GUIA_RECOLECCION.md`](docs/GUIA_RECOLECCION.md).
+
+### Paso 1 — Preparar los documentos
+
+1. **Consentimiento informado:** usa [`docs/CONSENTIMIENTO.md`](docs/CONSENTIMIENTO.md) tal cual (ya incluye temas de acoso, anonimato reforzado y LOPDP).
+2. **Protocolo de situaciones detectadas:** lee [`docs/PROTOCOLO_SITUACIONES_DETECTADAS.md`](docs/PROTOCOLO_SITUACIONES_DETECTADAS.md) ANTES de recolectar — define qué hacer si una respuesta revela una situación real.
+3. **Cuestionario:** usa [`docs/CUESTIONARIO.md`](docs/CUESTIONARIO.md) (58 ítems oficiales del MDT, escala 1-4, sin cambiar texto ni orden).
+
+### Paso 2 — Configurar el formulario (Google Forms)
+
+1. Crea un formulario anónimo: **NO recopilar correos**, NO limitar a 1 respuesta por persona (eso obligaría a iniciar sesión).
+2. Primera página: el consentimiento completo, con una pregunta obligatoria "¿Acepto participar?" (Sí/No).
+3. Página de datos generales: los 10 campos del Anexo 11.1 + `tipo_jornada` (ver CUESTIONARIO.md, con las opciones exactas como lista desplegable).
+4. Página(s) de ítems: los 58 ítems en el orden oficial, cada uno como opción múltiple con las 4 opciones de la escala (Completamente de acuerdo=4, Parcialmente de acuerdo=3, Poco de acuerdo=2, En desacuerdo=1) + opción "NR".
+5. Última página: observaciones y comentarios (texto libre, opcional) + `intencion_rotacion` (1 ítem binario: 1 = piensa buscar otro trabajo).
+
+### Paso 3 — Recolectar
+
+- Pide autorización formal a RRHH/dirección y socializa la aplicación con todo el personal.
+- Objetivo: **≥ 100 respondientes** (mínimo indicativo); 150-300 recomendado. Si no llegas a 100, los resultados se declaran "exploratorios, no generalizables" — no fuerces la meta.
+- Duración por persona: 15-20 minutos. Colecta en 2-4 semanas.
+
+### Paso 4 — Exportar los datos
+
+1. En Google Forms: Respuestas → icono de Google Sheets → archivo → Descargar → CSV.
+2. **Renombra las columnas** para que coincidan EXACTAMENTE con `data/encuestas/plantilla_respuestas.csv`: `fecha, provincia, ciudad, area_trabajo, nivel_instruccion, antiguedad, edad, autoidentificacion_etnica, genero, tipo_jornada, item_01 ... item_58, intencion_rotacion`.
+3. Los valores de los ítems deben ser enteros **1-4** (recodifica el texto de las opciones a números: Completamente de acuerdo=4, Parcialmente de acuerdo=3, Poco de acuerdo=2, En desacuerdo=1, NR=vacío).
+4. `intencion_rotacion`: 0/1. Guarda en UTF-8 como `data/encuestas/respuestas.csv` (la plantilla solo tiene encabezados: no la cargues como datos).
+
+### Paso 5 — Validar y clasificar
+
+```bash
+# Validación psicométrica completa + clasificación oficial + reporte PDF
+python -m src.psicometria data/encuestas/respuestas.csv --pdf
+
+# Simulador de intervención (prioriza y dimensiona intervenciones)
+python -m src.simulador_intervencion data/encuestas/respuestas.csv
+
+# Dashboard (detecta automáticamente data/encuestas/respuestas.csv)
+streamlit run dashboard/app.py
+```
+
+- El reporte incluye: clasificación de riesgo con los **puntos de corte oficiales** (Tablas 3-4), fiabilidad (α/ω; **Spearman-Brown para subescalas de 2 ítems**), AFE exploratorio, dirección univariada, regresión multivariada con cautela y **validación cruzada estratificada (F1 macro / accuracy balanceada)**.
+- Si faltan ítems, hay valores fuera de rango o la muestra es < 100, el CLI lo avisa automáticamente.
 
 ---
 
@@ -245,17 +306,19 @@ vigia-rh/
 │   ├── explicabilidad.py         # Explicabilidad SHAP por predicción
 │   ├── reportes.py               # Generación PDF (FPDF2)
 │   ├── marco_psicologico.py      # Lectura conceptual del índice
-│   ├── psicometria/              # Vía psicométrica validada (COPSOQ)
+│   ├── psicometria/              # Vía psicométrica con instrumento oficial MDT
 │   │   ├── __init__.py
-│   │   ├── instrumento.py        # Definición del cuestionario (ítems, subescalas)
-│   │   ├── puntuaciones.py       # Cálculo de puntuaciones por dimensión
-│   │   ├── fiabilidad.py         # Cronbach α + McDonald ω
-│   │   ├── validacion.py         # AFE (varimax) + regresión logística
-│   │   ├── ejemplos_datos.py     # Datos sintéticos de demostración
+│   │   ├── instrumento.py        # Definición del cuestionario oficial (58 ítems, Tablas 3-4)
+│   │   ├── puntuaciones.py       # Sumatoria simple + clasificación oficial de riesgo
+│   │   ├── fiabilidad.py         # Cronbach α + McDonald ω + Spearman-Brown (2 ítems)
+│   │   ├── validacion.py         # AFE + regresión logística + validación cruzada estratificada
+│   │   ├── simulador_muestra.py  # Simulador N vs α/ω (fija el N objetivo)
+│   │   ├── ejemplos_datos.py     # Datos sintéticos de demostración (+tipo_jornada)
 │   │   ├── reporte.py            # Reporte de validación (consola + PDF)
 │   │   ├── cli.py                # CLI: python -m src.psicometria
 │   │   ├── __main__.py           # Entry point del paquete
 │   │   └── vista_dashboard.py    # Sección "Perfiles psicosociales"
+│   ├── simulador_intervencion.py # Simulador de intervención (evidencia externa)
 │   ├── utils/
 │   │   ├── logger.py             # VigiaLogger: logging estructurado
 │   │   └── __init__.py
@@ -265,9 +328,11 @@ vigia-rh/
 │       └── ui_components.py      # Componentes UI reutilizables + modelo predictivo
 ├── docs/
 │   ├── API_MODELO.md             # Documentación de la API del modelo
-│   ├── CUESTIONARIO.md           # Cuestionario COPSOQ (13 ítems + criterio)
-│   ├── CONSENTIMIENTO.md         # Consentimiento informado
-│   └── GUIA_RECOLECCION.md       # Guía de recolección de datos de campo
+│   ├── CUESTIONARIO.md           # Instrumento oficial MDT (58 ítems, escala 1-4)
+│   ├── CONSENTIMIENTO.md         # Consentimiento informado (acoso, LOPDP)
+│   ├── PROTOCOLO_SITUACIONES_DETECTADAS.md  # Protocolo de situaciones detectadas
+│   ├── GUIA_RECOLECCION.md       # Guía de recolección de datos de campo
+│   └── fuentes/                  # Fuente primaria: PDF oficial del MDT + extracto
 ├── output/
 │   ├── modelo_vigia.joblib       # Modelo predictivo serializado
 │   ├── shap_resumen.png          # Plot SHAP precomputado
@@ -306,9 +371,10 @@ Al ejecutar `python src/marco_psicologico.py` se obtienen valores de promedio de
 | ✅ Fase 7 | Documentación del pipeline ETL y escalabilidad. | **Completada** |
 | ✅ Fase 8 | Vía psicométrica validada (`src/psicometria`): instrumento COPSOQ, fiabilidad, AFE, validez de criterio. | **Completada** |
 | ✅ Fase 9 | Herramientas de campo: CLI de validación, plantilla, cuestionario, consentimiento, guía. | **Completada** |
-| 🔜 Fase 10 | Recolección de datos reales de campo y validación empírica (≥150 respondientes). | **Pendiente (trabajo de campo)** |
-| 🔜 Fase 11 | Tests de integración para el dashboard completo. | **Pendiente** |
-| 🔜 Fase 12 | Despliegue en Docker + Streamlit Cloud con CI/CD. | **Pendiente** |
+| ✅ Fase 10 (preparación) | Pivote al instrumento oficial MDT (58 ítems), protocolo ético LOPDP, validación cruzada estratificada, simuladores de N e intervención. Trabajo de campo pendiente. | **Preparada — recolección con el usuario** |
+| 🔜 Fase 11 | Recolección de datos reales de campo y validación empírica (≥100 respondientes; meta deseada 150-300). | **Pendiente (trabajo de campo)** |
+| 🔜 Fase 12 | Tests de integración para el dashboard completo. | **Pendiente** |
+| 🔜 Fase 13 | Despliegue en Docker + Streamlit Cloud con CI/CD. | **Pendiente** |
 
 ---
 

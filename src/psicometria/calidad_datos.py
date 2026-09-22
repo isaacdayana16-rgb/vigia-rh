@@ -3,8 +3,8 @@
 Detecta problemas comunes en datos reales recolectados por formularios antes
 de ejecutar la validación psicométrica:
 
-- Valores fuera del rango Likert (1-5) en ítems.
-- Filas con datos faltantes (NaN) en ítems.
+- Valores fuera del rango Likert (1-4, escala oficial MDT) en ítems.
+- Filas con datos faltantes (NaN o "NR") en ítems.
 - Columnas mal nombradas (ítems ausentes / columnas desconocidas).
 - Filas duplicadas exactas (posible doble envío).
 - Ítems con varianza nula (no discriminan; rompen el análisis factorial).
@@ -15,7 +15,7 @@ Esto reduce errores espurios en fiabilidad (alpha/omega) y validez (AFE).
 import numpy as np
 import pandas as pd
 
-from .instrumento import ITEMS
+from .instrumento import ITEMS, CAMPOS_GENERALES, CRITERIO_ITEMS
 
 
 def _items_presentes(df: pd.DataFrame) -> list:
@@ -23,8 +23,10 @@ def _items_presentes(df: pd.DataFrame) -> list:
     return [iid for iid in ITEMS if iid in df.columns]
 
 
-def validar_rango_items(df: pd.DataFrame, minimo: int = 1, maximo: int = 5) -> dict:
+def validar_rango_items(df: pd.DataFrame, minimo: int = 1, maximo: int = 4) -> dict:
     """Detecta ítems con valores fuera del rango Likert [minimo, maximo].
+
+    La escala oficial del instrumento MDT es 1-4 (Tabla 1 del PDF oficial).
 
     Returns:
         dict con 'items_afectados' (lista de ids) y 'valores_fuera' (DataFrame
@@ -33,7 +35,7 @@ def validar_rango_items(df: pd.DataFrame, minimo: int = 1, maximo: int = 5) -> d
     ids = _items_presentes(df)
     fuera = {}
     for iid in ids:
-        serie = df[iid]
+        serie = pd.to_numeric(df[iid], errors="coerce")
         mascara = serie.notna() & ~serie.between(minimo, maximo)
         if mascara.any():
             fuera[iid] = serie[mascara].unique().tolist()
@@ -41,7 +43,10 @@ def validar_rango_items(df: pd.DataFrame, minimo: int = 1, maximo: int = 5) -> d
 
 
 def detectar_filas_incompletas(df: pd.DataFrame) -> pd.DataFrame:
-    """Detecta filas con valores faltantes (NaN) en ítems del instrumento.
+    """Detecta filas con valores faltantes (NaN o "NR") en ítems del instrumento.
+
+    "NR" (No Responde) es una opción del formulario oficial; se trata como
+    valor faltante.
 
     Returns:
         DataFrame con las filas incompletas (idices originales y nº de NaN).
@@ -49,7 +54,8 @@ def detectar_filas_incompletas(df: pd.DataFrame) -> pd.DataFrame:
     ids = _items_presentes(df)
     if not ids:
         return pd.DataFrame(columns=["indice", "n_nan"])
-    nan_por_fila = df[ids].isna().sum(axis=1)
+    temp = df[ids].apply(pd.to_numeric, errors="coerce")
+    nan_por_fila = temp.isna().sum(axis=1)
     incompletas = nan_por_fila[nan_por_fila > 0]
     return pd.DataFrame({"indice": incompletas.index, "n_nan": incompletas.values})
 
@@ -57,16 +63,18 @@ def detectar_filas_incompletas(df: pd.DataFrame) -> pd.DataFrame:
 def detectar_columnas_problema(df: pd.DataFrame) -> dict:
     """Detecta ítems ausentes y columnas que no pertenecen al instrumento.
 
+    Los datos generales oficiales (Anexo 11.1 + tipo_jornada) y la columna de
+    criterio no se reportan como desconocidas.
+
     Returns:
         dict con 'items_faltantes' y 'columnas_desconocidas'.
     """
     esperadas = set(ITEMS.keys())
     presentes = set(df.columns)
+    excluidas = esperadas | set(CAMPOS_GENERALES) | set(CRITERIO_ITEMS)
     return {
         "items_faltantes": sorted(esperadas - presentes),
-        "columnas_desconocidas": sorted(
-            presentes - esperadas - {"intencion_rotacion"}
-        ),
+        "columnas_desconocidas": sorted(presentes - excluidas),
     }
 
 
@@ -91,7 +99,8 @@ def detectar_items_varianza_cero(df: pd.DataFrame) -> list:
         Lista de ids de ítems con varianza (ddof=1) igual a 0.
     """
     ids = _items_presentes(df)
-    var = df[ids].var(axis=0, ddof=1)
+    temp = df[ids].apply(pd.to_numeric, errors="coerce")
+    var = temp.var(axis=0, ddof=1)
     return [iid for iid in ids if iid in var.index and var[iid] == 0]
 
 
@@ -134,7 +143,7 @@ def reporte_calidad_datos(df: pd.DataFrame) -> dict:
     advertencias = []
     if rango["items_afectados"]:
         advertencias.append(
-            f"{len(rango['items_afectados'])} ítem(s) con valores fuera del rango 1-5."
+            f"{len(rango['items_afectados'])} ítem(s) con valores fuera del rango 1-4 (escala oficial MDT)."
         )
     if not incompletas.empty:
         advertencias.append(f"{len(incompletas)} fila(s) con datos faltantes en ítems.")
