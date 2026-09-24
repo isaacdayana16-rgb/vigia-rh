@@ -1,0 +1,1481 @@
+=== PAGINA 1 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+MINISTERIO DEL TRABAJO 
+ 
+ 
+ 
+DIRECCIÓN DE SEGURIDAD, SALUD EN EL TRABAJO 
+Y GESTIÓN INTEGRAL DE RIESGOS 
+ 
+ 
+Guía para la aplicación del cuestionario de evaluación  
+de riesgo psicosocial 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+=== PAGINA 2 ===
+ 
+AUTORIDADES DEL MINISTERIO DEL TRABAJO 
+ 
+Abg. Raúl Clemente Ledesma Huerta, Ministro del Trabajo 
+Abg. Héctor Oswaldo Guano patín Jaime, Viceministro de Trabajo y Empleo 
+Econ. Carlos Eduardo Noboa Gordon, Coordinador General de Planificación y Gestión 
+Estratégica 
+Abg. Yasser Nayid Lara Izaguirre, Subsecretario de Trabajo 
+Ing. Sergio Garcés, Director de Seguridad, Salud en el Trabajo y Gestión Integral de Riesgos 
+(E) 
+ 
+ 
+AGRADECIMIENTOS A LOS PARTICIPANTES EN EL DISEÑO, TRABAJO DE CAMPO Y 
+ANÁLISIS ESTADÍSTICO DEL CUESTIONARIO DE EVALUACIÓN DE RIESGO 
+PSICOSOCIAL  
+        
+Ph.D Juan Lara, Docente de la Universidad Central del Ecuador 
+Ph.D Antonio Gómez, Docente de la Universidad Internacional SEK 
+Mgs. Ángel Peñafiel, Experto de Seguridad y Salud en el Trabajo 
+Mgs. María Victoria Játiva, Médico de Seguridad y Salud en el Trabajo 
+MsC. Karla Pando, Analista de Seguridad y Salud en el Trabajo 
+Mgs. Valeria Pulla, Analista de Seguridad y Salud en el Trabajo 
+Mgs. Ada Castelo, Especialista de Seguridad y Salud en el Trabajo 
+Mgs. Cristian Cazorla, Analista de Seguridad y Salud en el Trabajo 
+Mgs. Lars Moreno, Ex. Director de Seguridad, Salud en el Trabajo y Gestión Integral de 
+Riesgos 
+Mgs. Santiago Vaca, Ex. Funcionario del Ministerio del Trabajo 
+Mgs. Paulina Correa, Ex. Funcionario del Ministerio del Trabajo 
+Mgs. Diana Martínez, Ex. Funcionario del Ministerio del Trabajo  
+Mgs. Pablo Suasnavas, Universidad Internacional SEK 
+Ing. Juan Yturralde, Ex. Director de Seguridad, Salud en el Trabajo y Gestión Integral de 
+Riesgos 
+Ing. Fernanda López, Analista de Seguridad y Salud en el Trabajo 
+Ing. Wagner Alzamora, Analista de Seguridad y Salud en el Trabajo 
+Ing. Patricio Chuquín, Analista de Seguridad y Salud en el Trabajo 
+Ing. Cristian Portillo, Analista de Seguridad y Salud en el Trabajo 
+Ing. Jimmy Romero, Analista de Seguridad y Salud en el Trabajo 
+Ing. Maritza Chicaiza, Analista de Seguridad y Salud en el Trabajo 
+Ing. Julio Pérez, Analista de Seguridad y Salud en el Trabajo 
+Ing. Gustavo Anastacio, Analista de Seguridad y Salud en el Trabajo 
+Ing. Gustavo Cerón, Ex. Funcionario del Ministerio del Trabajo 
+Ing. Francisco Días, Corporación la Favorita 
+Ing. Rosario Briones, Instituto Ecuatoriano de Seguridad Social 
+Ing. Francisco Valencia, Pronaca 
+Ing. Paulina Reyes, Consejo Nacional para  Igualdad de Discapacidades 
+Med. Diana Salvador, Médico Ocupacional- Ministerio del Trabajo 
+Srta. Núa Fuentes, Dirección de Atención a Grupos Prioritarios, Ministerio del Trabajo 
+Empresas e Instituciones públicas y privadas  
+ 
+AGRADECIMIENTOS A LOS INTEGRANTES DE LA MESAS DE TRABAJO PARA LA 
+ELABORACIÓN DE LA GUÍA 
+ 
+Ph.D Juan Lara, Docente de la Universidad Central del Ecuador  
+=== PAGINA 3 ===
+ 
+Mgs. Isabel Cárdenas, Docente de la Universidad Internacional SEK y Universidad de 
+Especialidades Espíritu Santo 
+MsC. Karla Pando, Analista de Seguridad y Salud en el Trabajo  
+ 
+ 
+ 
+ 
+ 
+ 
+AGRADECIMIENTOS A LOS INTEGRANTES DE LA MESAS DE TRABAJO PARA LA 
+REVISIÓN DE LA GUÍA 
+Representantes y delegados de empresas privadas e instituciones públicas   
+ 
+AGRADECIMIENTO ESPECIAL: 
+ 
+La Dirección de Seguridad, Salud en el Trabajo y Gestión Integral de Riesgos agradece al Mgs. 
+Lars Moreno e Ing. Juan Yturralde,  ex Directores de Seguridad, Salud en el Trabajo y Gestión 
+integral de Riesgos por su apoyo en diseño, aplicación y validación del cuestionario de evaluación 
+de riesgo psicosocial  así como la elaboración y publicación de la presente guía. 
+ 
+ 
+FECHA: 
+Octubre 2018 
+ 
+ 
+CONTACTOS: 
+Teléfono: 3947440 Ext: 40073/40061 
+Email: seguridadysalud@trabajo.gob.ec 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+=== PAGINA 4 ===
+ 
+Contenido 
+1. ANTECEDENTES ................................ ................................ ................................ ..... 5 
+2. MARCO TEÓRICO ................................ ................................ ................................ ... 6 
+3. CUESTIONARIO DE EVALUACIÓN DE RIESGO PSICOSOCIAL ........................... 8 
+3.1 OBJETIVO ................................................................................................ 8 
+3.2  ALCANCE, POBLACIÓN OBJETO Y USUARIOS ................................... 8 
+3.3 CARACTERÍSTICAS DEL CUESTIONARIO ............................................ 8 
+3.3.1 DISEÑO DEL CUESTIONARIO ......................................................... 8 
+3.3.2 VALIDEZ Y FIABILIDAD DEL CUESTIONARIO .............................. 12 
+3.4 PROCESO PARA APLICAR EL CUESTIONARIO DE EVALUACIÓN DE RIESGO 
+PSICOSOCIAL ................................ ................................ ................................ ........... 14 
+a) Conformar el equipo de trabajo para la aplicación del cuestionario de 
+evaluación de riesgo psicosocial: ................................................................. 14 
+b) Preparar, difundir y socializar información con todo el personal ............... 14 
+c) Aplicar el cuestionario ............................................................................... 14 
+4. ANÁLISIS DE RESULTADOS ................................ ................................ ................. 16 
+5. ASPECTOS CLAVE A CONSIDERAR SOBRE EL CUESTIONARIO DE 
+EVALUACIÓN DE RIESGO PSICOSOCIAL ................................ ...............................  16 
+6. HERRAMIENTAS PARA LA APLICACIÓN DEL CUESTIONARIO DE EVALUACIÓN 
+DE RIESGO PSICOSOCIAL EN ESPACIOS LABORALES ................................ ........ 17 
+7. ASESORÍA Y REGISTRO A TALLERES PARA  SOCIALIZACIÓN DEL 
+CUESTIONARIO Y GUÍA PARA LA APLICACIÓN DEL CUESTIONARIO DE 
+EVALUACIÓN DE RIESGO PSICOSOCIAL ................................ ...............................  17 
+8.  SUGERENCIAS PARA GESTIONAR LOS RIESGOS PSICOSOCIALES .............. 18 
+9. DEFINICIONES ................................ ................................ ................................ ...... 20 
+10. BIBLIOGRAFÍA ................................ ................................ ................................ ..... 22 
+11. ANEXOS ................................ ................................ ................................ ............... 23 
+11.1 CUESTIONARIO DE EVALUACIÓN DE RIESGO PSICOSOCIAL....... 23 
+11 .2 INSTRUCTIVO PARA EL USO DE LA HERRAMIENTA  PARA LA 
+TABULACIÓN DE DATOS ............................................................................ 28 
+ 
+ 
+ 
+ 
+=== PAGINA 5 ===
+ 
+ 
+1. ANTECEDENTES 
+ 
+El 16 de Junio de 2017 mediante acuerdo Ministerial 82, el Ministerio del Trabajo 
+expide la “Normativa erradicación de la discriminación en el ámbito laboral” en 
+su artículo 9 señala la obligatoriedad de implementar un programa de prevención 
+de riesgo psicosocial en todas las empresas e instituciones públicas y privadas 
+que cuenten con más de 10 trabajadores. 
+ 
+El Ministerio del Trabajo en colaboración con la academia, empresas e 
+instituciones públicas y privadas elaboró un formato estandarizado para el 
+programa de prevención de riesgos psicosociales, el formato contiene 
+actividades preestablecidas que las empresas e instituciones públicas y privadas 
+deben aplicar con el fin de implementar el programa de prevención de riesgo 
+psicosocial. 
+ 
+En este contexto, una de las actividades preestablecidas es “Aplicar la 
+metodología de evaluación de riesgos psicosociales a todo el personal de la 
+empresa o institución pública o privada”.  Con el fin de promover el cumplimiento 
+de esta actividad del programa de prevención de riesgos psicosociales, el 
+Ministerio del Trabajo con el apoyo de profesionales en seguridad y salud en el 
+trabajo y riesgo psicosocial, elaboró el cuestionario de evaluación de riesgo 
+psicosocial  en espacios laborales. 
+ 
+El cuestionario de evaluación de riesgo psicosocial en espacios laborales tiene 
+como objetivo evaluar los factores de riesgo psicosocial que pueden afectar la 
+salud de los trabajadores y/o servidores; y de esta forma generar acciones para 
+prevenir o disminuir el riesgo psicosocial.  
+ 
+El cuestionario de evaluación de riesgo psicosocial  puede ser aplicado por 
+responsables o profesionales en seguridad y salud en el trabajo y/o salud mental; 
+=== PAGINA 6 ===
+ 
+está dirigido a personas naturales, jurídicas, empresas, instituciones e instancias 
+públicas y privadas con más de 10 trabajadores y/o servidores, sin embargo, 
+aquellas empresas e instituciones con 10 o menos trabajadores pueden utilizar 
+el instrumento siempre y cuando se garantice el anonimato y confidencialidad de 
+la información obtenida. El cuestionario no es de aplicación obligatoria, la 
+empresa o institución puede utilizar otro instrumento de evaluación que cuente 
+con la validez y fiabilidad nacional o internacional. 
+  
+2. MARCO TEÓRICO 
+ 
+La Organización Internacional del Trabajo (OIT) define a los factores de riesgo 
+psicosocial  como “Aquellas características de las condiciones de trabajo que 
+afectan a la salud de las personas a través de mecanismos psicológicos y 
+fisiológicos a los que se llama estrés”. 1 
+ 
+Para la OIT, “el estrés es la respuesta física y emocional a un daño causado por 
+un desequilibrio entre las exigencias percibidas y los recursos y capacidades 
+percibidos de un individuo para hacer frente a esas exigencias. El estrés no es 
+un trastorno a la salud, sino el primer signo de una respuesta a un daño físico y 
+emocional. El estrés es una respuesta a uno o más riesgos psicosociales y puede 
+tener consecuencias para la salud mental, física y el bienestar de una persona”. 
+2  
+ 
+La Agencia Europea para la seguridad y salud en el trabajo  define a los riesgos 
+psicosociales como aquellos que “se derivan de las deficiencias en el diseño, la 
+organización y la gestión del trabajo, así como de un escaso contexto social del 
+trabajo, y pueden producir resultados psicológicos, físicos y sociales negativos, 
+como el estrés laboral, el agotamiento o la depresión”. 3 
+ 
+Estudios realizados sobre los efectos del riesgo psicosocial  en la salud revelan 
+que  trabajadores expuestos a este riesgo pueden sufrir  de depresión, ansiedad, 
+=== PAGINA 7 ===
+ 
+irritabilidad, alteraciones en el sueño, 1 enfermedades cardiovasculares, 
+respiratorias, inmunitarias, gastrointestinales, dermatológicas, endocrinológicas, 
+musculo esqueléticas; 4 sin embargo no solo se han evidenciado efectos en la 
+salud del trabajador sino también en el ámbito laboral como es reducción de las 
+perspectivas de empleo y salarios de los trabajadores. Para las empresas se han 
+identificado consecuencias negativas principalmente en la productividad.5 
+ 
+Al derivarse los riesgos psicosociales de las deficiencias en el diseño, la 
+organización y la gestión del trabajo, el lugar de trabajo es la principal fuente de 
+riesgo psicosocial pero también es el espacio propicio para generar acciones que 
+promuevan la salud y el bienestar de los trabajadores. 5 En este sentido, al tener 
+el riesgo psicosocial su origen en las  organizaciones puede gestionarse como 
+otro riesgo laboral es decir realizando una identificación, medición, evaluación y 
+control.  
+ 
+La evaluación de riesgos psicosociales debe realizarse utilizando métodos que 
+apunten al origen de los problemas, considerando las características de la 
+organización del trabajo; para la evaluación de riesgos psicosociales es 
+fundamental la participación de los trabajadores en todo el proceso. Dentro de 
+los métodos con mayor validez científica en este ámbito, se basa en realizar 
+preguntas a los trabajadores sobre su percepción de diversas situaciones 
+laborales que pueden ser causa de problemas de índole psicosocial. 
+ 
+Con el marco normativo y técnico expuesto, la autoridad laboral del país con la 
+participación de universidades, empleadores y trabajadores, ha elaborado la 
+presente guía que tiene por objeto dar a conocer las características y 
+lineamientos para la aplicación de la herramienta “cuestionario  de evaluación de 
+riesgo psicosocial”, desarrollada en Ecuador como una propuesta para promover 
+el cumplimiento del programa de prevención de riesgo psicosocial. Esta 
+propuesta será enriquecida a medida que se aplique el cuestionario y se reciba 
+=== PAGINA 8 ===
+ 
+retroalimentación por parte de empleadores, trabajadores y profesionales 
+inmersos en el tema. 
+3. CUESTIONARIO DE EVALUACIÓN DE RIESGO PSICOSOCIAL 
+ 
+3.1 OBJETIVO  
+Evaluar los factores de riesgo psicosocial que pueden afectar la salud de los 
+trabajadores y/o servidores generando acciones para prevenir o disminuir el 
+riesgo psicosocial.  
+3.2  ALCANCE, POBLACIÓN OBJETO Y USUARIOS 
+El cuestionario de evaluación de riesgo psicosocial  está dirigido a personas 
+naturales y jurídicas, empresas públicas y privadas, instituciones e instancias 
+públicas con más de 10 trabajadores y/o servidores. El cuestionario propuesto 
+por el Ministerio del Trabajo no es de aplicación obligatoria para la evaluación 
+del riesgo psicosocial, la empresa o institución puede seleccionar otro 
+instrumento de evaluación que cuente con los estudios de validez y fiabilidad 
+nacional o internacional. 
+3.3 CARACTERÍSTICAS DEL CUESTIONARIO 
+En Ecuador, con el fin de proporcionar una herramienta que promueva el 
+cumplimiento del programa de prevención de riesgo psicosocial se desarrolló 
+una propuesta de cuestionario de evaluación de riesgo psicosocial. El 
+cuestionario permite evaluar factores de riesgo psicosocial es decir situaciones 
+que pueden producir daño a la salud del trabajador/servidor proporcionando un 
+diagnóstico inicial desde el punto de vista psicosocial y constituye un punto de 
+partida para evaluaciones más específicas en aquellas áreas que presenten 
+deficiencias. 
+3.3.1 DISEÑO DEL CUESTIONARIO 
+ 
+ 
+El Ministerio del Trabajo en colaboración con universidades, empresas e 
+instituciones públicas y privadas conformó mesas técnicas de trabajo para el 
+diseño conceptual y construcción del cuestionario de evaluación de riesgo 
+=== PAGINA 9 ===
+ 
+psicosocial, en este proceso se revisaron teorías, instrumentos y metodologías 
+de evaluación de riesgo psicosocial de otros países; también se analizó las 
+características del cuestionario respecto a la comprensión de las preguntas y 
+opciones de respuesta. En este contexto las preguntas del cuestionario se 
+formularon en un vocabulario sencillo y conciso; las opciones de respuesta se 
+formularon en una escala Likert que va desde completamente de acuerdo, 
+parcialmente de acuerdo, poco de acuerdo y  en desacuerdo, a cada opción de 
+respuesta se le asignó una puntuación de 1 a 4: 
+Opción de respuesta Puntuación 
+Completamente de Acuerdo 4 
+Parcialmente de Acuerdo 3 
+Poco de Acuerdo 2 
+En desacuerdo 1 
+Tabla 1. Opciones de respuesta del cuestionario de evaluación de riesgo psicosocial 
+ 
+El primer cuestionario se diseñó con 83 ítems (preguntas), en consenso con 
+participantes de las mesas técnicas se procedió con el análisis de la pertinencia 
+de cada pregunta, finalmente el cuestionario quedó formado por 58 ítems 
+agrupados en 8 dimensiones: 
+ 
+Dimensión 
+Número 
+total de 
+ítems 
+Número de Ítem 
+en el 
+cuestionario 
+Carga y ritmo de trabajo 4 1, 2, 3, 4 
+Desarrollo de competencias 4 5,6,7,8 
+Liderazgo 6 9,10,11,12,13,14 
+Margen de acción y control 4 15,16,17,18 
+Organización del trabajo 6 19,20,21,22,23,24 
+Recuperación 5 25,26,27,28,29 
+Soporte y apoyo 5 30,31,32,33, 34 
+Otros puntos importantes: 24 35 al 58 
+Otros puntos importantes:  
+Acoso    discriminatorio 
+4 35, 38, 53, 56 
+Otros puntos importantes: Acoso 
+laboral 
+2 41, 50 
+Otros puntos importantes: Acoso    
+sexual 
+2 43, 48 
+Otros puntos importantes: Adicción al 
+trabajo 
+5 36, 45, 51, 55 y 
+57 
+=== PAGINA 10 ===
+ 
+Otros puntos importantes: 
+Condiciones del Trabajo 
+2 40, 47 
+Otros puntos importantes: Doble 
+presencia (laboral – familiar) 
+2 46, 49 
+Otros puntos importantes: Estabilidad 
+laboral y emocional 
+5 37, 39, 42, 52,54 
+Otros puntos importantes: Salud auto 
+percibida 
+2 44, 58 
+Tabla 2. Dimensiones del cuestionario de evaluación de riesgo psicosocial 
+ 
+Al cuestionario de evaluación de riesgo psicosocial se incorporó secciones como: 
+Instrucciones para completar el cuestionario, datos generales, observaciones y 
+comentarios, resultado global, resultado por dimensiones y análisis e 
+interpretación de los resultados. 
+ 
+ En la sección “Instrucciones para completar el cuestionario”, se indican los 
+pasos a seguir para completar correctamente el cuestionario de evaluación de 
+riesgo psicosocial. En la sección “Datos generales”, se solicita completar fecha, 
+lugar, datos generales de la empresa y sociodemográficos como instrucción, 
+antigüedad, edad, auto identificación, género; cabe indicar que los ítems  
+garantizan el anonimato de los participantes y confidencialidad de la información 
+obtenida. La sección “observaciones y comentarios”, se ha diseñado para que 
+los trabajadores/servidores coloquen inquietudes, opiniones respecto al 
+cuestionario, éstas servirán como retroalimentación para mejorar el proceso de 
+aplicación y/o estructurar el plan de acción. Las secciones “resultado global”, 
+“resultado por dimensiones” y “análisis e interpretación de los resultados” 
+permiten conocer el nivel de riesgo “Bajo”, “Medio” y “Alto” al que los 
+trabajadores/servidores están expuestos una vez aplicado el cuestionario de 
+evaluación de riesgo psicosocial.  
+  
+En este contexto para determinar el nivel de riesgo por dimensión se realizará 
+una sumatoria simple de la puntuación obtenida de los ítems que integran cada 
+=== PAGINA 11 ===
+ 
+dimensión (Ver tabla 2) y el resultado se  compara con los valores establecidos 
+en la siguiente tabla:  
+Dimensión Riesgo  
+Bajo 
+Riesgo 
+Medio 
+Riesgo 
+Alto 
+Carga y ritmo de trabajo 13 a 16 8 a 12 4 a 7 
+Desarrollo de competencias 13 a 16 8 a 12 4 a 7 
+Liderazgo 18 a 24 12 a 17 6 a 11 
+Margen de acción y control 13 a 16 8 a 12 4 a 7 
+Organización del trabajo 18 a 24 12 a 17 6 a 11 
+Recuperación 16 a 20 10 a 15 5 a 9 
+Soporte y apoyo 16 a 20 10 a 15 5 a 9 
+Otros puntos importantes 73 a 96 49 a 72 24 a 48 
+Otros puntos importantes: Acoso 
+discriminatorio 13 a 16 8 a 12 4 a 7 
+Otros puntos importantes: Acoso 
+laboral 7 a 8 5 a 6 2 a 4 
+Otros puntos importantes: Acoso 
+sexual 7 a 8 5 a 6 2 a 4 
+Otros puntos importantes: Adicción al 
+trabajo 16 a 20 10 a 15 5 a 9 
+Otros puntos importantes: Condiciones 
+del Trabajo 7 a 8 5 a 6 2 a 4 
+Otros puntos importantes: Doble 
+presencia (laboral – familiar) 7 a 8 5 a 6 2 a 4 
+Otros puntos importantes: Estabilidad 
+laboral y emocional 16 a 20 10 a 15 5 a 9 
+Otros puntos importantes: Salud auto 
+percibida 7 a 8 5 a 6 2 a 4 
+Tabla 3. Nivel de riesgo por dimensión 
+ 
+Para determinar el nivel de riesgo general se realizará una sumatoria simple de 
+la puntuación obtenida en cada dimensión y el resultado se compara con los 
+valores establecidos en la siguiente tabla: 
+ 
+Nivel de 
+Riesgo Calificación Descripción 
+Alto 58 a 116 
+El riesgo es de impacto potencial alto sobre la seguridad y la salud de 
+las personas, los niveles de peligro son intolerables y pueden generar 
+efectos nocivos para la salud e integridad física de las personas de 
+manera inmediata. Se deben aplicar las medidas de seguridad y 
+prevención de manera continua y conforme a la necesidad específica 
+identificada para evitar el incremento a la probabilidad y frecuencia. 
+Medio 117 a 174 El riesgo es de impacto potencial moderado sobre la seguridad y salud 
+puede comprometer las mismas en el mediano plazo, causando 
+=== PAGINA 12 ===
+ 
+efectos nocivos para la salud, afectaciones a la integridad física y 
+enfermedades ocupacionales. En caso de que no se aplicaren las 
+medidas de seguridad y prevención correspondientes de manera 
+continua y conforme a la necesidad específica identificada, los 
+impactos pueden generarse con mayor probabilidad y frecuencia. 
+Bajo 175 a 232 
+El riesgo es de impacto potencial mínimo sobre la seguridad y salud, 
+no genera a corto plazo efectos nocivos.  Estos efectos pueden ser 
+evitados a través de un monitoreo periódico de la frecuencia y 
+probabilidad de que ocurra y se presente una enfermedad 
+ocupacional, las acciones irán enfocadas a garantizar que el nivel se 
+mantenga 
+Tabla 4. Nivel de riesgo general 
+ 
+3.3.2 VALIDEZ Y FIABILIDAD DEL CUESTIONARIO 
+ 
+Para analizar las características psicométricas (validez y fiabilidad) del 
+cuestionario de evaluación de riesgo psicosocial, la herramienta se aplicó a  una 
+muestra de 385 empresas privadas e instituciones públicas con más de 10 
+trabajadores de todas las actividades económicas del país. La selección de 
+empresas e instituciones se realizó mediante muestreo aleatorio. 
+ 
+Cada empresa seleccionada fue invitada a participar voluntariamente en la 
+validación, finalmente  el cuestionario se aplicó a una muestra representativa de 
+trabajadores (muestreo probabilístico, no proporcional y representativa, nivel de 
+confianza del 95% y un margen de error del ± 5%) de cada empresa en total 
+participaron 4346 trabajadores/servidores conforme al siguiente detalle:  
+ 
+Descripción  Provincia Número de trabajadores participantes 
+ 
+ 
+ 
+ 
+ 
+Ubicación 
+Geográfica 
+Azuay 163 
+Carchi 29 
+Cotopaxi 98 
+Pichincha 1122 
+Chimborazo 149 
+El Oro 350 
+Esmeraldas 78 
+Guayas  1055 
+Manabí 217 
+Loja 242 
+Imbabura 208 
+Napo 93 
+Tungurahua 506 
+Sucumbíos 36 
+=== PAGINA 13 ===
+ 
+Tabla 5. Datos generales de la muestra 
+ 
+Una vez culminado el trabajo de campo (aplicación de cuestionarios), la 
+información obtenida fue analizada por expertos de la Universidad Central del 
+Ecuador y Universidad Internacional SEK, en éste análisis se utilizó el coeficiente 
+alfa de Cronbach y Coeficiente r de Pearson para determinar fiabilidad y validez 
+respectivamente. El coeficiente alfa de Cronbach cuanto más se aproxime a su 
+valor  máximo 1, mayor es la fiabilidad de la escala, un valor mayor o igual a 0,7 
+se considera suficiente para garantizar la fiabilidad de la escala. El coeficiente r 
+de Pearson con un valor mayor a 0,30 indica que la correlación es significativa 
+por lo tanto los ítems o preguntas del cuestionario son válidos 6. 
+ 
+Del análisis estadístico realizado por la Universidad Central del Ecuador  se 
+obtuvieron los siguientes resultados: 7 
+ 
+ Datos válidos: 3150 
+ Programa aplicado: SPSS V.2.2 
+ Alfa de Cronbach del instrumento: 0,967 (nivel de confiabilidad  ALTO) 
+ Alfa de Cronbach por dimensión: valores desde 0,806 a 0,904 (Nivel de 
+confiabilidad ALTO para las 8 dimensiones) 
+ Validez: Todos los ítems se encuentran sobre 0,30 (Todos los ítems son 
+VÁLIDOS)  
+ 
+Del análisis estadístico realizado por la Universidad Internacional SEK se 
+obtuvieron los siguientes resultados: 8 
+ Datos válidos: 3150 
+ Alfa de Cronbach del instrumento: 0,967 (nivel de fiabilidad MUY ALTA) 
+ Alfa de Cronbach por dimensión: valores desde 0,675 a 0,928 
+ 
+Población 
+investigada 
+TOTAL 4346 
+=== PAGINA 14 ===
+ 
+Con estos datos estadísticos, se concluye que la herramienta propuesta cuenta 
+con validez y fiabilidad. 
+ 
+3.4 PROCESO PARA APLICAR EL CUESTIONARIO DE EVALUACIÓN DE RIESGO 
+PSICOSOCIAL 
+ 
+a) Conformar el equipo de trabajo para la aplicación del cuestionario de evaluación de 
+riesgo psicosocial: 
+El  equipo estará integrado por: 
+ Técnico o Responsable de Seguridad y Salud en el Trabajo. 
+ Médico ocupacional. 
+ Responsable de Talento Humano.  
+ Trabajadora social (Aplica sólo  para aquellas empresas o instituciones 
+que por el número de trabajadores requieren la contratación del 
+profesional). 
+ 
+La aplicación del cuestionario podrá ser realizada por uno o por todos los 
+integrantes del equipo según la planificación de la empresa o institución.  
+b) Preparar, difundir y socializar información con todo el personal 
+ Informar a la máxima autoridad de la empresa/ institución sobre los pasos 
+para la aplicación del cuestionario. 
+ Preparar canales de comunicación. 
+ Informar sobre la aplicación del cuestionario a todo el personal. 
+c) Aplicar el cuestionario 
+Antes: 
+Previo a la aplicación del cuestionario es necesario considerar los siguientes 
+aspectos:  
+ 
+ El personal encargado de la aplicación del cuestionario debe estar 
+capacitado para solventar cualquier duda o inquietud por parte de los 
+participantes. 
+ El espacio asignado para la aplicación del cuestionario debe ser 
+confortable y libre de distracciones. 
+=== PAGINA 15 ===
+ 
+ Se debe contar con el material necesario para la aplicación de los 
+cuestionarios (número de ejemplares, suministros, etc.).   
+ Leer detenidamente a los participantes las instrucciones para completar 
+el cuestionario: 
+o El cuestionario es anónimo es decir no se solicita información 
+personal sobre el participante. 
+o La información obtenida es confidencial es decir se guardará, 
+mantendrá y utilizará los datos obtenidos con estricta cautela. 
+o Completar todo el cuestionario requiere entre 15 a 20 minutos. 
+o Antes de responder el cuestionario, leer detenidamente cada 
+pregunta y opción de respuesta. En este punto es necesario 
+identificar y valorar todos aquellos factores del ámbito psicosocial 
+que pueden representar un riesgo para la salud y el bienestar 
+laboral.  
+o Utilizar lápiz o esfero para marcar con una “X” la respuesta que 
+considere que describe mejor su situación. Es obligatorio contestar 
+todos los ítems del  
+cuestionario, en caso de que se equivoque encerrar en un círculo 
+la respuesta incorrecta y seleccionar nuevamente la respuesta. 
+o No existen respuestas correctas o incorrectas.  
+o Evitar distracciones mientras completa el cuestionario, en caso de 
+inquietud, solicitar asistencia al facilitador. 
+o El cuestionario tiene una sección denominada “observaciones y 
+comentarios”, que puede ser utilizada por los participantes en caso 
+de sugerencias u opiniones.  
+o Los resultados finales de la evaluación  serán socializados 
+oportunamente a los participantes. 
+ 
+Durante: 
+=== PAGINA 16 ===
+ 
+ Entregar un ejemplar del cuestionario a cada uno de los participantes.  
+ Evitar distracciones por parte de las personas que aplican el cuestionario. 
+ Brindar la asistencia necesaria a grupos de atención prioritaria y  
+participantes que lo requieran. 
+Después: 
+ Recoger los cuestionarios para posterior análisis de la información 
+obtenida. 
+4. ANÁLISIS DE RESULTADOS  
+ 
+Las personas naturales y jurídicas, empresas públicas y privadas, instituciones 
+e instancias públicas pueden descargar de la plataforma informática del 
+Ministerio del Trabajo una herramienta para la tabulación de datos que le 
+permitirá hacer un análisis de los resultados obtenidos al aplicar el cuestionario 
+de evaluación de riesgo psicosocial. 
+ 
+En la herramienta de tabulación de datos se ha colocado los ítems del 
+cuestionario de evaluación de riesgo psicosocial, el responsable asignado del 
+análisis de la información deberá ingresar por cuestionario cada una de las 
+respuestas de los participantes conforme a los ítems evaluados. Una vez 
+ingresados todos los cuestionarios a la herramienta se visualizará los resultados 
+de la aplicación del cuestionario a fin de establecer el plan de acción con las 
+medidas de prevención e intervención correspondientes. 
+5. ASPECTOS CLAVE A CONSIDERAR SOBRE EL CUESTIONARIO DE 
+EVALUACIÓN DE RIESGO PSICOSOCIAL 
+ 
+ El cuestionario es anónimo por lo tanto no se deberá solicitar datos 
+personales al participante. 
+ El responsable del análisis de la información obtenida deberá mantener 
+confidencialidad de la información obtenida. 
+ Cada ítem del cuestionario tiene 4 opciones de respuesta. 
+=== PAGINA 17 ===
+ 
+ Los integrantes del equipo responsable de aplicar el cuestionario deberán 
+contar con la capacitación necesaria para solventar dudas e inquietudes 
+por parte de los participantes. 
+ Dimensión otros puntos importantes: Constituye el punto de partida para 
+aplicar evaluaciones más específicas sobre el tema. 
+ 
+6. HERRAMIENTAS PARA LA APLICACIÓN DEL CUESTIONARIO DE EVALUACIÓN 
+DE RIESGO PSICOSOCIAL EN ESPACIOS LABORALES 
+ 
+Para la aplicación del cuestionario de evaluación de riesgo psicosocial se ha 
+elaborado: 
+ Guía para la aplicación del cuestionario de evaluación de riesgo 
+psicosocial en espacios laborales.  
+ Cuestionario de evaluación de riesgo psicosocial. 
+ Herramienta de tabulación de datos  
+ 
+La guía, cuestionario de evaluación de riesgo psicosocial y herramienta de 
+tabulación de datos están disponibles en la página web institucional del Ministerio 
+del Trabajo: www.trabajo.gob.ec > SUT > Seguridad y Salud en el Trabajo > 
+Sistema de Seguridad, Salud en el Trabajo y Gestión Integral de riesgos 
+>Documentos Soporte y en el link: https://www.trabajo.gob.ec/seguridad-salud-
+en-el-trabajo-y-gestion-integral-de-riesgos/ 
+ 
+7. ASESORÍA Y REGISTRO A TALLERES PARA  SOCIALIZACIÓN DEL 
+CUESTIONARIO Y GUÍA PARA LA APLICACIÓN DEL CUESTIONARIO DE 
+EVALUACIÓN DE RIESGO PSICOSOCIAL  
+ 
+Las personas naturales y jurídicas, empresas públicas y privadas, instituciones 
+e instancias públicas podrán acceder a capacitación gratuita a través de la 
+plataforma informática E-Learning Trabajo y talleres presenciales a nivel 
+=== PAGINA 18 ===
+ 
+nacional. Para acceder a la capacitación E-Learning se deberá ingresar a la 
+página web del Ministerio del Trabajo http://www.trabajo.gob.ec> Servicios 
+Etiqueta “E-Learning Trabajo”> usuario y contraseña>Programa de prevención 
+de riesgos psicosociales. Para acceder a talleres presenciales a nivel nacional, 
+los usuarios deberán registrar su participación en la página oficial del Ministerio 
+de Trabajo. 
+ 
+Recuerde que la guía, cuestionario de evaluación de riesgo psicosocial y 
+herramienta de tabulación de datos es de descarga y aplicación gratuita; así 
+como todos los talleres que realizará el Ministerio del Trabajo, a  través de la 
+Dirección de Seguridad, Salud en el Trabajo y Gestión Integral de Riesgos, 
+Dirección de Atención a Grupos Prioritarios y Direcciones Regionales de Trabajo 
+y Servicio Público. 
+8.  SUGERENCIAS PARA GESTIONAR LOS RIESGOS PSICOSOCIALES 
+ 
+Una vez obtenidos los resultados de la evaluación del riesgo psicosocial, y 
+conforme a lo establecido en el programa de prevención de riesgos psicosociales 
+las personas naturales y jurídicas, empresas públicas y privadas, instituciones e 
+instancias públicas deberán estructurar y desarrollar un plan de acción con el fin 
+de establecer las medidas de prevención e intervención para prevenir o 
+minimizar el riesgo psicosocial. Al respecto existen documentos herramientas, 
+guías, etc. que las empresas e instituciones pueden considerar como orientación 
+en la prevención de riesgos psicosociales. 
+ 
+Dentro de este contexto, la Organización Internacional del Trabajo (OIT) ha 
+diseñado el programa SOLVE que tiene como objetivo apoyar el diseño de 
+políticas y medidas preventivas en el lugar de trabajo, promoviendo un sistema 
+de gestión en seguridad y salud en el trabajo integral 9. 
+ 
+=== PAGINA 19 ===
+ 
+Health and Safety Executive de Gran Bretaña establece medidas de control que 
+pueden ser aplicadas con el fin de  mejorar el ambiente de trabajo 10:  
+ 
+ Disminuir  tareas monótonas 
+ Asegurar que exista una carga razonable de trabajo  (Ni mucho ni poco) 
+ Asegurar una buena comunicación y reporte de problemas dentro de la 
+empresa. 
+ Fomentar el trabajo en equipo 
+ Controlar y monitorear el trabajo por turnos y horas  extra  
+ Proporcionar una adecuada capacitación a trabajadores, supervisores, 
+jefes, gerentes 
+ 
+La Organización Mundial de la Salud (OMS) refiere algunas intervenciones en el 
+entorno psicosocial del trabajo, la organización del trabajo y cultura 
+organizacional  con clara evidencia de efectividad 11: 
+ 
+ Intervenciones psicosociales: Abordaje del estrés en el espacio de trabajo 
+a nivel individual y organizacional así como la participación activa de los 
+trabajadores en la planeación, implementación y evaluación de los 
+cambios y apoyo de jefes mediante una comunicación efectiva  hacia 
+trabajadores. 
+ Círculos de salud, un método con un enfoque participativo cuyo objetivo 
+es identificar los principales problemas de salud en un área de la empresa 
+con altas tasas de absentismo y/o personal insatisfecho con el fin 
+encontrar soluciones adecuadas. La Agencia Europea para la Seguridad 
+y Salud en el Trabajo (OSHA) en el documento “Cómo abordar los 
+problemas psicosociales y reducir el estrés relacionado con el trabajo” 
+detalla el procedimiento para aplicar este método.        
+ 
+=== PAGINA 20 ===
+ 
+La información antes descrita es orientativa, las personas naturales y jurídicas, 
+empresas públicas y privadas, instituciones e instancias públicas podrán adoptar 
+las medidas de prevención e intervención que consideren necesarias conforme 
+a los resultados obtenidos en la evaluación del riesgo psicosocial. 
+9. DEFINICIONES 
+ 
+Carga y ritmo de trabajo: Conjunto de requerimientos mentales y físicos a los 
+cuales se ve sometida una persona en su trabajo, exceso de trabajo o 
+insuficiente, tiempo y velocidad para realizar una determinada tarea, la que 
+puede ser constante o variable. 
+Desarrollo de competencias: Oportunidades de desarrollar competencias 
+(destrezas, habilidades, conocimientos, actitudes de las personas) conforme a 
+las demandas actuales del trabajo y aplicarlas en el ámbito laboral. 
+Liderazgo: Características personales y habilidades para dirigir, coordinar, 
+retroalimentar, motivar, modificar conductas del equipo, influenciar a las 
+personas en el logro de objetivos, compartir una visión, colaborar, proveer 
+información, dialogar, reconocer logros, entre otras. 
+Margen de acción y control: Medida en la que una persona participa en la toma 
+de decisiones en relación con su rol en el trabajo (métodos y ritmo de trabajo, 
+horarios, entorno, otros factores laborales). 
+Organización del trabajo: Contempla las formas de comunicación, la 
+tecnología, la modalidad de distribución y designación del trabajo, así como las 
+demandas cualitativas y cuantitativas del trabajo. 
+Recuperación: Tiempo destinado para el descanso y recuperación de energía 
+luego de realizar esfuerzo físico y/o mental relacionado al trabajo; así como 
+tiempo destinado a la recreación, distracción, tiempo de vida familiar, y otras 
+actividades sociales extra laborales. 
+Soporte y apoyo: Acciones y recursos formales e informales que aplican los 
+mandos superiores y compañeras/os de trabajo para facilitar la solución de 
+problemas planteados frente a temas laborales y extra laborales. 
+=== PAGINA 21 ===
+ 
+Acoso discriminatorio: Trato desigual, exclusión o preferencia hacia una 
+persona, basados en la identidad de género, orientación sexual, edad, 
+discapacidad, estado de salud, enfermedad, etnia, idioma, religión, nacionalidad, 
+lugar de nacimiento, ideología, opinión política, condición migratoria, estado civil, 
+pasado judicial, estereotipos estéticos, encontrarse en periodo de gestación, 
+lactancia o cualquier otra, que tenga por efecto anular,  alterar o impedir el pleno 
+ejercicio de los derechos individuales o colectivos, en los procesos de selección 
+y durante la existencia de la relación laboral. 
+Acoso laboral: Forma de acoso psicológico que consiste en el hostigamiento 
+intencional, repetitivo, focalizado a través de acciones vindicativas, crueles o 
+maliciosas para humillar o desestabilizar a un individuo o a grupos de 
+trabajadoras/es y/o servidores, de carácter instrumental o finalista. 
+Acoso sexual: Insinuaciones sexuales no deseadas que afectan la integridad 
+física, psicológica y moral de las/os trabajadoras/es y/o servidor. 
+Adicción al trabajo: Dificultad de la persona a desconectarse del trabajo, 
+necesidad para asumir más y más tarea que puede dar lugar a un riesgo 
+psicosocial es cuando el valor del trabajo es superior a la relación consigo mismo 
+y a las relaciones con otros. Una particularidad de la adicción al trabajo que la 
+diferencia de otras adicciones es que se alaba y recompensa a la gente por 
+trabajar en exceso, esto casi nunca sucede con otras adicciones. 
+Condiciones del Trabajo: Son los factores de riesgo (condiciones de seguridad, 
+ergonómicas, higiénico, psicosocial) que puedan afectar negativamente a la 
+salud de los trabajadores y servidores en su actividad laboral. 
+Doble presencia (laboral – familiar): Demandas conflictivas entre el trabajo y 
+vida personal / familiar 
+Estabilidad laboral y emocional: Precarización laboral, incertidumbre de futuro 
+laboral, falta de motivación o descontento en el trabajo. 
+Salud auto percibida: Percepción respecto a la salud física y mental de la 
+persona en relación al trabajo que realiza. 
+=== PAGINA 22 ===
+ 
+Validez: Es la que proporciona información sobre si el instrumento mide 
+realmente lo que pretende medir. 
+Fiabilidad: Es el grado de precisión que muestra el instrumento de medida para 
+medir lo que quiere medir, es decir, el grado de confianza que nos proporciona 
+los resultados que recoge. 
+ 
+10. BIBLIOGRAFÍA 
+ 
+1. Organización Internacional del Trabajo (OIT).La organización del trabajo 
+y los riesgos psicosociales: una mirada de género. 2013. [internet]. [Consultado: 
+18 de Junio de 2018]. Disponible en: 
+http://www.ilo.org/sanjose/publicaciones/WCMS_227402/lang--es/index.htm 
+2  Organización Internacional del Trabajo. Riesgos psicosociales, estrés y 
+violencia en el mundo del trabajo. 2017. [internet]. [Consultado: 18 de Junio de 
+2018]. Disponible en: http://www.ilo.org/actrav/info/international-journal-labour-
+research/WCMS_553931/lang--es/index.htm 
+3. Agencia Europea para la Seguridad y la Salud en el Trabajo. [Página principal en 
+Internet] [Citado 20 Julio 2018]. [aprox. 2 pantallas]. Disponible en: 
+http://www.istas.net/web/index.asp?idpagina=1233 
+4. Instituto Sindical de Trabajo, Ambiente y Salud (ISTAS). [Página principal en Internet]. 
+[Citado 08 Agosto 2018]. [aprox. 2 pantallas]. Disponible en: 
+https://osha.europa.eu/es/themes/psychosocial-risks-and-stress 
+5 Organización Internacional del Trabajo. Riesgos psicosociales, estrés y 
+violencia en el mundo del trabajo. 2017. [internet]. [Consultado: 18 de Junio de 
+2018]. Disponible en: http://www.ilo.org/actrav/info/international-journal-labour-
+research/WCMS_553931/lang--es/index.htm 
+6. Abreu A, Nuñez M. Validez y confiabilidad de instrumentos de medición en 
+investigación cuantitativa. 2014.  
+7. Universidad Central del Ecuador. Informe técnico Análisis estadístico de las 
+variables del CUESTIONARIO DE EVALUACIÓN DE RIESGO PSICOSOCIAL 
+EN ESPACIOS LABORALES. 2017 
+8. Universidad Internacional Sek. Resultados MDT-DSSTGIR-2017-3253. 2017 
+9. Organización Internacional del Trabajo. Formación de Formadores SOLVE: 
+Integración de promoción de la salud en las políticas de Seguridad y Salud en el 
+Trabajo [internet]. [Consultado: 18 de Agosto de 2018]. Disponible en: 
+https://www.ilo.org/safework/events/courses/WCMS_203479/lang--es/index.htm 
+10. Health and Safety Executive. What are psychosocial risk factors? [internet]. 
+[Consultado: 20 de Agosto de 2018]. Disponible en: 
+http://www.hse.gov.uk/msd/mac/psychosocial.htm 
+11. Organización Mundial de la Salud. Joan Burton. Entornos Laborales 
+Saludables: Fundamentos y Modelo de la OMS. 2010. [internet]. [Consultado 20 
+=== PAGINA 23 ===
+ 
+de Agosto de 2018]. Disponible en: 
+www.who.int/occupational_health/evelyn_hwp_spanish.pdf 
+ 
+11. ANEXOS 
+11.1 CUESTIONARIO DE EVALUACIÓN DE RIESGO PSICOSOCIAL 
+Instrucciones para completar el cuestionario: 
+1. El cuestionario es anónimo es decir no se solicita información personal sobre el participante. 
+2. La información obtenida es confidencial es decir que se ha de guardar, mantener y emplear con estricta 
+cautela la información obtenida. 
+3. Completar todo el cuestionario requiere entre 15 a 20 minutos. 
+4. Antes de responder, leer detenidamente cada pregunta y opción de respuesta. En este punto es necesario 
+identificar y valorar todos aquellos factores del ámbito psicosocial que pueden representar un riesgo para la 
+salud y el bienestar laboral.  
+5. Utilizar lápiz o esfero para marcar con una “X” la respuesta que considere que describe mejor su situación. 
+Es obligatorio contestar todos los ítems del cuestionario, en caso de error en la respuesta encerrar en un círculo 
+la misma y seleccionar nuevamente la respuesta. 
+6. No existen respuestas correctas o incorrectas.  
+7. Evitar distracciones mientras completa el cuestionario, en caso de inquietud, solicitar asistencia al facilitador. 
+8. El cuestionario tiene una sección denominada “observaciones y comentarios”, que puede ser utilizada por los 
+participantes en caso de sugerencias u opiniones.  
+9. Los resultados finales de la evaluación  serán socializados oportunamente a los participantes. 
+ 
+Muchas gracias por su colaboración 
+DATOS GENERALES  
+ 
+ID Ítem 
+A Fecha:   
+B Provincia:   
+C Ciudad:   
+D Área de trabajo: Administrativa:   Operativa:   
+E Nivel más alto de instrucción (Marque una sola 
+opción) : 
+Ninguno   Técnico / 
+Tecnológico   
+Educación básica   Tercer nivel   
+Educación media   Cuarto nivel   
+Bachillerato   Otro   
+F Antigüedad, años de experiencia dentro de la 
+empresa o institución: 
+0-2 años   11-20 años   
+3-10 años   
+ Igual o 
+superior a 
+21 años 
+  
+G Edad del trabajador o servidor: 
+16-24 años   44-52 años   
+25-34 años   
+ Igual o 
+superior a 
+53 años 
+ 
+  
+35-43 años       
+H Auto-identificación étnica: Indígena   Afro -
+ecuatoriano:   
+=== PAGINA 24 ===
+ 
+Mestizo/a:   Blanco/a:   
+Montubio/a:   Otro:   
+I Género del trabajador o servidor: Masculino:   Femenino:   
+CARGA Y RITMO DE TRABAJO Completamente de 
+Acuerdo (4) 
+Parcialmente de 
+Acuerdo (3) 
+Poco de 
+acuerdo (2) 
+En desacuerdo 
+(1) NR Ítem 
+1 
+Considero que son aceptables las solicitudes y 
+requerimientos que me piden otras personas 
+(compañeros de trabajo, usuarios, clientes)  
+        
+2 Decido el ritmo de trabajo en mis actividades         
+3 Las actividades y/o responsabilidades que me 
+fueron asignadas no me causan estrés         
+4 
+Tengo suficiente tiempo para realizar todas las 
+actividades que me han sido encomendadas 
+dentro de mi jornada laboral 
+        
+Suma de puntos de la dimensión   Puntos 
+            
+DESARROLLO DE COMPETENCIAS Completamente de 
+Acuerdo (4) 
+Parcialmente de 
+Acuerdo (3) 
+Poco de 
+acuerdo (2) 
+En desacuerdo 
+(1) NR Ítem 
+5 
+Considero que tengo los suficientes conocimientos, 
+habilidades y destrezas para desarrollar el trabajo 
+para el cual fuí contratado 
+        
+6 
+En mi trabajo aprendo y adquiero nuevos 
+conocimientos, habilidades y destrezas de mis 
+compañeros de trabajo  
+        
+7 
+En mi trabajo se cuenta con un plan de carrera, 
+capacitación y/o entrenamiento para el desarrollo de 
+mis conocimientos, habilidades y destrezas 
+        
+8 En mi trabajo se evalúa objetiva y periódicamente 
+las actividades que realizo 
+        
+Suma de puntos de la Dimensión 0 Puntos 
+            
+LIDERAZGO Completamente de 
+Acuerdo (4) 
+Parcialmente de 
+Acuerdo (3) 
+Poco de 
+acuerdo (2) 
+En desacuerdo 
+(1) NR Ítem 
+9 
+En mi trabajo se reconoce y se da crédito a la 
+persona que realiza un buen trabajo o logran sus 
+objetivos. 
+        
+10 Mi jefe inmediato está dispuesto a escuchar 
+propuestas de cambio e iniciativas de trabajo         
+11 
+Mi jefe inmediato establece metas, plazos claros y 
+factibles para el cumplimiento de mis funciones o 
+actividades  
+        
+12 
+Mi jefe inmediato interviene, brinda apoyo, soporte 
+y se preocupa cuando tengo demasiado trabajo 
+que realizar 
+        
+13 
+Mi jefe inmediato me brinda suficientes 
+lineamientos y retroalimentación para el 
+desempeño de mi trabajo 
+        
+14 
+Mi jefe inmediato pone en consideración del equipo 
+de trabajo, las decisiones que pueden afectar a 
+todos. 
+        
+Suma de puntos de la Dimensión 0 Puntos 
+            
+MARGEN DE ACCIÓN Y CONTROL 
+=== PAGINA 25 ===
+ 
+NR Ítem Completamente de 
+Acuerdo (4) 
+Parcialmente de 
+Acuerdo (3) 
+Poco de 
+acuerdo (2) 
+En desacuerdo 
+(1) 
+15 
+En mi trabajo existen espacios de discusión para 
+debatir abiertamente los problemas comunes y 
+diferencias de opinión 
+        
+16 
+Me es permitido realizar el trabajo con 
+colaboración de mis compañeros de trabajo y/u 
+otras áreas  
+        
+17 
+Mi opinión es tomada en cuenta con respecto a 
+fechas límites en el cumplimiento de mis 
+actividades o cuando exista cambio en mis 
+funciones 
+        
+18 Se me permite aportar con ideas para mejorar las 
+actividades y la organización del trabajo         
+Suma de puntos de la Dimensión 0 Puntos 
+      
+  
+ 
+ 
+ 
+ 
+    
+ORGANIZACIÓN DEL TRABAJO Completamente de 
+Acuerdo (4) 
+Parcialmente de 
+Acuerdo (3) 
+Poco de 
+acuerdo (2) 
+En desacuerdo 
+(1) NR Ítem 
+19 
+Considero que las formas de comunicación en mi 
+trabajo son adecuados, accesibles y de fácil 
+comprensión  
+        
+20 
+En mi trabajo se informa regularmente de la 
+gestión y logros de la empresa o institución a todos 
+los trabajadores y servidores 
+        
+21 
+En mi trabajo se respeta y se toma en 
+consideración las limitaciones de las personas con 
+discapacidad para  la asignación de roles y tareas 
+        
+22 En mi trabajo tenemos reuniones suficientes y 
+significantes para el cumplimiento de los objetivos         
+23 Las metas y objetivos en mi trabajo son claros y 
+alcanzables         
+24 Siempre dispongo de tareas y actividades a 
+realizar en mi jornada y lugar de trabajo          
+Suma de puntos de la Dimensión 0 Puntos 
+            
+RECUPERACIÓN Completamente de 
+Acuerdo (4) 
+Parcialmente de 
+Acuerdo (3) 
+Poco de 
+acuerdo (2) 
+En desacuerdo 
+(1) NR Ítem 
+25 Después del trabajo tengo la suficiente energía 
+como para realizar otras actividades         
+26 En mi trabajo se me permite realizar pausas de 
+periodo corto para renovar y recuperar la energía.         
+27 En mi trabajo tengo tiempo para dedicarme a 
+reflexionar sobre mi desempeño en el trabajo         
+28 Tengo un horario y jornada de trabajo que se 
+ajusta a mis expectativas y exigencias laborales         
+29 
+Todos los días siento que he descansado lo 
+suficiente y que tengo la energía para iniciar mi 
+trabajo  
+        
+Suma de puntos de la Dimensión 0 Puntos 
+            
+SOPORTE Y APOYO Completamente de 
+Acuerdo (4) 
+Parcialmente de 
+Acuerdo (3) 
+Poco de 
+acuerdo (2) 
+En desacuerdo 
+(1) NR Ítem 
+30 
+El trabajo está organizado de tal manera que  
+fomenta la colaboración de equipo y el diálogo con 
+otras personas 
+        
+=== PAGINA 26 ===
+ 
+31 En mi trabajo percibo un sentimiento de 
+compañerismo y bienestar con mis colegas         
+32 
+En mi trabajo se brinda el apoyo necesario a los 
+trabajadores sustitutos o trabajadores con algún 
+grado de discapacidad y enfermedad  
+        
+33 En mi trabajo se me brinda ayuda técnica y 
+administrativa cuando lo requiero         
+34 
+En mi trabajo tengo acceso a la atención de un 
+médico, psicólogo, trabajadora social, consejero, 
+etc. en situaciones de crisis y/o rehabilitación  
+        
+Suma de puntos de la Dimensión 0 Puntos 
+            
+OTROS PUNTOS IMPORTANTES  Completamente de 
+Acuerdo (4) 
+Parcialmente de 
+Acuerdo (3) 
+Poco de 
+acuerdo (2) 
+En desacuerdo 
+(1) NR Ítem 
+35 En mi trabajo tratan por igual a todos, 
+indistintamente la edad que tengan         
+36 Las directrices y metas que me autoimpongo, las 
+cumplo dentro de mi jornada y horario de trabajo         
+37 En mi trabajo existe un buen ambiente laboral         
+38 Tengo un trabajo donde los hombres y mujeres 
+tienen las mismas oportunidades         
+39 En mi trabajo me siento aceptado y valorado         
+40 
+Los espacios y ambientes físicos en mi trabajo 
+brindan las facilidades para el acceso de las 
+personas con discapacidad  
+        
+41 
+Considero que mi trabajo está libre de amenazas, 
+humillaciones, ridiculizaciones, burlas, calumnias o 
+difamaciones reiteradas con el fin de causarme 
+daño 
+        
+42 Me siento estable a pesar de cambios que se 
+presentan en mi trabajo         
+43 
+En mi trabajo estoy libre de conductas sexuales 
+que afecten mi integridad física, psicológica y 
+moral 
+        
+44 Considero que el trabajo que realizo no me causa 
+efectos negativos a mi salud física y mental         
+45 Me resulta fácil relajarme cuando no estoy 
+trabajando          
+46 
+Siento que mis problemas familiares o personales 
+no influyen en el desempeño de las actividades en 
+el trabajo 
+        
+47 
+Las instalaciones, ambientes, equipos, maquinaria 
+y herramientas que utilizo para realizar el trabajo 
+son las adecuadas para no sufrir accidentes de 
+trabajo y enfermedades profesionales 
+        
+48 Mi trabajo esta libre de acoso sexual         
+49 En mi trabajo se me permite solucionar mis 
+problemas familiares y personales         
+50 
+Tengo un trabajo libre de conflictos estresantes, 
+rumores maliciosos o calumniosos sobre mi 
+persona 
+        
+51 Tengo un equilibrio y separo bien el trabajo de mi 
+vida personal         
+52 Estoy orgulloso de trabajar en mi empresa o 
+institución         
+53 
+En mi trabajo se respeta mi ideología, opinión 
+política, religiosa, nacionalidad y orientación 
+sexual. 
+        
+54 Mi trabajo y los aportes que realizo son valorados y 
+me generan motivación         
+=== PAGINA 27 ===
+ 
+55 Me siento libre de culpa cuando no estoy 
+trabajando en algo          
+56 
+En mi trabajo no existen espacios de uso exclusivo 
+de un grupo determinado de personas ligados a un 
+privilegio, por ejemplo, cafetería exclusiva, baños 
+exclusivos, etc., mismo que causa malestar y 
+perjudica mi ambiente laboral 
+        
+57 
+Puedo dejar de pensar en el trabajo durante mi 
+tiempo libre (pasatiempos, actividades de 
+recreación, otros)  
+        
+58 Considero que me encuentro física y mentalmente 
+saludable         
+Suma de puntos de la Dimensión 0 Puntos 
+            
+OBSERVACIONES Y COMENTARIOS 
+59   
+            
+    Tu puntaje Riesgo Bajo Riesgo 
+Medio Riesgo Alto 
+RESULTADO GLOBAL (Suma del puntaje de todas las 
+dimensiones) 0 175 a 232 117 a 174 58 a 116 
+            
+RESULTADO POR DIMENSIONES Tu puntaje Riesgo Bajo Riesgo 
+Medio Riesgo Alto 
+Carga y ritmo de trabajo 0 13 a 16 8 a 12 4 a 7 
+Desarrollo de competencias 0 13 a 16 8 a 12 4 a 7 
+Liderazgo 0 18 a 24 12 a 17 6 a 11 
+Margen de acción y control 0 13 a 16 8 a 12 4 a 7 
+Organización del trabajo 0 18 a 24 12 a 17 6 a 11 
+Recuperación 0 16 a 20 10 a 15 5 a 9 
+Soporte y apoyo 0 16 a 20 10 a 15 5 a 9 
+Otros puntos importantes 0 73 a 96 49 a 72 24 a 48 
+       
+ANÁLISIS E INTERPRETACIÓN DE RESULTADOS 
+Cada pregunta del cuestionario tiene 4 opciones de respuesta, con una puntuación de 1 a 4, de forma tal que el menor 
+puntaje indica un mayor riesgo en esa dimensión. De acuerdo con el resultado de la aplicación de este instrumento, los 
+puntajes se separan en terciles, para cada una de las dimensiones. Esto permite clasificar en los rangos “bajo”, “medio” y 
+“alto” a la exposición a cada uno de los factores de riesgo psicosocial. 
+Interpretación de Resultados: 
+Bajo: El riesgo es de impacto potencial mínimo sobre la seguridad y salud, no genera a corto plazo efectos nocivos.  Estos 
+efectos pueden ser evitados a través de un monitoreo periódico de la frecuencia y probabilidad de que ocurra y se presente 
+una enfermedad ocupacional, las acciones irán enfocadas a garantizar que el nivel se mantenga 
+Medio: El riesgo es de impacto potencial moderado sobre la seguridad y salud puede comprometer las mismas en el mediano 
+plazo, causando efectos nocivos para la salud, afectaciones a la integridad física y enfermedades ocupacionales. En caso de 
+que no se aplicaren las medidas de seguridad y prevención correspondientes de manera continua y conforme a la necesidad 
+específica identificada, los impactos pueden generarse con mayor probabilidad y frecuencia.  
+Alto: El riesgo es de impacto potencial alto sobre la seguridad y la salud de las personas, los niveles de peligro son 
+intolerables y pueden generar efectos nocivos para la salud e integridad física de las personas de manera inmediata. Se 
+deben aplicar las medidas de seguridad y prevención de manera continua y conforme a la necesidad específica identificada 
+para evitar el incremento a la probabilidad y frecuencia. 
+Si en algún apartado la puntuación obtenida se sitúa en el intervalo Alto, vuelva a leer las preguntas de este apartado, éstas le 
+darán pistas de cuál puede ser el origen del problema y lo ayudarán a interpretar los resultados.  
+=== PAGINA 28 ===
+ 
+Puede manifestar el problema a su jefe inmediato, superior o encargado de la administración de talento humano de la institución 
+donde usted presta sus servicios  
+ 
+ 
+ 
+11 .2 INSTRUCTIVO PARA EL USO DE LA HERRAMIENTA  PARA LA TABULACIÓN 
+DE DATOS 
+Para el uso de la herramienta se deberá seguir los siguientes pasos: 
+1. Descargar de la página web institucional del Ministerio del Trabajo la 
+herramienta para tabulación de datos del cuestionario de evaluación de 
+riesgos psicosociales. Para ello ingresar a: www.trabajo.gob.ec > SUT > 
+Salud y Seguridad en el Trabajo > Sistema de Seguridad, Salud en el 
+Trabajo y Gestión Integral de riesgos >Documentos Soporte. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Imagen 1. Sistema de Seguridad, Salud en el Trabajo y Gestión Integral de riesgos 
+ 
+2. Al abrir el documento “herramienta para la tabulación de datos del 
+cuestionario de evaluación de riesgos psicosociales”, se visualizará las 
+siguientes hojas de cálculo: 
+ Base de datos 
+ Tabulación  
+ Resultados 
+ Gráfico 
+ Definición de dimensiones 
+
+=== PAGINA 29 ===
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+      
+Imagen 2. Herramienta para la tabulación 
+ 
+ 
+ 
+ 
+Base de datos 
+ 
+En la hoja “Base de datos” se ingresa por cuestionario las respuestas de los 
+participantes conforme al siguiente detalle: 
+ 
+ Fecha: Día/Mes/Año ( Ejemplo 07/09/2018) 
+ 
+ Provincia: MAYÚSCULAS ( Ejemplo PICHINCHA) 
+ 
+ Ciudad: MAYÚSCULAS ( Ejemplo QUITO) 
+ 
+ Área en el que trabaja: Seleccionar de la lista despegable 
+ 
+o  Administrativa 
+o  Operativa 
+ 
+ Nivel más alto de instrucción: Seleccionar de la lista despegable 
+ 
+o Ninguno 
+o Educación básica 
+o Educación media 
+o Bachillerato 
+o Técnico / Tecnológico 
+o Tercer nivel 
+o Cuarto nivel 
+o Otro 
+ 
+
+=== PAGINA 30 ===
+ 
+ Antigüedad, años de experiencia dentro de la empresa o institución: 
+Seleccionar de la lista despegable 
+ 
+o 0-2 años 
+o 3-10 años 
+o 11-20 años 
+o Igual o superior a 21 años 
+ 
+ Edad del trabajador o servidor: Seleccionar de la lista despegable 
+ 
+o 16-24 años 
+o 25-34 años 
+o 35-43 años 
+o 44-52 años 
+o  Igual o superior a 53 años 
+ 
+ Auto-identificación étnica: Seleccionar de la lista despegable 
+o Indígena 
+o Mestizo/a 
+o Montubio/a 
+o Afro -ecuatoriano 
+o Blanco/a 
+o Otro 
+ 
+ 
+ Sexo del trabajador o servidor: Seleccionar de la lista despegable 
+ 
+o Mujer 
+o Hombre 
+ 
+ Dimensiones (Carga y ritmo de trabajo, desarrollo de competencias, 
+liderazgo, margen de acción y control, organización del trabajo, 
+recuperación, soporte y apoyo, otros puntos importantes): Seleccionar de 
+la lista despegable la puntuación de cada opción de respuesta 
+ 
+o 1= En desacuerdo 
+o 2=Poco de acuerdo 
+o 3=Parcialmente de acuerdo 
+o 4=Completamente de acuerdo 
+ 
+Tabulación 
+En la hoja  tabulación se visualizará los resultados obtenidos por cuestionario, 
+esta hoja no debe modificarse,  ya que sirve de insumo para generar los 
+resultados globales. 
+=== PAGINA 31 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+          
+ 
+ 
+ 
+             Imagen 3. Tabulación 
+ 
+Resultados 
+ 
+Esta hoja de cálculo permitirá visualizar los resultados obtenidos de la 
+aplicación del cuestionario de forma global y por dimensión. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+                              
+ 
+ 
+ 
+ 
+ 
+                             Imagen 4. Resultados 
+ 
+ 
+Conforme a la imagen 4, la interpretación de resultados para la dimensión “Carga 
+y Ritmo de Trabajo” es: De los trabajadores que completaron el cuestionario de 
+evaluación de riesgo psicosocial el 43% se encuentra en “riesgo bajo”, el 14% 
+en “riesgo medio” y el 43% en “riesgo alto”. 
+ 
+ 
+Gráfico 
+En esta hoja se visualizará de forma gráfica los resultados obtenidos de la 
+aplicación del cuestionario de evaluación de riesgo psicosocial.  
+
+=== PAGINA 32 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+                 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Imagen 5. Gráfico 
+ 
+Definición de dimensiones 
+En esta hoja se indica la definición y puntos de corte (riesgo bajo, riesgo medio, 
+riesgo alto) de cada una de las dimensiones evaluadas. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+                   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+                 Imagen 6. Definición de dimensiones 
+ 
+ 
+Nota: Se podrá aplicar filtros a los ítems de la sección de datos generales 
+visualizando los resultados conforme el análisis requerido. 
+0%
+10%
+20%
+30%
+40%
+50%
+60%
+70%
+Evaluación de riesgo psicosocial por dimensión
+RIESGO BAJO
+RIESGO MEDIO
+RIESGO ALTO
+

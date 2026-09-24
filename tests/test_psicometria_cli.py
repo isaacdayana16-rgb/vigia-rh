@@ -15,7 +15,11 @@ if str(ROOT) not in sys.path:
 
 from src.psicometria import (
     ITEMS,
+    DIMENSIONES,
+    CAMPOS_GENERALES,
+    CRITERIO_ITEMS,
     items_de_dimension,
+    items_de_subescala,
     validar_datos_respuestas,
     generar_reporte_texto,
     generar_reporte_pdf,
@@ -40,10 +44,10 @@ class TestValidarDatosRespuestas:
     def test_df_con_faltantes(self):
         """Reporta ítems faltantes si se omiten columnas."""
         df = generar_datos_ejemplo(n=10, semilla=2)
-        df = df.drop(columns=["d_cant_1", "d_cant_2"])
+        df = df.drop(columns=["item_01", "item_02"])
         r = validar_datos_respuestas(df)
-        assert "d_cant_1" in r["faltantes"]
-        assert "d_cant_2" in r["faltantes"]
+        assert "item_01" in r["faltantes"]
+        assert "item_02" in r["faltantes"]
         assert r["tiene_outcome"] is True
 
     def test_sin_outcome(self):
@@ -74,13 +78,30 @@ class TestReporteTexto:
         assert "AVISO ÉTICO" in texto
         assert "Tamaño de muestra" in texto and "200" in texto
 
-    def test_reporte_fiabilidad_por_dimension(self):
-        """El reporte menciona demandas y recursos con alpha/omega."""
+    def test_reporte_instrumento_mdt(self):
+        """El reporte identifica el instrumento oficial MDT."""
         df = generar_datos_ejemplo(n=200, semilla=42)
         texto = generar_reporte_texto(df, "test.csv")
-        assert "Demandas" in texto
-        assert "Recursos" in texto
+        assert "MDT-Ecuador" in texto
+        assert "58" in texto
+
+    def test_reporte_fiabilidad_por_dimension(self):
+        """El reporte menciona dimensiones con alpha/omega y subescalas con SB."""
+        df = generar_datos_ejemplo(n=200, semilla=42)
+        texto = generar_reporte_texto(df, "test.csv")
+        assert "carga_ritmo_trabajo" in texto
+        assert "soporte_apoyo" in texto
         assert "alpha=" in texto and "omega=" in texto
+        assert "SB=" in texto
+        assert "descriptiva, no psicometrica" in texto
+
+    def test_reporte_riesgo_oficial(self):
+        """El reporte incluye la clasificación de riesgo con puntos de corte oficiales."""
+        df = generar_datos_ejemplo(n=200, semilla=42)
+        texto = generar_reporte_texto(df, "test.csv")
+        assert "RIESGO POR DIMENSIÓN" in texto
+        assert "RIESGO GLOBAL" in texto
+        assert "Bajo=" in texto and "Medio=" in texto and "Alto=" in texto
 
     def test_reporte_sin_outcome_omite_criterio(self):
         """Sin outcome, el reporte indica que se omite la validez de criterio."""
@@ -138,6 +159,16 @@ class TestCli:
         assert codigo == 0
         assert "150" in out
 
+    def test_cli_con_muestra_pequena_avisara(self, tmp_path, capsys):
+        """CLI con N < 100 avisa que los resultados son exploratorios."""
+        df = generar_datos_ejemplo(n=60, semilla=12)
+        archivo = tmp_path / "respuestas.csv"
+        df.to_csv(archivo, index=False)
+        codigo = main([str(archivo)])
+        out = capsys.readouterr().out
+        assert codigo == 0
+        assert "exploratorios" in out
+
     def test_cli_con_pdf(self, tmp_path, capsys):
         """CLI con --pdf genera el PDF."""
         df = generar_datos_ejemplo(n=150, semilla=11)
@@ -160,7 +191,7 @@ class TestCargarDatosEncuesta:
         encuestas = tmp_path / "data" / "encuestas"
         encuestas.mkdir(parents=True)
         (encuestas / "plantilla_respuestas.csv").write_text(
-            "d_cant_1,d_cant_2,intencion_rotacion", encoding="utf-8"
+            "item_01,item_02,intencion_rotacion", encoding="utf-8"
         )
         df, es_demo = _cargar_datos_encuesta(tmp_path)
         assert es_demo is True
@@ -172,7 +203,7 @@ class TestCargarDatosEncuesta:
         encuestas = tmp_path / "data" / "encuestas"
         encuestas.mkdir(parents=True)
         (encuestas / "plantilla_respuestas.csv").write_text(
-            "d_cant_1,d_cant_2,intencion_rotacion", encoding="utf-8"
+            "item_01,item_02,intencion_rotacion", encoding="utf-8"
         )
         df_real = generar_datos_ejemplo(n=30, semilla=9)
         df_real.to_csv(encuestas / "respuestas.csv", index=False)
@@ -185,12 +216,12 @@ class TestCargarDatosEncuesta:
 
 class TestPlantillaCsv:
     def test_plantilla_tiene_columnas_correctas(self):
-        """La plantilla CSV tiene exactamente las columnas del instrumento + outcome."""
+        """La plantilla CSV tiene datos generales + ítems oficiales + criterio."""
         ruta = ROOT / "data" / "encuestas" / "plantilla_respuestas.csv"
         assert ruta.exists()
         df = pd.read_csv(ruta)
         columnas = list(df.columns)
-        esperadas = list(ITEMS.keys()) + ["intencion_rotacion"]
+        esperadas = list(CAMPOS_GENERALES.keys()) + list(ITEMS.keys()) + CRITERIO_ITEMS
         assert columnas == esperadas
 
     def test_plantilla_no_tiene_filas(self):
@@ -199,17 +230,28 @@ class TestPlantillaCsv:
         df = pd.read_csv(ruta)
         assert df.shape[0] == 0
 
-    def test_plantilla_cubre_ambas_dimensiones(self):
-        """La plantilla incluye ítems de demandas y de recursos."""
+    def test_plantilla_cubre_todas_las_dimensiones(self):
+        """La plantilla incluye ítems de las 8 dimensiones oficiales."""
         ruta = ROOT / "data" / "encuestas" / "plantilla_respuestas.csv"
         df = pd.read_csv(ruta)
-        dem = set(items_de_dimension("demandas"))
-        rec = set(items_de_dimension("recursos"))
-        assert dem.issubset(df.columns)
-        assert rec.issubset(df.columns)
+        for dimension in DIMENSIONES:
+            assert set(items_de_dimension(dimension)).issubset(df.columns)
+
+    def test_plantilla_cubre_subescalas_sensibles(self):
+        """La plantilla incluye los ítems de acoso (protocolo ético)."""
+        ruta = ROOT / "data" / "encuestas" / "plantilla_respuestas.csv"
+        df = pd.read_csv(ruta)
+        for sub in ("acoso_laboral", "acoso_sexual", "acoso_discriminatorio"):
+            assert set(items_de_subescala(sub)).issubset(df.columns)
+
+    def test_plantilla_incluye_tipo_jornada(self):
+        """La plantilla incluye el campo demográfico tipo_jornada (Paso 2)."""
+        ruta = ROOT / "data" / "encuestas" / "plantilla_respuestas.csv"
+        df = pd.read_csv(ruta)
+        assert "tipo_jornada" in df.columns
 
 
-# --- Tests de interpretación cualitativa (Entregable D) ---
+# --- Tests de interpretación cualitativa ---
 
 class TestInterpretacion:
     def test_interpretacion_con_datos_validos(self):
@@ -220,27 +262,36 @@ class TestInterpretacion:
         assert len(puntos) >= 3
         texto = " ".join(puntos)
         assert "Fiabilidad aceptable" in texto
-        assert "validez de constructo" in texto
-        assert "consistente con el modelo JD-R" in texto
+        assert "exploratorio" in texto
+        assert "consistente con la direccion del puntaje oficial" in texto
+
+    def test_interpretacion_menciona_subescalas_descriptivas(self):
+        """Las subescalas de 2 ítems se reportan como descriptivas (no psicometricas)."""
+        df = generar_datos_ejemplo(n=300, semilla=42)
+        r = _calcular_indicadores(df)
+        puntos = _interpretacion_general(r)
+        texto = " ".join(puntos)
+        assert "descriptivas (no psicometricas)" in texto
+        assert "Spearman-Brown" in texto
 
     def test_interpretacion_advierte_fiabilidad_baja(self):
         """Fiabilidad baja genera una advertencia específica."""
         df = generar_datos_ejemplo(n=300, semilla=42)
-        df["r_apoy_1"] = 6 - df["r_apoy_1"]
-        df["r_apoy_2"] = 6 - df["r_apoy_2"]
+        df["item_30"] = 5 - df["item_30"]
+        df["item_31"] = 5 - df["item_31"]
         r = _calcular_indicadores(df)
         puntos = _interpretacion_general(r)
         texto = " ".join(puntos)
-        assert "Fiabilidad de recursos" in texto or "no alcanza" in texto
+        assert "Fiabilidad de soporte_apoyo" in texto or "no alcanza" in texto
 
     def test_interpretacion_sin_outcome(self):
-        """Sin outcome, no menciona la dirección JD-R."""
+        """Sin outcome, no menciona la dirección del puntaje oficial."""
         df = generar_datos_ejemplo(n=300, semilla=42)
         df = df.drop(columns=["intencion_rotacion"])
         r = _calcular_indicadores(df)
         puntos = _interpretacion_general(r)
         texto = " ".join(puntos)
-        assert "modelo JD-R" not in texto
+        assert "puntaje oficial" not in texto
 
     def test_interpretacion_solo_ascii(self):
         """La interpretación usa solo caracteres ASCII (portable a PDF)."""

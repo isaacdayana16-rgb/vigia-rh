@@ -115,3 +115,53 @@ def regresion_logistica(
     nombres = ["intercepto"] + list(X.columns)
     coeficientes = pd.Series(w, index=nombres)
     return {"coeficientes": coeficientes, "intercepto": float(w[0])}
+
+
+def validacion_cruzada_estratificada(X, y, k: int = 5, semilla: int = 42) -> dict:
+    """Validación cruzada k-fold ESTRATIFICADA con métricas balanceadas.
+
+    Reporta F1 macro y balanced accuracy (NO accuracy simple): el
+    instrumento suele concentrar las respuestas en "riesgo bajo", lo que
+    hace que la accuracy simple sea engañosa frente a clases desbalanceadas.
+
+    Args:
+        X: DataFrame/ndarray de predictores.
+        y: ndarray binario (0/1).
+        k: Número de folds (>= 5 recomendado).
+        semilla: Semilla para el shuffle estratificado.
+
+    Returns:
+        dict con 'viable' (False si alguna clase tiene menos de k miembros),
+        'k', 'n', 'clases' (conteo por clase), 'f1_macro', 'balanced_accuracy'
+        y 'etiqueta' ("exploratorio_no_generalizable" si n < 100;
+        "indicativo" en caso contrario).
+    """
+    from sklearn.model_selection import StratifiedKFold, cross_val_predict
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.metrics import balanced_accuracy_score, f1_score
+
+    y_arr = np.asarray(y)
+    clases = {int(c): int((y_arr == c).sum()) for c in np.unique(y_arr)}
+
+    base = {"k": int(k), "n": int(len(y_arr)), "clases": clases}
+    if any(c < k for c in clases.values()):
+        return {
+            **base,
+            "viable": False,
+            "f1_macro": None,
+            "balanced_accuracy": None,
+            "etiqueta": "no_viable_clase_insuficiente",
+        }
+
+    skf = StratifiedKFold(n_splits=k, shuffle=True, random_state=semilla)
+    modelo = LogisticRegression(max_iter=1000)
+    pred = cross_val_predict(modelo, np.asarray(X, dtype=float), y_arr, cv=skf)
+
+    etiqueta = "exploratorio_no_generalizable" if len(y_arr) < 100 else "indicativo"
+    return {
+        **base,
+        "viable": True,
+        "f1_macro": float(f1_score(y_arr, pred, average="macro")),
+        "balanced_accuracy": float(balanced_accuracy_score(y_arr, pred)),
+        "etiqueta": etiqueta,
+    }

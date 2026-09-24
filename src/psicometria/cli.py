@@ -4,9 +4,10 @@ Uso:
     python -m src.psicometria <archivo.csv> [--pdf RUTA]
     python -m src.psicometria          # genera datos de demostración
 
-Valida la estructura, calcula fiabilidad (alpha/omega), validez de constructo
-(análisis factorial) y validez de criterio (regresión logística), y produce un
-reporte en consola y (opcionalmente) un PDF.
+Valida la estructura, calcula la clasificación de riesgo oficial (Tablas 3-4
+del MDT), fiabilidad (α/ω y Spearman-Brown para subescalas de 2 ítems),
+validez de constructo (AFE exploratorio) y validez de criterio (regresión
+logística), y produce un reporte en consola y (opcionalmente) un PDF.
 """
 
 
@@ -29,14 +30,14 @@ def main(argv=None) -> int:
     if str(PROJECT_ROOT) not in sys.path:
         sys.path.insert(0, str(PROJECT_ROOT))
 
-    from src.psicometria.reporte import generar_reporte_texto, generar_reporte_pdf
+    from src.psicometria.reporte import generar_reporte_texto, generar_reporte_pdf, N_OBJETIVO_SIMULACION
     from src.psicometria.ejemplos_datos import generar_datos_ejemplo
     from src.psicometria.puntuaciones import validar_datos_respuestas
     from src.psicometria.calidad_datos import reporte_calidad_datos
 
     parser = argparse.ArgumentParser(
         prog="python -m src.psicometria",
-        description="Valida psicométricamente las respuestas de la encuesta (COPSOQ).",
+        description="Valida psicométricamente las respuestas de la encuesta (instrumento oficial MDT-Ecuador).",
     )
     parser.add_argument("archivo", nargs="?", help="Ruta al CSV de respuestas.")
     parser.add_argument(
@@ -69,8 +70,10 @@ def main(argv=None) -> int:
     if est["faltantes"]:
         print(f"⚠️ Aviso: faltan {len(est['faltantes'])} ítems del instrumento: "
               f"{', '.join(est['faltantes'])}")
-    if len(df) < 150:
-        print(f"⚠️ Aviso: muestra de {len(df)} < 150. Recomendado ≥150 para análisis factorial estable.")
+    if len(df) < N_OBJETIVO_SIMULACION:
+        print(f"⚠️ Aviso: muestra de {len(df)} < {N_OBJETIVO_SIMULACION}. "
+              f"N objetivo fijado por simulación (ver src/psicometria/simulador_muestra.py). "
+              f"Por debajo, los resultados son exploratorios y no generalizables.")
     if not est["tiene_outcome"]:
         print("⚠️ Aviso: sin columna 'intencion_rotacion'. Se omite la validez de criterio.")
 

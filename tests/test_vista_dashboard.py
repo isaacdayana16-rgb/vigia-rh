@@ -23,6 +23,7 @@ from src.psicometria.vista_dashboard import (
     componente_perfiles_psicosociales,
 )
 from src.psicometria import generar_datos_ejemplo
+from src.psicometria.instrumento import DIMENSIONES, items_de_dimension
 
 
 def _mock_st():
@@ -45,19 +46,30 @@ class TestMetricasFiabilidad:
         """Calcula alpha y omega por dimensión con datos sintéticos."""
         df = generar_datos_ejemplo(n=200, semilla=1)
         m = _metricas_fiabilidad(df)
-        assert "demandas" in m and "recursos" in m
-        assert m["demandas"]["alpha"] is not None
-        assert m["demandas"]["omega"] is not None
-        assert 0.0 < m["demandas"]["alpha"] <= 1.0
+        for dimension in DIMENSIONES:
+            assert dimension in m
+            assert m[dimension]["alpha"] is not None
+            assert m[dimension]["omega"] is not None
+            assert 0.0 < m[dimension]["alpha"] <= 1.0
+
+    def test_metricas_subescalas_2_items_usan_spearman_brown(self):
+        """Las subescalas de 2 ítems se marcan descriptivas y reportan SB (no α)."""
+        df = generar_datos_ejemplo(n=200, semilla=1)
+        m = _metricas_fiabilidad(df)
+        for sub in ("acoso_laboral", "acoso_sexual", "doble_presencia"):
+            assert sub in m
+            assert m[sub]["tipo"] == "descriptiva_no_psicometrica"
+            assert m[sub]["alpha"] is None
+            assert m[sub]["sb"] is not None
 
     def test_metricas_none_con_datos_degenerados(self):
         """Devuelve None si la fiabilidad no es calculable (varianza nula)."""
         df = generar_datos_ejemplo(n=100, semilla=2)
-        df["d_cant_1"] = 3.0  # varianza nula en demandas
+        df["item_01"] = 3.0  # varianza nula en carga y ritmo de trabajo
         with np.errstate(all="ignore"):
             m = _metricas_fiabilidad(df)
-        # omega de demandas no calculable -> None (no lanza)
-        assert m["demandas"]["omega"] is None
+        # omega de la dimensión no calculable -> None (no lanza)
+        assert m["carga_ritmo_trabajo"]["omega"] is None
 
 
 class TestComponenteSimulador:
@@ -91,7 +103,7 @@ class TestCargarDatosEncuesta:
         encuestas = tmp_path / "data" / "encuestas"
         encuestas.mkdir(parents=True)
         (encuestas / "plantilla_respuestas.csv").write_text(
-            "d_cant_1,d_cant_2,intencion_rotacion", encoding="utf-8"
+            "item_01,item_02,intencion_rotacion", encoding="utf-8"
         )
         df, es_demo = _cargar_datos_encuesta(tmp_path)
         assert es_demo is True
@@ -102,7 +114,7 @@ class TestCargarDatosEncuesta:
         encuestas = tmp_path / "data" / "encuestas"
         encuestas.mkdir(parents=True)
         (encuestas / "plantilla_respuestas.csv").write_text(
-            "d_cant_1,d_cant_2,intencion_rotacion", encoding="utf-8"
+            "item_01,item_02,intencion_rotacion", encoding="utf-8"
         )
         df_real = generar_datos_ejemplo(n=50, semilla=3)
         df_real.to_csv(encuestas / "respuestas.csv", index=False)
