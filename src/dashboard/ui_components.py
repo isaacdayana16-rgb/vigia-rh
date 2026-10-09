@@ -353,7 +353,7 @@ def _calcular_shap_cacheado(_modelo, X_test):
 
 
 def componente_modelo_prediccion(project_root):
-    """Sección de modelo predictivo: métricas, predicción por empleado y explicación SHAP dinámica.
+    """Sección de modelo predictivo: métricas, evaluación agregada por grupo y explicación SHAP global.
 
     Usa caching de Streamlit para evitar recálculos en cada renderizado:
     - Datos y train_test_split se cachean con @st.cache_data
@@ -393,63 +393,77 @@ def componente_modelo_prediccion(project_root):
             f"f1={métricas['f1']:.4f}"
         )
 
-        # Selección de empleado
-        st.subheader("Predicción por Empleado")
+        # Evaluación agregada de riesgo por grupo (Privacidad y Ética)
+        st.subheader("Evaluación Agregada de Riesgo por Grupo")
+        st.info(
+            "ℹ️ **Privacidad y Protección de Datos:** Conforme al protocolo ético "
+            "([docs/CONSENTIMIENTO.md](docs/CONSENTIMIENTO.md)), no se presentan predicciones a nivel individual. "
+            "Los resultados se reportan exclusivamente de forma agregada a nivel de grupo. "
+            "Para evitar el riesgo de reidentificación, los grupos con menos de 5 personas se protegen y no se desglosan."
+        )
+
         if len(X_test) == 0:
             st.warning("No hay datos de prueba disponibles para evaluar.")
             return
 
-        df_test = df.loc[X_test.index].reset_index(drop=True)
-        opciones = [
-            f"Empleado #{i} (Dept: {df_test.iloc[i]['Department']}, Age: {df_test.iloc[i]['Age']})"
-            for i in range(len(X_test))
-        ]
-        idx_empleado = st.selectbox(
-            "Seleccionar empleado:",
-            range(len(X_test)),
-            format_func=lambda i: opciones[i] if i < len(opciones) else f"Empleado #{i}"
-        )
+        df_test = df.loc[X_test.index].copy()
+        probabilidades = modelo.predict_proba(X_test)[:, 1]
+        predicciones = modelo.predict(X_test)
+        df_test["probabilidad_rotacion"] = probabilidades
+        df_test["prediccion_rotacion"] = predicciones
 
-        empleado_features = X_test.iloc[[idx_empleado]]
-        predicción = modelo.predict(empleado_features)[0]
-        probabilidad = modelo.predict_proba(empleado_features)[0]
+        resumen_depto = []
+        for depto, grupo in df_test.groupby("Department"):
+            n_grupo = len(grupo)
+            if n_grupo >= 5:
+                prob_media = float(grupo["probabilidad_rotacion"].mean())
+                tasa_predicha = float(grupo["prediccion_rotacion"].mean())
+                resumen_depto.append({
+                    "Departamento": str(depto),
+                    "Respondientes evaluados (n)": n_grupo,
+                    "Riesgo medio estimado": f"{prob_media:.1%}",
+                    "% Proyectado en riesgo": f"{tasa_predicha:.1%}",
+                })
+            else:
+                resumen_depto.append({
+                    "Departamento": str(depto),
+                    "Respondientes evaluados (n)": f"{n_grupo} (< 5)",
+                    "Riesgo medio estimado": "Protegido por privacidad",
+                    "% Proyectado en riesgo": "Protegido por privacidad",
+                })
 
-        col1, col2 = st.columns(2)
-        etiqueta = "Rotación (Sí)" if predicción == 1 else "Se Queda (No)"
-        col1.metric("Predicción del Modelo", etiqueta)
-        col2.metric("Confianza", f"{max(probabilidad) * 100:.1f}%")
-        col1.write(f"Prob. rotación: {probabilidad[1]:.2%}")
-        col2.write(f"Prob. permanencia: {probabilidad[0]:.2%}")
+        if resumen_depto:
+            df_resumen = pd.DataFrame(resumen_depto)
+            st.dataframe(df_resumen, use_container_width=True)
 
-        # Explicación SHAP dinámica (cacheada)
-        st.subheader("Explicación de la Predicción (SHAP)")
+        # Explicabilidad global del modelo (SHAP)
+        st.subheader("Factores Globales más Influyentes del Modelo (SHAP)")
         shap_values = _calcular_shap_cacheado(modelo, X_test)
 
-        shap_empleado = pd.Series(
-            shap_values.values[idx_empleado][:, 1],
+        import numpy as np
+        if hasattr(shap_values, "values") and len(shap_values.values.shape) == 3:
+            shap_matrix = shap_values.values[:, :, 1]
+        elif hasattr(shap_values, "values"):
+            shap_matrix = shap_values.values
+        else:
+            shap_matrix = np.asarray(shap_values)
+
+        shap_global = pd.Series(
+            np.abs(shap_matrix).mean(axis=0),
             index=X_test.columns
-        ).sort_values(key=abs, ascending=False)
+        ).sort_values(ascending=False).head(10)
 
-        st.write("**Top 5 variables que influyen en esta predicción:**")
-        for feature, valor in shap_empleado.head(5).items():
-            direccion = "Mayor riesgo de rotación" if valor > 0 else "Menor riesgo de rotación"
-            signo = "+" if valor > 0 else ""
-            st.write(f"- **{feature}**: {signo}{valor:.4f} ({direccion})")
-
-        # Gráfico de barras con matplotlib
-        fig, ax = plt.subplots(figsize=(10, 6))
-        top_features = shap_empleado.head(10)
-        colores = ["red" if v > 0 else "green" for v in top_features.values]
-        ax.barh(range(len(top_features)), top_features.values, color=colores)
-        ax.set_yticks(range(len(top_features)))
-        ax.set_yticklabels(top_features.index)
-        ax.set_xlabel("Impacto SHAP")
-        ax.set_title("Top 10 variables que influyen en la predicción")
-        ax.axvline(x=0, color="black", linestyle="--", linewidth=0.5)
+        st.write("**Top 10 variables con mayor peso explicativo global en el modelo:**")
+        fig, ax = plt.subplots(figsize=(10, 5))
+        ax.barh(range(len(shap_global)), shap_global.values[::-1], color="#3366CC")
+        ax.set_yticks(range(len(shap_global)))
+        ax.set_yticklabels(shap_global.index[::-1])
+        ax.set_xlabel("Impacto promedio (|SHAP value|)")
+        ax.set_title("Variables más determinantes a nivel global en el conjunto de prueba")
         plt.tight_layout()
         st.pyplot(fig)
 
-        logger.info(f"Explicación SHAP generada para empleado #{idx_empleado}")
+        logger.info("Evaluación agregada por departamento y SHAP global generados")
 
     except Exception as e:
         st.error(f"Error en sección de modelo predictivo: {e}")

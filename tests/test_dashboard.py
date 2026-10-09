@@ -8,6 +8,7 @@ Cubre:
 """
 import pytest
 import pandas as pd
+import numpy as np
 import tempfile
 import os
 from pathlib import Path
@@ -493,31 +494,31 @@ class TestComponenteModeloPrediccion:
             mock_st.warning.assert_called_once()
             assert "Modelo no encontrado" in mock_st.warning.call_args[0][0]
 
-    def test_selector_acotado_a_xtest_evita_index_error(self, tmp_path):
-        """El selector de empleado debe acotarse a len(X_test) y no a len(df)."""
+    def test_evaluacion_agregada_y_proteccion_grupos_menores_a_cinco(self, tmp_path):
+        """La vista agregada protege grupos con n < 5 y muestra aviso a docs/CONSENTIMIENTO.md."""
         output_dir = tmp_path / "output"
         output_dir.mkdir()
         (output_dir / "modelo_vigia.joblib").write_bytes(b"dummy")
 
-        # Mock df con 10 filas y X_test con 3 filas
+        # 6 empleados en Sales (>=5) y 3 empleados en HR (<5)
+        departamentos = ["Sales"] * 6 + ["HR"] * 3
         df_mock = pd.DataFrame({
-            "Department": ["Sales"] * 10,
-            "Age": [30] * 10,
-            "Attrition": ["No"] * 10,
+            "Department": departamentos,
+            "Age": [30] * 9,
+            "Attrition": ["No"] * 9,
         })
         X_test_mock = pd.DataFrame({
-            "Age": [30, 31, 32],
-            "Department": [0, 0, 0]
-        }, index=[2, 5, 9])
-        y_test_mock = pd.Series([0, 0, 1], index=[2, 5, 9])
+            "Age": [30] * 9,
+            "Department": [0] * 6 + [1] * 3
+        }, index=list(range(9)))
+        y_test_mock = pd.Series([0] * 9, index=list(range(9)))
 
         mock_modelo = MagicMock()
-        mock_modelo.predict.return_value = [0]
-        mock_modelo.predict_proba.return_value = [[0.8, 0.2]]
+        mock_modelo.predict.return_value = [0] * 9
+        mock_modelo.predict_proba.return_value = np.array([[0.8, 0.2]] * 9)
 
-        import numpy as np
         mock_shap = MagicMock()
-        mock_shap.values = np.zeros((3, 2, 2))
+        mock_shap.values = np.zeros((9, 2, 2))
 
         with patch("src.dashboard.ui_components._cargar_modelo_cacheado", return_value=mock_modelo), \
              patch("src.dashboard.ui_components._cargar_datos_preparados", return_value=(df_mock, X_test_mock, y_test_mock)), \
@@ -527,14 +528,28 @@ class TestComponenteModeloPrediccion:
              patch("matplotlib.pyplot.subplots", return_value=(MagicMock(), MagicMock())):
 
             mock_st.columns.return_value = [MagicMock(), MagicMock(), MagicMock(), MagicMock()]
-            mock_st.selectbox.return_value = 2
 
             componente_modelo_prediccion(tmp_path)
 
-            mock_st.selectbox.assert_called_once()
-            call_args = mock_st.selectbox.call_args[0]
-            opciones_rango = call_args[1]
-            assert len(opciones_rango) == len(X_test_mock)
-            assert len(opciones_rango) < len(df_mock)
-            mock_modelo.predict.assert_called_once()
+            # Verifica aviso ético que remite a docs/CONSENTIMIENTO.md
+            mock_st.info.assert_called_once()
+            texto_info = mock_st.info.call_args[0][0]
+            assert "CONSENTIMIENTO.md" in texto_info
+            assert "individual" in texto_info
+
+            # Verifica que no se use selector individual ni subheader individual
+            subheaders = [call[0][0] for call in mock_st.subheader.call_args_list]
+            assert "Predicción por Empleado" not in subheaders
+            assert "Evaluación Agregada de Riesgo por Grupo" in subheaders
+
+            # Verifica que la tabla muestre protección para HR (<5) y cálculo para Sales (>=5)
+            mock_st.dataframe.assert_called_once()
+            df_resultado = mock_st.dataframe.call_args[0][0]
+            assert "Departamento" in df_resultado.columns
+
+            fila_hr = df_resultado[df_resultado["Departamento"] == "HR"].iloc[0]
+            fila_sales = df_resultado[df_resultado["Departamento"] == "Sales"].iloc[0]
+
+            assert "Protegido" in fila_hr["Riesgo medio estimado"]
+            assert "%" in fila_sales["Riesgo medio estimado"]
 
