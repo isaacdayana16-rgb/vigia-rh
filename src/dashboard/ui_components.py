@@ -395,11 +395,20 @@ def componente_modelo_prediccion(project_root):
 
         # Selección de empleado
         st.subheader("Predicción por Empleado")
+        if len(X_test) == 0:
+            st.warning("No hay datos de prueba disponibles para evaluar.")
+            return
+
+        df_test = df.loc[X_test.index].reset_index(drop=True)
         opciones = [
-            f"Empleado #{i} (Dept: {df.iloc[i]['Department']}, Age: {df.iloc[i]['Age']})"
-            for i in range(len(df))
+            f"Empleado #{i} (Dept: {df_test.iloc[i]['Department']}, Age: {df_test.iloc[i]['Age']})"
+            for i in range(len(X_test))
         ]
-        idx_empleado = st.selectbox("Seleccionar empleado:", range(len(df)))
+        idx_empleado = st.selectbox(
+            "Seleccionar empleado:",
+            range(len(X_test)),
+            format_func=lambda i: opciones[i] if i < len(opciones) else f"Empleado #{i}"
+        )
 
         empleado_features = X_test.iloc[[idx_empleado]]
         predicción = modelo.predict(empleado_features)[0]

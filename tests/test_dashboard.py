@@ -35,6 +35,7 @@ from src.dashboard.ui_components import (
     componente_graficas_rotacion,
     componente_indice_jdr,
     componente_explicabilidad_shap,
+    componente_modelo_prediccion,
 )
 
 
@@ -480,3 +481,60 @@ class TestJerarquiaErrores:
             pass
         else:
             pytest.fail("ErrorCalculo no fue capturado por VigiaError")
+
+
+# --- Tests para componente_modelo_prediccion ---
+
+class TestComponenteModeloPrediccion:
+    def test_modelo_no_encontrado_muestra_warning(self, tmp_path):
+        """Si el archivo .joblib no existe, muestra advertencia y no colapsa."""
+        with patch("src.dashboard.ui_components.st") as mock_st:
+            componente_modelo_prediccion(tmp_path)
+            mock_st.warning.assert_called_once()
+            assert "Modelo no encontrado" in mock_st.warning.call_args[0][0]
+
+    def test_selector_acotado_a_xtest_evita_index_error(self, tmp_path):
+        """El selector de empleado debe acotarse a len(X_test) y no a len(df)."""
+        output_dir = tmp_path / "output"
+        output_dir.mkdir()
+        (output_dir / "modelo_vigia.joblib").write_bytes(b"dummy")
+
+        # Mock df con 10 filas y X_test con 3 filas
+        df_mock = pd.DataFrame({
+            "Department": ["Sales"] * 10,
+            "Age": [30] * 10,
+            "Attrition": ["No"] * 10,
+        })
+        X_test_mock = pd.DataFrame({
+            "Age": [30, 31, 32],
+            "Department": [0, 0, 0]
+        }, index=[2, 5, 9])
+        y_test_mock = pd.Series([0, 0, 1], index=[2, 5, 9])
+
+        mock_modelo = MagicMock()
+        mock_modelo.predict.return_value = [0]
+        mock_modelo.predict_proba.return_value = [[0.8, 0.2]]
+
+        import numpy as np
+        mock_shap = MagicMock()
+        mock_shap.values = np.zeros((3, 2, 2))
+
+        with patch("src.dashboard.ui_components._cargar_modelo_cacheado", return_value=mock_modelo), \
+             patch("src.dashboard.ui_components._cargar_datos_preparados", return_value=(df_mock, X_test_mock, y_test_mock)), \
+             patch("src.dashboard.ui_components._calcular_metricas_cacheadas", return_value={"accuracy": 0.85, "precision": 0.8, "recall": 0.7, "f1": 0.75}), \
+             patch("src.dashboard.ui_components._calcular_shap_cacheado", return_value=mock_shap), \
+             patch("src.dashboard.ui_components.st") as mock_st, \
+             patch("matplotlib.pyplot.subplots", return_value=(MagicMock(), MagicMock())):
+
+            mock_st.columns.return_value = [MagicMock(), MagicMock(), MagicMock(), MagicMock()]
+            mock_st.selectbox.return_value = 2
+
+            componente_modelo_prediccion(tmp_path)
+
+            mock_st.selectbox.assert_called_once()
+            call_args = mock_st.selectbox.call_args[0]
+            opciones_rango = call_args[1]
+            assert len(opciones_rango) == len(X_test_mock)
+            assert len(opciones_rango) < len(df_mock)
+            mock_modelo.predict.assert_called_once()
+
