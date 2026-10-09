@@ -193,6 +193,34 @@ def _tabla_riesgo_oficial(df, punt, punt_sub, suma_global) -> pd.DataFrame:
     return pd.DataFrame(filas)
 
 
+def componente_simulador_intervencion(df) -> None:
+    """Simulador de intervención como escenario hipotético basado en la literatura (d = 0.526)."""
+    try:
+        from src.simulador_intervencion import simular_intervencion
+        st.markdown("#### 🛠️ Simulador de intervención psicosocial")
+        st.caption(
+            "**Escenario hipotético basado en un tamaño de efecto de la literatura (d = 0.526)** "
+            "(meta-análisis de Richardson & Rothstein, 2008). No constituye predicción causal ni "
+            "proyección garantizada; ilustra variaciones potenciales de riesgo bajo supuestos de la literatura."
+        )
+        r = simular_intervencion(df)
+        filas = []
+        for nombre, res in r["intervenciones"].items():
+            if res.get("viable"):
+                for dim, d in res["dimensiones"].items():
+                    filas.append({
+                        "Intervención": nombre.replace("_", " ").capitalize(),
+                        "Dimensión": dim.replace("_", " "),
+                        "Alto (Base)": d["riesgo_antes"]["Alto"],
+                        "Alto (Escenario conservador d=0.526)": d["riesgo_despues"]["conservador"]["Alto"],
+                        "Alto (Escenario optimista d=0.687)": d["riesgo_despues"]["optimista"]["Alto"],
+                    })
+        if filas:
+            st.dataframe(pd.DataFrame(filas), use_container_width=True)
+    except Exception as e:
+        logger.error(f"Error en componente_simulador_intervencion: {e}", exc_info=True)
+
+
 def componente_perfiles_psicosociales(project_root) -> None:
     """Renderiza la sección de perfiles psicosociales (instrumento oficial MDT).
 
@@ -313,6 +341,9 @@ def componente_perfiles_psicosociales(project_root) -> None:
         # Simulador pedagógico (solo para datos de demostración)
         if es_demo:
             componente_simulador_psicometria()
+
+        # Simulador de intervención (escenario hipotético de literatura)
+        componente_simulador_intervencion(df)
 
         st.warning(
             "⚠️ *Aviso ético:* Esta vía mide constructos psicosociales a nivel grupal. "

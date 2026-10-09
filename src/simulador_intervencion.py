@@ -218,6 +218,7 @@ def simular_intervencion(df: pd.DataFrame, intervenciones: list = None) -> dict:
         }
 
     caveats = [
+        "Escenario hipotético basado en un tamaño de efecto de la literatura (d = 0.526), sin lenguaje causal ni de proyección.",
         "Simulación informada por evidencia externa, NO predicción causal verificada.",
         "Los tamaños de efecto provienen de Richardson & Rothstein (2008; 36 estudios, "
         "N=2,847) en contextos distintos a la muestra local; la transferibilidad no está garantizada.",
@@ -256,6 +257,7 @@ def generar_reporte_texto(df: pd.DataFrame) -> str:
     lineas.append("=" * 64)
     lineas.append("SIMULADOR DE INTERVENCIÓN PSICOSOCIAL — Vigía RH")
     lineas.append("=" * 64)
+    lineas.append("Escenario hipotético basado en un tamaño de efecto de la literatura (d = 0.526)")
     lineas.append("Simulación INFORMADA POR EVIDENCIA EXTERNA (no predicción causal)")
     lineas.append("Efectos de referencia: Richardson & Rothstein (2008), d=0.526 (IC 0.364-0.687)")
 
@@ -265,7 +267,7 @@ def generar_reporte_texto(df: pd.DataFrame) -> str:
         v = f"{valor:+.3f}" if valor == valor else "N/D (sin outcome)"
         lineas.append(f"  {dim:26s}: {v}")
 
-    lineas.append("\n[2] EFECTO ESPERADO POR INTERVENCIÓN (clasificación oficial)")
+    lineas.append("\n[2] ESCENARIO HIPOTÉTICO POR INTERVENCIÓN (clasificación oficial)")
     lineas.append("-" * 64)
     for nombre, res in r["intervenciones"].items():
         lineas.append(f"  {nombre}:")
@@ -286,7 +288,7 @@ def generar_reporte_texto(df: pd.DataFrame) -> str:
 
     if r["efectos_simultaneos"]:
         e = r["efectos_simultaneos"]
-        lineas.append("\n[3] EFECTO SIMULTÁNEO APROXIMADO (4 intervenciones)")
+        lineas.append("\n[3] ESCENARIO HIPOTÉTICO SIMULTÁNEO (4 intervenciones)")
         lineas.append("-" * 64)
         lineas.append(
             f"  RIESGO GLOBAL: Bajo {e['riesgo_antes']['Bajo']}->{e['riesgo_despues']['conservador']['Bajo']}  "

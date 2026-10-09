@@ -20,6 +20,7 @@ from src.psicometria.vista_dashboard import (
     _metricas_fiabilidad,
     _cargar_datos_encuesta,
     componente_simulador_psicometria,
+    componente_simulador_intervencion,
     componente_perfiles_psicosociales,
 )
 from src.psicometria import generar_datos_ejemplo
@@ -95,6 +96,14 @@ class TestComponenteSimulador:
             componente_simulador_psicometria()
         captions = [str(c) for c in mock_st.caption.call_args_list]
         assert any("Demo pedagógica" in c for c in captions)
+
+    @patch("src.psicometria.vista_dashboard.st")
+    def test_simulador_intervencion_texto_hipotetico(self, mock_st):
+        """El simulador de intervención se presenta como escenario hipotético de literatura."""
+        df = generar_datos_ejemplo(n=100, semilla=42)
+        componente_simulador_intervencion(df)
+        captions = [str(c) for c in mock_st.caption.call_args_list]
+        assert any("escenario hipotético basado en un tamaño de efecto de la literatura (d = 0.526)" in c.lower() for c in captions)
 
 
 class TestCargarDatosEncuesta:
