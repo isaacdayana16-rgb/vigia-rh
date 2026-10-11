@@ -8,7 +8,11 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from src.datos import cargar_datos, agregar_indice_compuesto_jdr
 from src.utils.logger import logger
-from src.psicometria.vista_dashboard import componente_perfiles_psicosociales
+from src.psicometria.vista_dashboard import (
+    componente_perfiles_psicosociales,
+    componente_simulador_intervencion,
+    _cargar_datos_encuesta,
+)
 from src.dashboard.ui_components import (
     componente_carga_archivo,
     componente_metricas_principales,
@@ -21,6 +25,12 @@ from src.dashboard.ui_components import (
 
 st.set_page_config(page_title="Vigía RH", layout="wide")
 
+
+@st.cache_data
+def _cargar_datos_encuesta_cacheado(project_root_str):
+    """Carga (y cachea) el DataFrame de encuestas para la pestaña del simulador."""
+    return _cargar_datos_encuesta(Path(project_root_str))
+
 # Manejo de errores global para evitar caídas
 try:
     # Logging de inicio de sesión
@@ -32,8 +42,8 @@ try:
         "con un módulo demostrativo secundario de rotación"
     )
 
-    tab_inicio, tab_psicosocial, tab_rotacion = st.tabs(
-        ["🏠 Inicio", "🧠 Riesgo psicosocial", "🧪 Módulo demostrativo (rotación — IBM HR)"]
+    tab_inicio, tab_psicosocial, tab_simulador, tab_rotacion = st.tabs(
+        ["🏠 Inicio", "🧠 Riesgo psicosocial", "🛠️ Simulador (escenario hipotético)", "🧪 Módulo demostrativo (rotación — IBM HR)"]
     )
 
     with tab_inicio:
@@ -72,6 +82,15 @@ try:
     with tab_psicosocial:
         # Vía psicométrica (los errores internos no rompen la app)
         componente_perfiles_psicosociales(PROJECT_ROOT)
+
+    with tab_simulador:
+        df_sim, es_demo_sim = _cargar_datos_encuesta_cacheado(str(PROJECT_ROOT))
+        if es_demo_sim:
+            st.info(
+                "📋 **Datos sintéticos de demostración**: no hay respuestas reales en "
+                "`data/encuestas/respuestas.csv`. El escenario mostrado es ilustrativo."
+            )
+        componente_simulador_intervencion(df_sim)
 
     with tab_rotacion:
         st.info(

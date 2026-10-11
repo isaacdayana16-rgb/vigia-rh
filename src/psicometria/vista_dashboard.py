@@ -342,9 +342,6 @@ def componente_perfiles_psicosociales(project_root) -> None:
         if es_demo:
             componente_simulador_psicometria()
 
-        # Simulador de intervención (escenario hipotético de literatura)
-        componente_simulador_intervencion(df)
-
         st.warning(
             "⚠️ *Aviso ético:* Esta vía mide constructos psicosociales a nivel grupal. "
             "No es diagnóstico clínico ni debe usarse para decisiones individuales "
