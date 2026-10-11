@@ -28,7 +28,7 @@ Este proyecto es **estrictamente exploratorio** y no reemplaza la práctica prof
 
 ## 📸 Preview del dashboard
 
-> *(Reemplazar esta línea por una screenshot real 1200x700 del dashboard corriendo localmente: métricas + histograma JD-R + disclaimer st.warning() + imagen SHAP)*
+<!-- TODO: agregar screenshot real 1200x700 del dashboard (métricas + histograma JD-R + disclaimer + imagen SHAP) -->
 
 ---
 
@@ -76,7 +76,7 @@ Rango teórico: **0 (menor desgaste)** → **14 (mayor desgaste)**. A mayor valo
     - 2 histogramas Plotly (horas extra / satisfacción laboral) segmentados por Attrition.
     - **Sección Índice JD-R**: métrica promedio + histograma 0..14 + disclaimer ético `st.warning()`.
     - **Sección Modelo Predictivo**: métricas de performance (accuracy, precision, recall, F1), predicción por empleado seleccionable, y explicación SHAP dinámica por predicción individual.
-    - **Sección Perfiles Psicosociales**: vía validada basada en COPSOQ, con fiabilidad (α/ω), validez de constructo (AFE) y validez de criterio.
+    - **Sección Perfiles Psicosociales**: vía psicométrica basada en el Cuestionario de Evaluación de Riesgo Psicosocial del Ministerio del Trabajo del Ecuador (58 ítems), con fiabilidad (α/ω), validez de constructo (AFE) y validez de criterio.
 3. **🤖 Modelo predictivo** (`src/modelo.py`):
      - RandomForestClassifier (scikit-learn) entrenado y serializado con joblib.
      - 5 funciones modulares: `entrenar_modelo()`, `evaluar_modelo()`, `guardar_modelo()`, `cargar_modelo()`, `obtener_importancias()`.
@@ -369,7 +369,7 @@ Al ejecutar `python src/marco_psicologico.py` se obtienen valores de promedio de
 | ✅ Fase 5 | GitHub Actions CI/CD pipeline. | **Completada** |
 | ✅ Fase 6 | Documentación de la API del modelo (`docs/API_MODELO.md`). | **Completada** |
 | ✅ Fase 7 | Documentación del pipeline ETL y escalabilidad. | **Completada** |
-| ✅ Fase 8 | Vía psicométrica validada (`src/psicometria`): instrumento COPSOQ, fiabilidad, AFE, validez de criterio. | **Completada** |
+| ✅ Fase 8 | Vía psicométrica (`src/psicometria`): instrumento MDT-Ecuador (58 ítems), fiabilidad, AFE, validez de criterio. Validación con datos de campo pendiente. | **Completada** |
 | ✅ Fase 9 | Herramientas de campo: CLI de validación, plantilla, cuestionario, consentimiento, guía. | **Completada** |
 | ✅ Fase 10 (preparación) | Pivote al instrumento oficial MDT (58 ítems), protocolo ético LOPDP, validación cruzada estratificada, simuladores de N e intervención. Trabajo de campo pendiente. | **Preparada — recolección con el usuario** |
 | 🔜 Fase 11 | Recolección de datos reales de campo y validación empírica (≥100 respondientes; meta deseada 150-300). | **Pendiente (trabajo de campo)** |

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "vigia-rh"
 version = "1.0.0"
-description = "Sistema de Analitica Predictiva de Rotacion de Personal"
+description = "Sistema de evaluacion de riesgo psicosocial laboral basado en el instrumento oficial del Ministerio del Trabajo de Ecuador"
 requires-python = ">=3.11"
 
 [tool.setuptools.packages.find]
