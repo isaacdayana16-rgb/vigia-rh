@@ -2,7 +2,7 @@ import streamlit as st
 import sys
 from pathlib import Path
 
-PROJECT_ROOT = Path.cwd()
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
@@ -26,63 +26,111 @@ try:
     # Logging de inicio de sesión
     logger.info("Iniciando dashboard Vigía RH")
 
-    st.title("🔎 Vigía RH — Analítica Predictiva de Rotación")
-    st.markdown("Sistema de análisis de riesgo de rotación de personal")
+    st.title("🔎 Vigía RH — Riesgo Psicosocial Laboral")
+    st.markdown(
+        "Evaluación psicométrica del riesgo psicosocial (MDT-Ecuador, 58 ítems) "
+        "con un módulo demostrativo secundario de rotación"
+    )
 
-    st.divider()
+    tab_inicio, tab_psicosocial, tab_rotacion = st.tabs(
+        ["🏠 Inicio", "🧠 Riesgo psicosocial", "🧪 Módulo demostrativo (rotación — IBM HR)"]
+    )
 
-    # Carga de datos con componente modular
-    st.subheader("Cargar archivo de datos")
-    df_cargado = componente_carga_archivo()
+    with tab_inicio:
+        st.subheader("¿Qué es Vigía RH?")
+        st.markdown(
+            "Vigía RH es una herramienta de People Analytics con dos vías:\n\n"
+            "1. **Riesgo psicosocial laboral** (vista principal): evaluación psicométrica "
+            "grupal con el Cuestionario de Evaluación de Riesgo Psicosocial del Ministerio "
+            "del Trabajo del Ecuador (MDT): 58 ítems, escala Likert 1-4, puntos de corte "
+            "oficiales (Tablas 3-4).\n"
+            "2. **Módulo demostrativo de rotación** (vista secundaria): pipeline de "
+            "analítica entrenado con un dataset público (IBM HR Analytics)."
+        )
 
-    if df_cargado is not None:
-        df = df_cargado
-        logger.info(f"Archivo cargado exitosamente: {len(df)} registros")
-    else:
-        try:
-            df = cargar_datos()
-            logger.info(f"Datos default cargados: {len(df)} registros")
-        except Exception as e:
-            logger.error(f"Error cargando datos default: {e}", exc_info=True)
-            st.error("❌ Error crítico cargando datos default. Contacta al administrador.")
-            st.stop()
+        st.subheader("Aviso ético")
+        st.warning(
+            "⚠️ Herramienta **no certificada** y **sin fines de diagnóstico individual** "
+            "ni clínico. Los resultados se interpretan a nivel **grupal**; los grupos con "
+            "menos de 5 personas se protegen y no se desglosan. No debe usarse para "
+            "decisiones individuales de contratación, despido, ascenso o sanción."
+        )
 
-    # Calcular índice JD-R
-    try:
-        df = agregar_indice_compuesto_jdr(df)
-        logger.info("Índice JD-R calculado exitosamente")
-    except Exception as e:
-        logger.error(f"Error calculando índice JD-R: {e}", exc_info=True)
-        st.error("❌ Error calculando índice JD-R. Los análisis pueden estar incompletos.")
+        st.subheader("Limitaciones")
+        st.info(
+            "📋 La **validación psicométrica del instrumento está pendiente de datos de "
+            "campo**. El modelo predictivo del módulo demostrativo está **entrenado con un "
+            "dataset público (IBM HR Analytics)**, por lo que sus resultados son "
+            "ilustrativos y no representan a ninguna organización. Esta herramienta no "
+            "sustituye la guía oficial del MDT ni el criterio de profesionales competentes."
+        )
+        st.caption(
+            "Marco ético completo: [docs/CONSENTIMIENTO.md](docs/CONSENTIMIENTO.md) · "
+            "[docs/PROTOCOLO_SITUACIONES_DETECTADAS.md](docs/PROTOCOLO_SITUACIONES_DETECTADAS.md)"
+        )
 
-    st.divider()
+    with tab_psicosocial:
+        # Vía psicométrica (los errores internos no rompen la app)
+        componente_perfiles_psicosociales(PROJECT_ROOT)
 
-    # Métricas principales
-    componente_metricas_principales(df)
+    with tab_rotacion:
+        st.info(
+            "ℹ️ **Módulo demostrativo.** Esta pestaña usa un **dataset público** "
+            "(IBM HR Analytics, Kaggle) con fines ilustrativos. **No corresponde a datos "
+            "de una empresa ecuatoriana** ni debe interpretarse como evidencia sobre "
+            "condiciones laborales locales."
+        )
 
-    st.divider()
+        # Carga de datos con componente modular
+        st.subheader("Cargar archivo de datos")
+        df_cargado = componente_carga_archivo()
 
-    # Filtro por departamento
-    df_filtrado = componente_filtro_departamento(df)
+        if df_cargado is not None:
+            df = df_cargado
+            datos_disponibles = True
+            logger.info(f"Archivo cargado exitosamente: {len(df)} registros")
+        else:
+            try:
+                df = cargar_datos()
+                datos_disponibles = True
+                logger.info(f"Datos default cargados: {len(df)} registros")
+            except Exception as e:
+                datos_disponibles = False
+                logger.error(f"Error cargando datos default: {e}", exc_info=True)
+                st.error("❌ No se pudieron cargar los datos de demostración. Las secciones de rotación no están disponibles en esta ejecución.")
 
-    # Gráficas de rotación
-    componente_graficas_rotacion(df_filtrado)
+        if datos_disponibles:
+            # Calcular índice JD-R
+            try:
+                df = agregar_indice_compuesto_jdr(df)
+                logger.info("Índice JD-R calculado exitosamente")
+            except Exception as e:
+                logger.error(f"Error calculando índice JD-R: {e}", exc_info=True)
+                st.error("❌ Error calculando índice JD-R. Los análisis pueden estar incompletos.")
 
-    st.divider()
+            st.divider()
 
-    # Índice JD-R
-    componente_indice_jdr(df_filtrado)
+            # Métricas principales
+            componente_metricas_principales(df)
 
-    st.divider()
+            st.divider()
 
-    # Explicabilidad SHAP y modelo predictivo
-    componente_explicabilidad_shap(PROJECT_ROOT)
-    componente_modelo_prediccion(PROJECT_ROOT)
+            # Filtro por departamento
+            df_filtrado = componente_filtro_departamento(df)
 
-    st.divider()
+            # Gráficas de rotación
+            componente_graficas_rotacion(df_filtrado)
 
-    # Vía psicométrica validada (aditiva; los errores internos no rompen la app)
-    componente_perfiles_psicosociales(PROJECT_ROOT)
+            st.divider()
+
+            # Índice JD-R
+            componente_indice_jdr(df_filtrado)
+
+            st.divider()
+
+            # Explicabilidad SHAP y modelo predictivo
+            componente_explicabilidad_shap(PROJECT_ROOT)
+            componente_modelo_prediccion(PROJECT_ROOT)
 
     # Logging de fin de ejecución
     logger.info("Dashboard renderizado exitosamente")
