@@ -3,3 +3,5 @@ __pycache__/
 *.pyc
 logs/
 data/RH_Empresa_Ejemplo_Ecuador.xlsx
+data/encuestas/respuestas.csv
+.env
