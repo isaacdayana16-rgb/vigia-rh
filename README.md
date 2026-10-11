@@ -70,13 +70,10 @@ Rango teórico: **0 (menor desgaste)** → **14 (mayor desgaste)**. A mayor valo
     - Mapeo dinámico español-inglés para columnas en ambos idiomas.
     - `validar_columnas()`: validación estricta del esquema mínimo IBM HR (8 columnas).
     - `agregar_indice_compuesto_jdr(df)`: cálculo único del indicador (fuente de verdad).
-2. **📊 Dashboard interactivo Streamlit** (`dashboard/app.py`):
-    - 3 métricas de rotación globales.
-    - Filtro dinámico por **Departamento**.
-    - 2 histogramas Plotly (horas extra / satisfacción laboral) segmentados por Attrition.
-    - **Sección Índice JD-R**: métrica promedio + histograma 0..14 + disclaimer ético `st.warning()`.
-    - **Sección Modelo Predictivo**: métricas de performance (accuracy, precision, recall, F1), predicción por empleado seleccionable, y explicación SHAP dinámica por predicción individual.
-    - **Sección Perfiles Psicosociales**: vía psicométrica basada en el Cuestionario de Evaluación de Riesgo Psicosocial del Ministerio del Trabajo del Ecuador (58 ítems), con fiabilidad (α/ω), validez de constructo (AFE) y validez de criterio.
+2. **📊 Dashboard interactivo Streamlit** (`dashboard/app.py`), organizado en pestañas con el riesgo psicosocial primero:
+    - **Pestaña Inicio**: qué es Vigía RH, aviso ético y limitaciones (validación psicométrica pendiente de datos de campo; módulo de rotación entrenado con dataset público; herramienta no certificada, sin diagnóstico individual).
+    - **Pestaña Riesgo Psicosocial** (vista principal): vía psicométrica basada en el Cuestionario de Evaluación de Riesgo Psicosocial del Ministerio del Trabajo del Ecuador (58 ítems), con clasificación oficial de riesgo (puntos de corte oficiales), fiabilidad (α/ω), validez de constructo (AFE) y validez de criterio. Interpretación a nivel grupal; sin diagnóstico individual.
+    - **Pestaña Módulo demostrativo (rotación — IBM HR)** (vista secundaria, dataset público de Kaggle): 3 métricas de rotación globales, filtro dinámico por **Departamento**, 2 histogramas Plotly (horas extra / satisfacción laboral) segmentados por Attrition, **Índice JD-R** (métrica promedio + histograma 0..14 + disclaimer ético `st.warning()`), y **Modelo Predictivo**: métricas de performance (accuracy, precision, recall, F1), evaluación agregada de riesgo por grupo con protección de grupos con n < 5, y explicación SHAP dinámica global.
 3. **🤖 Modelo predictivo** (`src/modelo.py`):
      - RandomForestClassifier (scikit-learn) entrenado y serializado con joblib.
      - 5 funciones modulares: `entrenar_modelo()`, `evaluar_modelo()`, `guardar_modelo()`, `cargar_modelo()`, `obtener_importancias()`.
@@ -229,7 +226,7 @@ flowchart LR
     B --> F[src/modelo.py\nentrenamiento + evaluacion]
     F --> G[output/modelo_vigia.joblib\nmodelo serializado]
     C --> H[src/modelo\ncargar_modelo + evaluar_modelo]
-    H --> I[Explicacion SHAP dinamica\npor empleado]
+    H --> I[Explicacion SHAP dinamica\nglobal]
 
     F --> I
     I --> C
