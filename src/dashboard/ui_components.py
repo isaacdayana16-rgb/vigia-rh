@@ -163,7 +163,7 @@ def componente_carga_archivo() -> Optional[pd.DataFrame]:
             try:
                 os.unlink(ruta_temp)
                 logger.info(f"Archivo temporal eliminado: {ruta_temp}")
-            except Exception as e:
+            except OSError as e:
                 logger.warning(f"No se pudo eliminar archivo temporal {ruta_temp}: {e}")
 
 
