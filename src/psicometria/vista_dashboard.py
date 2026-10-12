@@ -149,6 +149,7 @@ def _cargar_datos_encuesta(project_root) -> tuple:
             try:
                 df = pd.read_csv(archivo)
             except Exception:
+                logger.warning(f"Encuesta ilegible, se omite: {archivo.name}")
                 continue  # archivo ilegible: pasar al siguiente
             if df.empty:
                 continue  # sin filas de datos
@@ -354,5 +355,5 @@ def componente_perfiles_psicosociales(project_root) -> None:
         try:
             st.error(f"❌ Error en perfiles psicosociales: {e}")
         except Exception:
-            pass
+            logger.warning("No se pudo mostrar el error en la UI (st.error falló)")
         logger.error(f"Error en componente_perfiles_psicosociales: {e}", exc_info=True)
