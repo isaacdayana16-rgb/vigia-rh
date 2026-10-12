@@ -11,7 +11,6 @@ Blindaje contra caidas de Streamlit con:
 import subprocess
 import time
 import sys
-import os
 import socket
 import psutil
 from pathlib import Path
@@ -43,11 +42,11 @@ def iniciar_streamlit_seguro():
     print("=" * 60)
     print("INICIANDO DASHBOARD VIGÍA RH - MODO SEGURO")
     print("=" * 60)
-    
+
     # Limpiar puerto
     print("Limpiando puerto 8501...")
     limpiar_puerto_8501()
-    
+
     # Esperar a que puerto esté libre
     max_intentos = 10
     for i in range(max_intentos):
@@ -59,7 +58,7 @@ def iniciar_streamlit_seguro():
     else:
         print("ERROR: No se pudo liberar el puerto 8501")
         return False
-    
+
     # Configuración segura de Streamlit
     # Desactivar auto-reload para evitar inestabilidad durante desarrollo
     cmd = [
@@ -69,24 +68,24 @@ def iniciar_streamlit_seguro():
         "--server.headless", "true",
         "--logger.level", "warning",  # Reducir verbosity
     ]
-    
+
     print("Iniciando Streamlit con configuración segura...")
     print(f"Comando: {' '.join(cmd)}")
     print("=" * 60)
-    
+
     try:
         # Iniciar proceso
         proceso = subprocess.Popen(cmd, cwd=Path(__file__).parent)
-        
+
         print(f"Streamlit iniciado con PID: {proceso.pid}")
         print("Dashboard disponible en: http://localhost:8501")
         print("Presiona Ctrl+C para detener (monitoreo activo)")
         print("=" * 60)
-        
+
         # Monitoreo activo
         while True:
             time.sleep(5)
-            
+
             # Verificar que el proceso siga vivo
             if proceso.poll() is not None:
                 print("[WARNING] Streamlit se detuvo inesperadamente")
@@ -94,7 +93,7 @@ def iniciar_streamlit_seguro():
                 print("Reiniciando en 3 segundos...")
                 time.sleep(3)
                 return iniciar_streamlit_seguro()  # Reinicio automático
-            
+
             # Verificar que el puerto siga respondiendo
             if not verificar_puerto_libre():
                 print("[OK] Puerto 8501 respondiendo correctamente")
@@ -104,7 +103,7 @@ def iniciar_streamlit_seguro():
                 proceso.terminate()
                 time.sleep(3)
                 return iniciar_streamlit_seguro()
-                
+
     except KeyboardInterrupt:
         print("\nDeteniendo Streamlit...")
         proceso.terminate()
@@ -123,12 +122,12 @@ if __name__ == "__main__":
         print("Instalando psutil para monitoreo de procesos...")
         subprocess.check_call([sys.executable, "-m", "pip", "install", "psutil"])
         import psutil
-    
+
     # Iniciar con monitoreo
     exit_code = 0
     max_reinicios = 5
     intento = 0
-    
+
     while intento < max_reinicios:
         if iniciar_streamlit_seguro():
             break
@@ -136,9 +135,9 @@ if __name__ == "__main__":
         if intento < max_reinicios:
             print(f"Reinicio {intento}/{max_reinicios} en 5 segundos...")
             time.sleep(5)
-    
+
     if intento >= max_reinicios:
         print("ERROR: Máximo número de reinicios alcanzado")
         exit_code = 1
-    
+
     sys.exit(exit_code)

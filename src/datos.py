@@ -45,7 +45,7 @@ def renombrar_columnas_es(df, mapeo=MAPEO_ES):
     Si ya vienen en inglés, no hace nada."""
     # Limpiar espacios en blanco de nombres de columnas
     df.columns = df.columns.str.strip()
-    
+
     columnas_nuevas = {}
     for col_ingles, variantes in mapeo.items():
         if col_ingles in df.columns:
@@ -76,7 +76,7 @@ def mostrar_mapeo_propuesto(mapeo_detectado):
     """Formatea el mapeo detectado para visualización."""
     if not mapeo_detectado:
         return "No se detectaron columnas en español para mapear."
-    
+
     lineas = ["Mapeo propuesto de columnas:", "Columna en español -> Columna en inglés"]
     lineas.append("-" * 50)
     for col_es, col_en in mapeo_detectado.items():
@@ -142,10 +142,10 @@ def cargar_datos(ruta: str | None = None, aplicar_mapeo: bool = False) -> pd.Dat
             f"No se encontró el archivo de datos en: {ruta_archivo}. "
             "Coloca el CSV en data/ o pasa una ruta válida."
         )
-    
+
     # Detectar formato por extensión
     extension = ruta_archivo.lower().split('.')[-1] if '.' in ruta_archivo else ''
-    
+
     if extension in ['xlsx', 'xls']:
         df = pd.read_excel(ruta_archivo, engine='openpyxl')
     else:
@@ -154,13 +154,13 @@ def cargar_datos(ruta: str | None = None, aplicar_mapeo: bool = False) -> pd.Dat
             df = pd.read_csv(ruta_archivo)
         except UnicodeDecodeError:
             df = pd.read_csv(ruta_archivo, encoding='latin-1')
-    
+
     if aplicar_mapeo:
         df = renombrar_columnas_es(df)
-    
+
     # Normalizar valores booleanos en español (Sí/Si → Yes) antes de validar
     df = normalizar_columnas_booleanas(df)
-    
+
     validar_columnas(df)
     return df
 

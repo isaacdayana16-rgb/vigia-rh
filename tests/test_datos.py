@@ -276,7 +276,6 @@ class TestNormalizarColumnasBooleanas:
 
     def test_carga_datos_acepta_si_no(self, tmp_path):
         """cargar_datos normaliza 'Sí'/'No' y pasa la validación de Attrition."""
-        import os
         xlsx = tmp_path / "test_si.xlsx"
         df = pd.DataFrame({
             "Attrition": ["Sí", "No", "Sí"],

@@ -3,7 +3,6 @@ import sys
 from pathlib import Path
 
 import pandas as pd
-import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
@@ -11,7 +10,6 @@ if str(ROOT) not in sys.path:
 
 from src.psicometria import (
     ITEMS,
-    items_de_dimension,
     generar_datos_ejemplo,
 )
 from src.psicometria.calidad_datos import (
@@ -176,7 +174,6 @@ class TestReporteCalidadDatos:
 
     def test_integracion_con_validacion(self):
         """Datos sucios pueden arreglarse y luego validarse correctamente."""
-        from src.psicometria import analisis_factorial, cronbach_alpha
         df = _df_limpio()
         # Varianza cero rompería el AFE -> debe detectarse
         df["item_01"] = 3.0

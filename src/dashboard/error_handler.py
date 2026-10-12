@@ -5,7 +5,6 @@ para mantener la funcionalidad del dashboard ante errores.
 """
 
 import os
-import sys
 import traceback
 from typing import Callable, Any, Optional
 from functools import wraps
@@ -54,8 +53,8 @@ def manejar_error_ui(func: Callable) -> Callable:
             return {"error": "archivo_no_encontrado", "mensaje": str(e), "recuperable": True}
         except Exception as e:
             return {
-                "error": "error_desconocido", 
-                "mensaje": f"Error inesperado: {str(e)}", 
+                "error": "error_desconocido",
+                "mensaje": f"Error inesperado: {str(e)}",
                 "recuperable": False,
                 "traceback": traceback.format_exc()
             }
@@ -74,7 +73,7 @@ def validar_csv_corrupto(df, ruta_archivo: str) -> None:
     """
     if df is None or df.empty:
         raise ErrorDatos(f"El archivo {ruta_archivo} está vacío o corrupto.")
-    
+
     if len(df.columns) < 3:
         raise ErrorDatos(
             f"El archivo {ruta_archivo} tiene muy pocas columnas ({len(df.columns)}). "
@@ -94,7 +93,7 @@ def validar_tamano_archivo(ruta_archivo: str, max_mb: int = 50) -> None:
     """
     tamano_bytes = os.path.getsize(ruta_archivo)
     tamano_mb = tamano_bytes / (1024 * 1024)
-    
+
     if tamano_mb > max_mb:
         raise ErrorDatos(
             f"El archivo excede el tamaño máximo permitido ({tamano_mb:.1f}MB > {max_mb}MB). "

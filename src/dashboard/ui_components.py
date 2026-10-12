@@ -11,8 +11,8 @@ import tempfile
 import os
 
 from src.datos import (
-    cargar_datos, 
-    detectar_mapeo_propuesto, 
+    cargar_datos,
+    detectar_mapeo_propuesto,
     mostrar_mapeo_propuesto
 )
 from src.dashboard.error_handler import validar_tamano_archivo, ErrorDatos
@@ -29,7 +29,7 @@ def detectar_formato_archivo(nombre_archivo: str) -> str:
         'csv', 'excel', o 'desconocido'
     """
     extension = nombre_archivo.lower().split('.')[-1] if '.' in nombre_archivo else ''
-    
+
     if extension in ['csv']:
         return 'csv'
     elif extension in ['xlsx', 'xls']:
@@ -65,16 +65,16 @@ def leer_archivo_universal(ruta_archivo: str, formato: str) -> pd.DataFrame:
             df = pd.read_csv(ruta_archivo)
             logger.info("CSV leído con encoding default")
             return df
-            
+
         elif formato == 'excel':
             # Leer primera hoja con manejo de errores
             df = pd.read_excel(ruta_archivo, engine='openpyxl')
             logger.info("Excel leído exitosamente")
             return df
-            
+
         else:
             raise ErrorDatos(f"Formato no soportado: {formato}")
-            
+
     except Exception as e:
         raise ErrorDatos(f"Error leyendo archivo {formato}: {str(e)}")
 
@@ -86,55 +86,55 @@ def componente_carga_archivo() -> Optional[pd.DataFrame]:
         DataFrame cargado o None si no se cargó archivo
     """
     archivo_cargado = st.file_uploader(
-        "Sube tu archivo (CSV, Excel) - opcional, usa datos default si está vacío", 
+        "Sube tu archivo (CSV, Excel) - opcional, usa datos default si está vacío",
         type=["csv", "xlsx", "xls"],
         accept_multiple_files=False
     )
-    
+
     if not archivo_cargado:
         return None
-    
+
     ruta_temp = None
     try:
         # Detectar formato del archivo
         formato = detectar_formato_archivo(archivo_cargado.name)
         logger.info(f"Archivo cargado: {archivo_cargado.name}, formato detectado: {formato}")
-        
+
         if formato == 'desconocido':
             raise ErrorDatos(
                 f"Formato no soportado: {archivo_cargado.name}. "
                 "Por favor usa CSV, XLSX o XLS."
             )
-        
+
         # Determinar extensión para archivo temporal
         extension_temp = ".csv" if formato == 'csv' else ".xlsx"
-        
+
         # Guardar archivo temporalmente
         with tempfile.NamedTemporaryFile(delete=False, suffix=extension_temp) as tmp:
             tmp.write(archivo_cargado.getbuffer())
             ruta_temp = tmp.name
-        
+
         logger.info(f"Archivo temporal creado: {ruta_temp}")
-        
+
         # Validar tamaño
         validar_tamano_archivo(ruta_temp, max_mb=50)
         logger.info("Validación de tamaño exitosa")
-        
+
         # Leer archivo con motor apropiado
         df_temp = leer_archivo_universal(ruta_temp, formato)
-        
+
         # Validar que no esté vacío
         if df_temp.empty:
             raise ErrorDatos("El archivo está vacío o no contiene datos válidos.")
-        
+
         # Detectar mapeo
         mapeo_detectado = detectar_mapeo_propuesto(df_temp)
-        
+
         if mapeo_detectado:
             st.info("🔍 Se detectaron columnas en español:")
             st.text(mostrar_mapeo_propuesto(mapeo_detectado))
             aplicar_mapeo = st.checkbox("✅ Aplicar mapeo de columnas", value=True)
-            
+
             if aplicar_mapeo:
                 df = cargar_datos(ruta=ruta_temp, aplicar_mapeo=True)
                 st.success("✅ Mapeo aplicado correctamente")
@@ -146,9 +146,9 @@ def componente_carga_archivo() -> Optional[pd.DataFrame]:
             st.info("📋 El archivo usa columnas en inglés (esquema estándar)")
             df = cargar_datos(ruta=ruta_temp, aplicar_mapeo=False)
             logger.info("Archivo en inglés detectado, sin mapeo necesario")
-        
+
         return df
-        
+
     except ErrorDatos as e:
         st.error(f"❌ Error en el archivo: {e}")
         logger.error(f"ErrorDatos en componente_carga_archivo: {e}")
@@ -178,11 +178,11 @@ def componente_metricas_principales(df: pd.DataFrame) -> None:
         total_empleados = len(df)
         total_renuncias = len(df[df["Attrition"] == "Yes"])
         tasa_rotacion = (total_renuncias / total_empleados) * 100 if total_empleados > 0 else 0
-        
+
         col1.metric("Total de empleados", total_empleados)
         col2.metric("Renuncias registradas", total_renuncias)
         col3.metric("Tasa de rotación", f"{tasa_rotacion:.1f}%")
-        
+
         logger.debug(f"Métricas calculadas: {total_empleados} empleados, {tasa_rotacion:.1f}% rotación")
     except Exception as e:
         st.error("❌ Error calculando métricas principales")
@@ -201,14 +201,14 @@ def componente_filtro_departamento(df: pd.DataFrame) -> pd.DataFrame:
     try:
         departamentos = ["Todos"] + sorted(df["Department"].unique().tolist())
         depto_elegido = st.selectbox("Filtrar por departamento:", departamentos)
-        
+
         if depto_elegido != "Todos":
             df_filtrado = df[df["Department"] == depto_elegido]
             logger.info(f"Filtro aplicado: departamento {depto_elegido}, {len(df_filtrado)} registros")
         else:
             df_filtrado = df
             logger.info("Sin filtro de departamento")
-            
+
         return df_filtrado
     except Exception as e:
         st.error("❌ Error en filtro de departamento")
@@ -224,23 +224,23 @@ def componente_graficas_rotacion(df: pd.DataFrame) -> None:
     """
     try:
         import plotly.express as px
-        
+
         col1, col2 = st.columns(2)
-        
+
         with col1:
             fig1 = px.histogram(
                 df, x="OverTime", color="Attrition", barmode="group",
                 title="Rotación según horas extra"
             )
             st.plotly_chart(fig1, use_container_width=True)
-        
+
         with col2:
             fig2 = px.histogram(
                 df, x="JobSatisfaction", color="Attrition", barmode="group",
                 title="Rotación según satisfacción laboral"
             )
             st.plotly_chart(fig2, use_container_width=True)
-            
+
         logger.debug("Gráficas de rotación renderizadas exitosamente")
     except Exception as e:
         st.error("❌ Error generando gráficas de rotación")
@@ -255,17 +255,17 @@ def componente_indice_jdr(df: pd.DataFrame) -> None:
     """
     try:
         import plotly.express as px
-        
+
         st.subheader("Índice compuesto JD-R (exploratorio)")
-        
+
         if "indice_compuesto_jdr" not in df.columns:
             st.warning("⚠️ El índice JD-R no está calculado en los datos")
             logger.warning("Índice JD-R no encontrado en DataFrame")
             return
-        
+
         indice_promedio = df["indice_compuesto_jdr"].mean()
         st.metric("Promedio del índice JD-R (plantilla filtrada)", f"{indice_promedio:.2f}")
-        
+
         fig_jdr = px.histogram(
             df,
             x="indice_compuesto_jdr",
@@ -278,14 +278,14 @@ def componente_indice_jdr(df: pd.DataFrame) -> None:
         )
         fig_jdr.update_layout(bargap=0.1)
         st.plotly_chart(fig_jdr, use_container_width=True)
-        
+
         st.warning(
             "⚠️ *Aviso ético:* Este índice compuesto es una métrica exploratoria "
             "inspirada conceptualmente en el modelo Job Demands-Resources (JD-R). "
             "No constituye un test psicométrico validado, un diagnóstico clínico, "
             "ni una evaluación de síndrome de burnout."
         )
-        
+
         logger.debug(f"Componente índice JD-R renderizado, promedio: {indice_promedio:.2f}")
     except Exception as e:
         st.error("❌ Error en análisis del índice JD-R")
@@ -299,11 +299,10 @@ def componente_explicabilidad_shap(project_root) -> None:
         project_root: Ruta raíz del proyecto
     """
     try:
-        from pathlib import Path
-        
+
         st.subheader("Explicabilidad del modelo (SHAP)")
         shap_path = project_root / "output" / "shap_resumen.png"
-        
+
         if shap_path.exists():
             st.image(str(shap_path), caption="Variables que más influyen en la rotación, según SHAP")
             logger.debug("Gráfico SHAP renderizado exitosamente")
@@ -360,7 +359,6 @@ def componente_modelo_prediccion(project_root):
     - Modelo se cachea con @st.cache_resource
     - Métricas y SHAP values se cachean con @st.cache_data
     """
-    import shap
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt

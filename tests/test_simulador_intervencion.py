@@ -3,7 +3,6 @@ import sys
 from pathlib import Path
 
 import numpy as np
-import pandas as pd
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -11,7 +10,6 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from src.psicometria import generar_datos_ejemplo
-from src.psicometria.puntuaciones import calcular_puntuaciones
 from src.simulador_intervencion import (
     D_CONSERVADOR,
     D_OPTIMISTA,

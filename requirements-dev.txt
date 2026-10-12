@@ -1,0 +1,2 @@
+# Dependencias de desarrollo (NO usar en despliegue; requirements.txt es la lista de producción)
+ruff
